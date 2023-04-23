@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'operators'
+        ]
     ],
 
     /*
@@ -98,7 +102,7 @@ return [
         ],
         'users' => [
             'provider' => 'operators',
-            'table' => 'operators_password_reset_tokens',
+            'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
