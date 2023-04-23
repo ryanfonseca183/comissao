@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'user',
         'passwords' => 'users',
     ],
 
@@ -36,7 +36,7 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'user' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
@@ -100,7 +100,7 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'users' => [
+        'operators' => [
             'provider' => 'operators',
             'table' => 'password_reset_tokens',
             'expire' => 60,
