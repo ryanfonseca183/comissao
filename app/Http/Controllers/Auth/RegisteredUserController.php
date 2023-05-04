@@ -31,10 +31,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $className = match ($request->route('guard')) {
-            'user' => User::class,
-            'admin' => Operator::class,
-        };
+        if($request->route('guard') == 'user') {
+            $className = User::class;
+            $route = RouteServiceProvider::HOME;
+        } else {
+            $className = Operator::class;
+            $route = RouteServiceProvider::ADMIN_HOME;
+        }
         $user = new $className;
 
         $request->validate([
@@ -53,6 +56,6 @@ class RegisteredUserController extends Controller
 
         Auth::guard($request->route('guard'))->login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect($route);
     }
 }
