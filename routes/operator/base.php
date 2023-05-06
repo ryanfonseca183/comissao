@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OperatorProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware('auth:admin')->group(function(){
-    Route::view('/dashboard', 'dashboard');
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/profile', [OperatorProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [OperatorProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
 });
