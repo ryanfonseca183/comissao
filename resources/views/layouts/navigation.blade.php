@@ -32,19 +32,13 @@
                             </div>
                         </button>
                     </x-slot>
-
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout', 'user') }}">
+                        <form method="POST" action="{{ route('logout', request()->routeIs('admin.dashboard') ? 'admin' : 'user') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout', 'user')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                            <x-dropdown-link onclick="event.preventDefault(); this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>

@@ -45,7 +45,6 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.$className],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
         $user->fill([
             'name' => $request->name,
             'email' => $request->email,
