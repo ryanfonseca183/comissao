@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\ResetPassword;
+use App\Notifications\SetPassword;
 
 class Operator extends Authenticatable
 {
@@ -31,4 +33,14 @@ class Operator extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function sendPasswordResetNotification($token, $signUp = false)
+    {
+        $guard = 'user';
+        $email = $this->email;
+        $uri = route('password.reset', compact('guard', 'token', 'signUp', 'email'));
+
+        $signUp ? $this->notify(new setPassword($uri))
+                : $this->notify(new ResetPassword($uri));
+    }
 }

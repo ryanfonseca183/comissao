@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Operator;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -31,30 +30,19 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if($request->route('guard') == 'user') {
-            $className = User::class;
-            $route = RouteServiceProvider::HOME;
-        } else {
-            $className = Operator::class;
-            $route = RouteServiceProvider::ADMIN_HOME;
-        }
-        $user = new $className;
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.$className],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-        $user->fill([
+        $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
         $user->save();
         event(new Registered($user));
-
-        Auth::guard($request->route('guard'))->login($user);
-
-        return redirect($route);
+        Auth::guard('user')->login($user);
+        return redirect(RouteServiceProvider::HOME);
     }
 }
