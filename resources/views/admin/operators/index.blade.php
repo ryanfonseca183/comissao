@@ -29,7 +29,11 @@
                                 <td>{{ $operator->status ? 'Ativo' : 'Inativo' }}</td>
                                 <td>
                                     <a href="{{route('admin.operators.edit', $operator)}}" class="me-2">Editar</a>
-                                    <a href="#" class="text-red-500">Excluir</a>
+                                    <form action="{{ route('admin.operators.destroy', $operator) }}" class="inline-block" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="text-red-500">Excluir</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
