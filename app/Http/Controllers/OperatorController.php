@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUpdateOperatorRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Password;
 
 class OperatorController extends Controller
 {
@@ -35,6 +36,10 @@ class OperatorController extends Controller
             ['password' => Hash::make(Str::random(8))],
             $request->validated()
         ));
+        $operator->sendPasswordResetNotification(
+            Password::createToken($operator),
+            $signUp = true
+        );
         return redirect()->route('admin.operators.edit', $operator);
     }
 
