@@ -133,5 +133,7 @@
   "to": "até",
   "Operators": "Operadores",
   "Create Operator": "Cadastrar Operador",
-  "The Operator will receive an e-mail to register the access password to the system": "O Operador irá receber um e-mail para cadastrar a senha de acesso ao sistema"
+  "Edit Operator": "Editar Operador",
+  "The operator will receive a notification in the informed e-mail to register the access password to the system": "O operador irá receber uma notificação no e-mail informado para cadastrar a senha de acesso ao sistema",
+  "Fill in the fields you would like to edit and click save": "Preencha os campos que gostaria de editar e clique em salvar"
 }

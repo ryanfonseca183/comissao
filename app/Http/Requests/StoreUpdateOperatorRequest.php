@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdateOperatorRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class StoreUpdateOperatorRequest extends FormRequest
     {
         return [
             'name' => 'string|max:255',
-            'email' => 'email|unique:operators,email',
+            'email' => ['email', Rule::unique('operators')->ignore($this->operator)],
             'status' => 'boolean',
             'phone' => 'string|min:14|max:15',
         ];

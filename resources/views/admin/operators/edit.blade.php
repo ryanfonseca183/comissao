@@ -14,13 +14,17 @@
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 flex items-center">
                                 <a href="{{ route('admin.operators.index') }}"><x-icons.arrow-left class="me-2" /></a>
-                                {{ __('Create Operator') }}
+                                {{ __('Edit Operator') }}
                             </h2>
                             <p class="mt-1 text-sm text-gray-600">
-                                {{ __('The operator will receive a notification in the informed e-mail to register the access password to the system') }}
+                                {{ __('Fill in the fields you would like to edit and click save') }}
                             </p>
                         </header>
-                        @include('admin.operators.form', ['action' => route('admin.operators.store'), 'operator' => new App\Models\Operator])
+                        @include('admin.operators.form', [
+                            'action' => route('admin.operators.update', $operator),
+                            'operator' => $operator,
+                            'method' => 'PUT'
+                        ])
                     </section>
                 </div>
             </div>

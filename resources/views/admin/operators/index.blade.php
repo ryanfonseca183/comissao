@@ -21,14 +21,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(App\Models\Operator::all() as $operator)
+                        @foreach(App\Models\Operator::where('isAdmin', 0)->get() as $operator)
                             <tr>
                                 <td>{{ $operator->name }}</td>
                                 <td>{{ $operator->email }}</td>
                                 <td>{{ $operator->phone }}</td>
                                 <td>{{ $operator->status ? 'Ativo' : 'Inativo' }}</td>
                                 <td>
-                                    <a href="#" class="me-2">Editar</a>
+                                    <a href="{{route('admin.operators.edit', $operator)}}" class="me-2">Editar</a>
                                     <a href="#" class="text-red-500">Excluir</a>
                                 </td>
                             </tr>

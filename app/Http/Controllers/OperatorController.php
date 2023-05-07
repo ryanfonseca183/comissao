@@ -49,7 +49,7 @@ class OperatorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Operator $operator)
+    public function update(StoreUpdateOperatorRequest $request, Operator $operator)
     {
         $operator->update($request->validated());
 
