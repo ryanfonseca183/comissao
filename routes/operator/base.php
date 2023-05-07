@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OperatorProfileController;
+use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,6 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('/profile', [OperatorProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [OperatorProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-operators');
 });

@@ -1,45 +1,72 @@
 @use 'variables' as *;
 
-$table-border: #EFEFEF;
-
 table.table__app {
     width: 100% !important;
 }
-.dataTables_wrapper {
-    table.dataTable {
-        &.collapsed {
-            tbody {
-                tr {
-                    td, th {
-                        &.dtr-control {
-                            padding-left: 35px !important;
-                            
-                            &::before {
-                                left: 5px !important;
-                                box-shadow: unset !important;
-                                transform: translateY(-50%);
-                                margin-top: 0;
+.dataTable_container {
+    .dataTables_filter {
+        margin-bottom: 1rem;
+    }
+    .dataTables_length {
+        select {
+            min-width: 65px;
+            padding-left: 10px !important;
+        }
+    }
+    .dataTables_wrapper {
+        table.dataTable {
+            &.collapsed {
+                tbody {
+                    tr {
+                        td, th {
+                            &.dtr-control {
+                                padding-left: 35px !important;
+                                
+                                &::before {
+                                    left: 5px !important;
+                                    box-shadow: unset !important;
+                                    transform: translateY(-50%);
+                                    margin-top: 0;
+                                }
                             }
                         }
-                    }
-                    &.child {
-                        .dtr-details {
-                            display:block;
-                            .dtr-title {
-                                min-width: unset;
-                                margin-right: 0.5rem;
+                        &.child {
+                            .dtr-details {
+                                display:block;
+                                .dtr-title {
+                                    min-width: unset;
+                                    margin-right: 0.5rem;
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    }
-    .dataTables_info {
-        display:inline-block;
-        font-size: 14px;
-        color: #B1B1B1;
-        font-weight: 400;
-        float:unset;
+        .dataTables_info {
+            display:inline-block;
+            font-size: 14px;
+            color: #B1B1B1;
+            font-weight: 400;
+            padding-top: calc(12px + 0.75em);
+        }
+        .dataTables_paginate {
+            margin-top: 12px;
+            .paginate_button {
+                padding: 0.35rem 1rem !important;
+                border: 0 !important;
+                box-shadow: unset !important;
+                outline: none !important;
+                border-radius: 0.25rem;
+                &.current {
+                    background: $primary !important;
+                    color: #fff !important;
+                }
+                &:hover:not(.current) {
+                    background: $light-gray;
+                    color: $primary !important;
+                }
+            }
+        }
     }
 }
