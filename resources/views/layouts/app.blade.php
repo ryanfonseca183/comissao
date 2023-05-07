@@ -15,7 +15,10 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            <x-navigation :guard="(request()->routeIs('admin.*') ? 'admin' : 'user')" />
+            @php $guard = request()->routeIs('admin.*') ? 'admin' : 'user'; @endphp
+            <x-navigation :$guard>
+                <x-dynamic-component :component="($guard.'.menu')"/>
+            </x-navigation>
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
