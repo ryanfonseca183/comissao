@@ -1,4 +1,11 @@
 <x-guest-layout>
+    <h2 class="font-semibold flex items-center text-xl text-gray-800 leading-tight mb-2">
+        <a href="{{ route('login', request()->route('guard')) }}" class="me-2"><x-icons.arrow-left /></a>
+        {{ __('New Password') }}
+    </h2>
+    <div class="mb-4 text-sm text-gray-600">
+        {{ __('Enter the new password to access the dashboard') }}
+    </div>
     <form method="POST" action="{{ route('password.store', $request->route('guard')) }}">
         @csrf
         <!-- Password Reset Token -->

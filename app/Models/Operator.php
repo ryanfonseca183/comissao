@@ -39,7 +39,7 @@ class Operator extends Authenticatable
 
     public function sendPasswordResetNotification($token, $signUp = false)
     {
-        $guard = 'user';
+        $guard = 'admin';
         $email = $this->email;
         $uri = route('password.reset', compact('guard', 'token', 'signUp', 'email'));
 
