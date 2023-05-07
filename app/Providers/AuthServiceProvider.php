@@ -22,7 +22,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('edit-operators', function (Operator $operator) {
+        Gate::define('edit-config', function (Operator $operator) {
             return $operator->isAdmin;
         });
     }

@@ -6,6 +6,11 @@
         'route' => 'admin.operators.index',
         'visible' => auth()->guard('admin')->user()->isAdmin,
     ],
+    'services' => [
+        'label' => 'Serviços',
+        'route' => 'admin.services.index',
+        'visible' => auth()->guard('admin')->user()->isAdmin,
+    ],
 ] as $resource => $menu)
     @if(! $menu['visible']) @continue @endif
     <x-dynamic-component :component="$name" :href="route($menu['route'])" :active='request()->routeIs("admin.$resource.*")'>
