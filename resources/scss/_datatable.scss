@@ -1,0 +1,43 @@
+@use 'variables' as *;
+
+$table-border: #EFEFEF;
+
+
+.dataTables_wrapper {
+    table.dataTable {
+        &.collapsed {
+            tbody {
+                tr {
+                    td, th {
+                        &.dtr-control {
+                            padding-left: 35px !important;
+                            
+                            &::before {
+                                left: 5px !important;
+                                box-shadow: unset !important;
+                                transform: translateY(-50%);
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                    &.child {
+                        .dtr-details {
+                            display:block;
+                            .dtr-title {
+                                min-width: unset;
+                                margin-right: 0.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .dataTables_info {
+        display:inline-block;
+        font-size: 14px;
+        color: #B1B1B1;
+        font-weight: 400;
+        float:unset;
+    }
+}
