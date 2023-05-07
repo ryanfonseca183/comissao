@@ -1,8 +1,14 @@
+@props(['name' => 'nav-link'])
+
 @foreach([
-    'operators' => ['label' => 'Operadores', 'route' => 'admin.operators.index', 'restricted' => true],
+    'operators' => [
+        'label' => 'Operadores',
+        'route' => 'admin.operators.index',
+        'visible' => auth()->guard('admin')->user()->isAdmin,
+    ],
 ] as $resource => $menu)
-    @if($menu['restricted']) @continue @endif
-    <x-nav-link :href="route($menu['route'])" :active='request()->routeIs("admin.$resource.*")'>
+    @if(! $menu['visible']) @continue @endif
+    <x-dynamic-component :component="$name" :href="route($menu['route'])" :active='request()->routeIs("admin.$resource.*")'>
         {{ __($menu['label']) }}
-    </x-nav-link>
+    </x-dynamic-component>
 @endforeach

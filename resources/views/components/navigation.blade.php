@@ -17,7 +17,7 @@
                     <x-nav-link :href="route($prefix.'dashboard')" :active="request()->routeIs($prefix.'dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    {{$slot}}
+                    {{$large}}
                 </div>
             </div>
             <!-- Settings Dropdown -->
@@ -64,6 +64,7 @@
             <x-responsive-nav-link :href="route($prefix.'dashboard')" :active="request()->routeIs($prefix.'dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            {{$small}}
         </div>
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

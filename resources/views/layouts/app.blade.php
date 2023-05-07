@@ -17,7 +17,12 @@
         <div class="min-h-screen bg-gray-100">
             @php $guard = request()->routeIs('admin.*') ? 'admin' : 'user'; @endphp
             <x-navigation :$guard>
-                <x-dynamic-component :component="($guard.'.menu')"/>
+                <x-slot name="large">
+                    <x-dynamic-component :component="($guard.'.menu')" name="nav-link"/>
+                </x-slot>
+                <x-slot name="small">
+                    <x-dynamic-component :component="($guard.'.menu')" name="responsive-nav-link"/>
+                </x-slot>
             </x-navigation>
             <!-- Page Heading -->
             @if (isset($header))
