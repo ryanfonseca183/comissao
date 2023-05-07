@@ -22,6 +22,8 @@ class Operator extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'phone'
     ];
 
     /**

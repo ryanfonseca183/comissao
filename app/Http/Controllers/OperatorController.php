@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Operator;
 use Illuminate\Http\Request;
-use App\Requests\StoreUpdateOperatorRequest;
+use App\Http\Requests\StoreUpdateOperatorRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class OperatorController extends Controller
 {
@@ -29,8 +31,10 @@ class OperatorController extends Controller
      */
     public function store(StoreUpdateOperatorRequest $request)
     {
-        $operator = Operator::create($request->validated());
-
+        $operator = Operator::create(array_merge(
+            ['password' => Hash::make(Str::random(8))],
+            $request->validated()
+        ));
         return redirect()->route('admin.operators.edit', $operator);
     }
 
