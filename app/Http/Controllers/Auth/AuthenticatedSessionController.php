@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $route = match($request->route('guard')) {
             'user' => RouteServiceProvider::HOME,
-            'admin' => RouteServiceProvider::ADMIN_HOME 
+            'admin' => RouteServiceProvider::ADMIN_HOME
         };
         return redirect()->intended($route);
     }
@@ -42,8 +42,6 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard($request->route('guard'))->logout();
-
-        $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 

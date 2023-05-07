@@ -2,7 +2,9 @@
 
 $table-border: #EFEFEF;
 
-
+table.table__app {
+    width: 100% !important;
+}
 .dataTables_wrapper {
     table.dataTable {
         &.collapsed {

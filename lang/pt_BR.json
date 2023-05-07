@@ -61,6 +61,7 @@
   "Manage Account": "Gerenciar Conta",
   "Manage and log out your active sessions on other browsers and devices.": "Gerencie e saia de suas sessões ativas em outros navegadores e dispositivos.",
   "Name": "Nome",
+  "Phone": "Telefone",
   "Nevermind": "Deixa pra lá",
   "New Password": "Nova Senha",
   "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Depois que sua conta for excluída, todos os seus recursos e dados serão excluídos permanentemente. Antes de excluir sua conta, baixe todos os dados ou informações que deseja reter.",
@@ -130,5 +131,7 @@
   "of": "de",
   "results": "resultados",
   "to": "até",
-  "Operators": "Operadores"
+  "Operators": "Operadores",
+  "Create Operator": "Cadastrar Operador",
+  "The Operator will receive an e-mail to register the access password to the system": "O Operador irá receber um e-mail para cadastrar a senha de acesso ao sistema"
 }
