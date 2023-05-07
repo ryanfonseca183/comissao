@@ -22,9 +22,22 @@
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
         </div>
+        <div class="grid @if(! $user->isAdmin) sm:grid-cols-2 gap-4 @endif">
+        <div>
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full phone" :value="old('phone', $user->phone)" required />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+            @if(! $user->isAdmin)
+                <div>
+                    <x-input-label for="status" :value="__('Status')" />
+                    <x-select name="status" class="mt-1 block w-full" :collection="App\Enums\StatusEnum::array()" :optionSelected="$user->status ?? 1" required />
+                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                </div>
+            @endif
+        </div>
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
-
             @if (session('status') === 'profile-updated')
                 <p
                     x-data="{ show: true }"

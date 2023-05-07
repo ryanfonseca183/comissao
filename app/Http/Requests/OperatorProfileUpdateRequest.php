@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Models\Operator;
 
@@ -16,9 +15,12 @@ class OperatorProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = auth()->guard('admin')->user();
         return [
             'name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(Operator::class)->ignore(Auth::guard('admin')->user()->id)],
+            'email' => ['email', 'max:255', Rule::unique(Operator::class)->ignore($user->id)],
+            'phone' => 'string|min:14|max:15',
+            'status' => [Rule::excludeIf($user->isAdmin === 1), 'boolean']
         ];
     }
 }
