@@ -36,10 +36,11 @@ class OperatorProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = Auth::guard('admin')->user();
+        abort_if($user->isAdmin, 401);
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-        $user = Auth::guard('admin')->user();
         Auth::guard('user')->logout();
         $user->delete();
         $request->session()->invalidate();

@@ -30,6 +30,7 @@ class Operator extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'isAdmin',
         'password',
         'remember_token',
     ];
