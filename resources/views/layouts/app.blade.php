@@ -15,7 +15,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            {{ $navigation }}
+            <x-navigation :guard="(request()->routeIs('admin.*') ? 'admin' : 'user')" />
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
