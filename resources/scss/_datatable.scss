@@ -2,6 +2,14 @@
 
 table.table__app {
     width: 100% !important;
+
+    thead {
+        th {
+            &:last-child {
+                width: 125px !important;
+            }
+        }
+    }
 }
 .dataTable_container {
     .dataTables_filter {
