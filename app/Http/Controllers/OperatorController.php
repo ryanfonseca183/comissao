@@ -58,7 +58,7 @@ class OperatorController extends Controller
     {
         $operator->update($request->validated());
 
-        return redirect()->route('admin.operators.edit', $operator)->with('message', 'Saved');
+        return redirect()->route('admin.operators.index');
     }
 
     /**

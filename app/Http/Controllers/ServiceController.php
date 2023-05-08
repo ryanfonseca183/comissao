@@ -49,7 +49,7 @@ class ServiceController extends Controller
     {
         $service->update($request->validated());
 
-        return redirect()->route('admin.services.edit', $service);
+        return redirect()->route('admin.services.index');
     }
 
     /**
