@@ -26,7 +26,34 @@ class IndicationController extends Controller
      */
     public function store(StoreIndicationRequest $request)
     {
-        $indications = auth()->guard('user')->user()->indications()->create($request->validated());
+        $indication = auth()->guard('user')->user()->indications()->create($request->validated());
+
+        return redirect()->route('indications.edit', $indication);
+    }
+
+    /**
+     * Show the form for editing a new resource.
+     */
+    public function edit($id)
+    {
+        $company = Company::find($id);
+
+        return view('user.companies.edit', compact('company'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function update(StoreIndicationRequest $request, $id)
+    {
+        Company::where('id', $id)->update($request->validated());
+
+        return redirect()->route('indications.index');
+    }
+
+    public function destroy($id)
+    {
+        Company::where('id', $id)->delete();
 
         return redirect()->route('indications.index');
     }

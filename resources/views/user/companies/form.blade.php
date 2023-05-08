@@ -46,8 +46,10 @@
 
 <script>
     $(function(){
+        let val = $("#doc_type").val();
         $("#doc_type").change(function(){
-            $("#doc_num").val('');
+            if(val != this.value)
+                $("#doc_num").val('');
             if(this.value == 1)
                 $("#doc_num").mask('000.000.000-00', {reverse: true})
             else

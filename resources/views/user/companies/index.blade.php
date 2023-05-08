@@ -17,6 +17,7 @@
                             <th>{{__('E-mail')}}</th>
                             <th>{{__('Doc. Number')}}</th>
                             <th>{{__('Phone')}}</th>
+                            <th>{{__('Status')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                     </thead>
@@ -27,8 +28,16 @@
                                 <td>{{ $company->email }}</td>
                                 <td>{{ $company->doc_num }}</td>
                                 <td>{{ $company->phone }}</td>
+                                <td>{{ App\Enums\IndicationStatusEnum::label($company->status) }}</td>
                                 <td>
-                                    
+                                    @if($company->status == 0)
+                                        <a href="{{ route('indications.edit', $company) }}" class="me-2">{{__('Edit')}}</a>
+                                        <form action="{{ route('indications.destroy', $company) }}" class="inline-block" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="text-red-500">{{__('Delete')}}</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
