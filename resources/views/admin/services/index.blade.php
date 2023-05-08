@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Services') }}
             </h2>
-            <x-primary-button tag="a" href="{{ route('admin.services.create') }}">Criar novo</x-primary-button>
+            <x-primary-button tag="a" href="{{ route('admin.services.create') }}">{{__('Create New')}}</x-primary-button>
         </div>
     </x-slot>
     <div class="py-12">
@@ -13,22 +13,22 @@
                 <table class="table__app">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Status</th>
-                            <th>Ações</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Actions')}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach(App\Models\Service::all() as $service)
                             <tr>
                                 <td>{{ $service->name }}</td>
-                                <td>{{ $service->status ? 'Ativo' : 'Inativo' }}</td>
+                                <td>{{ __($service->status ? 'Active' : 'Inactive') }}</td>
                                 <td>
-                                    <a href="{{route('admin.services.edit', $service)}}" class="me-2">Editar</a>
+                                    <a href="{{route('admin.services.edit', $service)}}" class="me-2">{{__('Edit')}}</a>
                                     <form action="{{ route('admin.services.destroy', $service) }}" class="inline-block" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="text-red-500">Excluir</button>
+                                        <button type="submit" class="text-red-500">{{__('Delete')}}</button>
                                     </form>
                                 </td>
                             </tr>

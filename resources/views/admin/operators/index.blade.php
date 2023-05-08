@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Operators') }}
             </h2>
-            <x-primary-button tag="a" href="{{ route('admin.operators.create') }}">Criar novo</x-primary-button>
+            <x-primary-button tag="a" href="{{ route('admin.operators.create') }}">{{__('Create New')}}</x-primary-button>
         </div>
     </x-slot>
     <div class="py-12">
@@ -13,11 +13,11 @@
                 <table class="table__app">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>Status</th>
-                            <th>Ações</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('E-mail')}}</th>
+                            <th>{{__('Phone')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Actions')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,13 +26,13 @@
                                 <td>{{ $operator->name }}</td>
                                 <td>{{ $operator->email }}</td>
                                 <td>{{ $operator->phone }}</td>
-                                <td>{{ $operator->status ? 'Ativo' : 'Inativo' }}</td>
+                                <td>{{ __($operator->status ? 'Active' : 'Inactive') }}</td>
                                 <td>
-                                    <a href="{{route('admin.operators.edit', $operator)}}" class="me-2">Editar</a>
+                                    <a href="{{route('admin.operators.edit', $operator)}}" class="me-2">{{__('Edit')}}</a>
                                     <form action="{{ route('admin.operators.destroy', $operator) }}" class="inline-block" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="text-red-500">Excluir</button>
+                                        <button type="submit" class="text-red-500">{{__('Delete')}}</button>
                                     </form>
                                 </td>
                             </tr>
