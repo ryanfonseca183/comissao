@@ -39,15 +39,17 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        return view('admin.services.edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(StoreUpdateServiceRequest $request, Service $service)
     {
-        //
+        $service->update($request->validated());
+
+        return redirect()->route('admin.services.edit', $service);
     }
 
     /**
