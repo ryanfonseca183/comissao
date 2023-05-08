@@ -213,7 +213,10 @@ return [
         'modality' => 'modalidade',
         'category' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
-        'birth_date' => 'data de nascimento'
+        'birth_date' => 'data de nascimento',
+        'doc_type' => 'tipo de documento',
+        'doc_num' => 'número do documento',
+        'corporate_name' => 'razão social',
     ],
 
 ];

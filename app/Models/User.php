@@ -50,4 +50,9 @@ class User extends Authenticatable
         ]);
         $this->notify(new ResetPassword($uri));
     }
+
+    public function indications()
+    {
+        return $this->hasMany(Company::class, 'user_id');
+    }
 }
