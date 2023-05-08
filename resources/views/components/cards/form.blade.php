@@ -11,6 +11,7 @@
                             @endif
                             {{ __($title) }}
                         </h2>
+                        {{$description ?? ''}}
                     </header>
                     {{$slot}}
                 </section>
