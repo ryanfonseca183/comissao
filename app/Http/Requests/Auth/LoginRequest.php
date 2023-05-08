@@ -41,8 +41,10 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        $conditions = $this->route('guard') == 'admin' ? ['status' => 1] : [];
+
         if (! Auth::guard($this->route('guard'))
-                  ->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+                  ->attempt(array_merge($this->only('email', 'password'), $conditions), $this->boolean('remember'))) {
 
             RateLimiter::hit($this->throttleKey());
 
