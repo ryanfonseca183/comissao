@@ -24,8 +24,8 @@
                                 <td>{{ $service->name }}</td>
                                 <td>{{ $service->status ? 'Ativo' : 'Inativo' }}</td>
                                 <td>
-                                    <a href="{{route('admin.service.edit', $service)}}" class="me-2">Editar</a>
-                                    <form action="{{ route('admin.service.destroy', $service) }}" class="inline-block" method="POST">
+                                    <a href="{{route('admin.services.edit', $service)}}" class="me-2">Editar</a>
+                                    <form action="{{ route('admin.services.destroy', $service) }}" class="inline-block" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="text-red-500">Excluir</button>

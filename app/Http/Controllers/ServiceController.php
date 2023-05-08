@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUpdateServiceRequest;
 
 class ServiceController extends Controller
 {
@@ -20,23 +21,17 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.services.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateServiceRequest $request)
     {
-        //
-    }
+        $service = Service::create($request->validated());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Service $service)
-    {
-        //
+        return redirect()->route('admin.services.edit', $service);
     }
 
     /**
