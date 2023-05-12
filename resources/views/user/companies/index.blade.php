@@ -14,19 +14,21 @@
                     <thead>
                         <tr>
                             <th>{{__('Corporate Name')}}</th>
-                            <th>{{__('E-mail')}}</th>
                             <th>{{__('Doc. Number')}}</th>
-                            <th>{{__('Phone')}}</th>
+                            <th>{{__('Service')}}</th>
+                            <th class="none">{{__('E-mail')}}</th>
+                            <th class="none">{{__('Phone')}}</th>
                             <th>{{__('Status')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(auth()->guard('user')->user()->indications as $company)
+                        @foreach(auth()->guard('user')->user()->indications()->with('service')->get() as $company)
                             <tr>
                                 <td>{{ $company->corporate_name }}</td>
-                                <td>{{ $company->email }}</td>
                                 <td>{{ $company->doc_num }}</td>
+                                <td>{{ $company->service->name }}</td>
+                                <td>{{ $company->email }}</td>
                                 <td>{{ $company->phone }}</td>
                                 <td>{{ App\Enums\IndicationStatusEnum::label($company->status) }}</td>
                                 <td>

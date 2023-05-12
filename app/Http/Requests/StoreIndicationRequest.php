@@ -27,6 +27,7 @@ class StoreIndicationRequest extends FormRequest
             'doc_type' => 'integer|min:1|max:2',
             'doc_num' => ($this->doc_type == 1 ? 'cpf' : 'cnpj'),
             'phone' => 'string|min:14|max:15',
+            'service_id' => 'integer|exists:services,id,status,1'
         ];
     }
 }

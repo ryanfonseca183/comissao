@@ -150,5 +150,6 @@
   "Doc. Type": "Tipo de documento",
   "Edit Indication": "Editar Indicação",
   "Active": "Ativo",
-  "Inactive": "Inativo"  
+  "Inactive": "Inativo" ,
+  "Service": "Serviço Procurado" 
 }
