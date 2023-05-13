@@ -17,4 +17,9 @@ class Company extends Model
     {
         return $this->belongsTo(Service::class, 'service_id');
     }
+
+    public function budget()
+    {
+        return $this->hasOne(Budget::class, 'company_id');
+    }
 }
