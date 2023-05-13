@@ -4,13 +4,18 @@ namespace App\Enums;
 
 class IndicationStatusEnum
 {
+    const PENDENTE = 0;
+    const ANALISE = 1;
+    const FECHADO = 2;
+    const RECUSADO = 3;
+
     public static function array()
     {
         return [
-            0 => 'Pendente',
-            1 => 'Em análise',
-            2 => 'Fechado',
-            3 => 'Recusado',
+            self::PENDENTE => 'Pendente',
+            self::ANALISE => 'Em análise',
+            self::FECHADO => 'Fechado',
+            self::RECUSADO => 'Recusado',
         ];
     }
    
