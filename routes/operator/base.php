@@ -4,6 +4,7 @@ use App\Http\Controllers\OperatorProfileController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AdminDashboard;
+use App\Http\Controllers\BudgetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,8 @@ Route::middleware('auth:admin')->group(function(){
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
+    Route::resource('indications.budgets', BudgetController::class)->parameters([
+        'indications' => 'company'
+    ])->except('show', 'index');
+    Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
 });

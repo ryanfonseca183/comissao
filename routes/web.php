@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IndicationController;
+use App\Http\Controllers\BudgetController;
 use Illuminate\Support\Facades\Route;
 
 /*

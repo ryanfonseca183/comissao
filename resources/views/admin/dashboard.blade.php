@@ -28,7 +28,7 @@
                                     <td>{{ $indication->email }}</td>
                                     <td>{{ $indication->phone }}</td>
                                     <td>
-                                        
+                                       <a href="{{route('admin.indications.budgets.create', $indication)}}" class="me-2">{{__('Create')}}</a>
                                     </td>
                                 </tr>
                             @endforeach

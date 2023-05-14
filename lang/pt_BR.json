@@ -151,5 +151,11 @@
   "Edit Indication": "Editar Indicação",
   "Active": "Ativo",
   "Inactive": "Inativo" ,
-  "Service": "Serviço Procurado" 
+  "Service": "Serviço Procurado",
+  "Create Budget": "Criar Orçamento",
+  "Finishing Month": "Mês de Finalização",
+  "Payment Type": "Tipo de Pagamento",
+  "Budget Value": "Valor da Proposta",
+  "Proposal Number": "Número da Proposta",
+  "Commission": "Comissão"
 }
