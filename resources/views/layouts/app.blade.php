@@ -37,6 +37,7 @@
                 {{ $slot }}
             </main>
         </div>
+        @stack('js')
         <script src="{{asset('plugins/datatables.min.js')}}"></script>
         <script src="{{asset('plugins/datatable-defaults.js')}}"></script>
         <script src="{{asset('plugins/jquery.mask.min.js')}}"></script>

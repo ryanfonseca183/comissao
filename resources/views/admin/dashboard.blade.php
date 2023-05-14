@@ -6,13 +6,13 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dataTable_container">
                 <div class="p-6 text-gray-900">
                     <table class="table__app">
                         <thead>
                             <tr>
                                 <th>{{__('Corporate Name')}}</th>
-                                <th>{{__('CNPJ')}}</th>
+                                <th>{{__('Document')}}</th>
                                 <th>{{__('Service')}}</th>
                                 <th>{{__('E-mail')}}</th>
                                 <th>{{__('Phone')}}</th>

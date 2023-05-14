@@ -157,5 +157,11 @@
   "Payment Type": "Tipo de Pagamento",
   "Budget Value": "Valor da Proposta",
   "Proposal Number": "Número da Proposta",
-  "Commission": "Comissão"
+  "Commission": "Comissão",
+  "Document": "Documento",
+  "First Payment Date": "Data do Primeiro Pagamento",
+  "Payment Time": "Prazo de Pagamento (em meses)",
+  "Measuring Area": "Área medida",
+  "Employees Number": "Número de funcionários",
+  "Value": "Valor"
 }

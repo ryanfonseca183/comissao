@@ -11,7 +11,7 @@
         'route' => 'admin.services.index',
         'visible' => auth()->guard('admin')->user()->isAdmin,
     ],
-    'services' => [
+    'budgets' => [
         'label' => 'Orçamentos',
         'route' => 'admin.budgets.index',
         'visible' => true,

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('number');
             $table->unsignedTinyInteger('payment_type');
             $table->unsignedInteger('employees_number')->nullable();
-            $table->unsignedInteger('measuring_area')->nullable();
+            $table->decimal('measuring_area', 13, 2)->nullable();
             $table->decimal('value', 13, 2);
             $table->unsignedTinyInteger('commission');
             $table->date('first_payment_date');
