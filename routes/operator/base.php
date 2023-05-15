@@ -26,10 +26,18 @@ Route::middleware('auth:admin')->group(function(){
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
 
     Route::prefix('/indications/{company}/budget')->name('indications.budget.')->controller(BudgetController::class)->group(function(){
-        Route::get('/create', 'create')->name('create');
-        Route::post('/', 'store')->name('store');
-        Route::get('/edit', 'edit')->name('edit');
-        Route::put('/', 'update')->name('update');
+        Route::middleware('budgetWasNotCreated')->group(function(){
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+        });
+        Route::middleware('budgetWasCreated')->group(function(){
+            Route::middleware('budgetCanBeUpdated')->group(function(){
+                Route::get('/edit', 'edit')->name('edit');
+                Route::put('/', 'update')->name('update');
+            });
+            Route::get('/show', 'show')->name('show');
+            Route::delete('/', 'destroy')->name('destroy');
+        });
     });
     Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
 });

@@ -25,9 +25,6 @@ class BudgetController extends Controller
      */
     public function create(Company $company)
     {
-        //Verifica se um orçamento já foi realizado
-        if($company->budget)
-            return redirect()->route('admin.indications.budget.edit', compact('company'));
 
         //Verifica se a indicação já foi posta em análise
         if($company->status != IndicationStatusEnum::ANALISE)
@@ -53,14 +50,6 @@ class BudgetController extends Controller
      */
     public function edit(Company $company)
     {
-        //Verifica se um orçamento já foi realizado
-        if(! $company->budget)
-            return redirect()->route('admin.indications.budget.create', compact('company'));
-
-        //Verifica se o orçamento ainda está dentro do prazo editável
-        if($company->budget->created_at->diffInHours(now()) > 1)
-            return view('admin.budgets.show', compact('company'));
-
         return view('admin.budgets.edit', compact('company'));
     }
 
@@ -70,6 +59,24 @@ class BudgetController extends Controller
     public function update(StoreUpdateBudgetRequest $request, Company $company)
     {
         $company->budget->update($request->validated());
+
+        return redirect()->back();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function show(Company $company)
+    {
+        return view('admin.budgets.show', compact('company'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function destroy(Company $company)
+    {
+        $company->budget->delete();
 
         return redirect()->back();
     }
