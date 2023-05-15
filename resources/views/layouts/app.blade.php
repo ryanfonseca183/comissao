@@ -14,6 +14,12 @@
         @vite(['resources/css/app.css', 'resources/scss/app.scss', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
+        <div class="loader grid place-items-center fixed top-0 left-0 h-screen w-screen bg-white z-50">
+            <div role="status">
+                <x-icons.loader/>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <div class="min-h-screen bg-gray-100">
             @php $guard = request()->routeIs('admin.*') ? 'admin' : 'user'; @endphp
             <x-navigation :$guard>
@@ -45,6 +51,9 @@
         <script src="{{asset('js/functions.js')}}"></script>
         <script>
             $(function(){
+                setTimeout(function(){
+                    $('.loader').hide();
+                }, 500)
                 @foreach(['success', 'error', 'info', 'warning'] as $type)
                     @if(Session::has('f-'.$type))
                         Toastr.{{$type}}(`{{ session('f-'.$type) }}`);
