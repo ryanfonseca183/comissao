@@ -1,7 +1,6 @@
 <form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off">
     @csrf
     @method($method ?? 'POST')
-   
     <div class="grid grid-cols-2 gap-4">
         <div>
             <x-input-label for="finish_month" :value="__('Finishing Month')" />
@@ -43,7 +42,7 @@
     <fieldset class="rounded-md border border-gray-300 p-4">
         <legend>Comissão</legend>
         <div class="mb-6">
-            <x-input-label for="commission" :value="__('Value')" />
+            <x-input-label for="commission" :value="__('Percent')" />
             <x-text-input id="comission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="$budget->commission" required />
             <x-input-error :messages="$errors->get('commission')" class="mt-2" />
         </div>
@@ -77,8 +76,11 @@
 @push('js')
     <script>
         $('#payment_type').change(function(){
-            $("#employees_number_control").toggleClass('hidden', this.value != 1)
-            $("#measuring_area_control").toggleClass('hidden', this.value != 3)
+            toggleControl($("#employees_number_control"), this.value != 1);
+            toggleControl($("#measuring_area_control"), this.value != 3);
         }).trigger('change');
+        function toggleControl(control, bool) {
+            control.toggleClass('hidden', bool).find('input').prop('disabled', bool)
+        }
     </script>
 @endpush
