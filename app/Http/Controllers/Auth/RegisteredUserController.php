@@ -56,6 +56,7 @@ class RegisteredUserController extends Controller
         $user->save();
         event(new Registered($user));
         Auth::guard('user')->login($user);
+        session()->forget('doc_type');
         return redirect(RouteServiceProvider::HOME);
     }
 }
