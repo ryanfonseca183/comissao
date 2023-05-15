@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('companies', 'id');
-            $table->boolean('status');
             $table->unsignedTinyInteger('finish_month');
             $table->unsignedBigInteger('number');
             $table->unsignedTinyInteger('payment_type');

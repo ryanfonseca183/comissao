@@ -7,7 +7,6 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUpdateBudgetRequest;
 use App\Enums\IndicationStatusEnum;
-use App\Enums\BudgetStatusEnum;
 
 class BudgetController extends Controller
 {
@@ -40,10 +39,8 @@ class BudgetController extends Controller
      */
     public function store(StoreUpdateBudgetRequest $request, Company $company)
     {
-        $budget = $company->budget()->create(array_merge(
-            ['status' => BudgetStatusEnum::PENDENTE],
-            $request->validated()
-        ));
+        $budget = $company->budget()->create($request->validated());
+
         return redirect()->route('admin.indications.budget.edit', compact('company'));
     }
 
