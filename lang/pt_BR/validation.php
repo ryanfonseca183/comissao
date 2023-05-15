@@ -217,6 +217,15 @@ return [
         'doc_type' => 'tipo de documento',
         'doc_num' => 'número do documento',
         'corporate_name' => 'razão social',
+        'finish_month' => 'mês de finalização',
+        'number' => 'número da proposta',
+        'payment_type' => 'tipo de pagamento',
+        'value' => 'valor da proposta',
+        'measuring_area' => 'área medida',
+        'employees_number' => 'número de funcionários',
+        'commission' => 'comissão',
+        'first_payment_date' => 'data do primeiro pagamento',
+        'payment_term' => 'prazo de pagamento',
     ],
 
 ];

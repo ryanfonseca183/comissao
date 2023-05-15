@@ -163,5 +163,9 @@
   "Payment Time": "Prazo de Pagamento (em meses)",
   "Measuring Area": "Área medida",
   "Employees Number": "Número de funcionários",
-  "Value": "Valor"
+  "Value": "Valor",
+  "Percent": "Porcentagem",
+  "Indication": "Indicação",
+  "Budget": "Orçamento",
+  "Edit Budget": "Editar Orçamento"
 }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Budget;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUpdateBudgetRequest;
+use App\Enums\IndicationStatusEnum;
+use App\Enums\BudgetStatusEnum;
 
 class BudgetController extends Controller
 {
@@ -21,46 +24,52 @@ class BudgetController extends Controller
      */
     public function create(Company $company)
     {
+        //Verifica se um orçamento já foi realizado
+        if($company->budget)
+            return redirect()->route('admin.indications.budget.edit', compact('company'));
+
+        //Verifica se a indicação já foi posta em análise
+        if($company->status != IndicationStatusEnum::ANALISE)
+            $company->update(['status' => IndicationStatusEnum::ANALISE]);
+
         return view('admin.budgets.create', compact('company'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateBudgetRequest $request, Company $company)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Budget $budget)
-    {
-        //
+        $budget = $company->budget()->create(array_merge(
+            ['status' => BudgetStatusEnum::PENDENTE],
+            $request->validated()
+        ));
+        return redirect()->route('admin.indications.budget.edit', compact('company'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Budget $budget)
+    public function edit(Company $company)
     {
-        //
+        //Verifica se um orçamento já foi realizado
+        if(! $company->budget)
+            return redirect()->route('admin.indications.budget.create', compact('company'));
+
+        //Verifica se o orçamento ainda está dentro do prazo editável
+        if($company->budget->created_at->diffInHours(now()) > 1)
+            return view('admin.budgets.show', compact('company'));
+
+        return view('admin.budgets.edit', compact('company'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Budget $budget)
+    public function update(StoreUpdateBudgetRequest $request, Company $company)
     {
-        //
-    }
+        $company->budget->update($request->validated());
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Budget $budget)
-    {
-        //
+        return redirect()->back();
     }
 }

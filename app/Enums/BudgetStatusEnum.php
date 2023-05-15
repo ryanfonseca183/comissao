@@ -2,21 +2,23 @@
 
 namespace App\Enums;
 
-class IndicationStatusEnum
+class BudgetStatusEnum
 {
     const PENDENTE = 0;
-    const ANALISE = 1;
+    const FECHADO = 1;
+    const RECUSADO = 2;
 
     public static function array()
     {
         return [
             self::PENDENTE => 'Pendente',
-            self::ANALISE => 'Em análise',
+            self::FECHADO => 'Fechado',
+            self::RECUSADO => 'Recusado',
         ];
     }
    
     public static function label($valor)
     {
-        return IndicationStatusEnum::array()[$valor];
+        return BudgetStatusEnum::array()[$valor];
     }
 }
