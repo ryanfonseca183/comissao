@@ -6,14 +6,16 @@ class IndicationStatusEnum
 {
     const PENDENTE = 0;
     const ANALISE = 1;
-    const FECHADO = 2;
-    const RECUSADO = 3;
+    const ORCADO = 2;
+    const FECHADO = 3;
+    const RECUSADO = 4;
 
     public static function array()
     {
         return [
             self::PENDENTE => 'Pendente',
             self::ANALISE => 'Em análise',
+            self::ORCADO => 'Orçado',
             self::FECHADO => 'Fechado',
             self::RECUSADO => 'Recusado',
         ];

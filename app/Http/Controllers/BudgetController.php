@@ -15,7 +15,9 @@ class BudgetController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $budgets = Budget::all();
+
+        return view('admin.budgets.index', compact('budgets'));
     }
 
     /**

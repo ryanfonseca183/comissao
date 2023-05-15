@@ -8,8 +8,8 @@ class Budget extends Model
 {
     protected $guarded = [];
 
-    public function indication()
+    public function company()
     {
-        return $this->belongsTo(Indication::class, 'company_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }
