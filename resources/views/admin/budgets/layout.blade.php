@@ -2,8 +2,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white shadow sm:rounded-lg">
-                <div class="grid grid-cols-3 gap-6">
-                    <div class="sm:p-8 sm:pr-0 border-r border-slate-200">
+                <div class="lg:grid grid-cols-3 gap-6">
+                    <div class="sm:p-8 sm:pr-0 border-b lg:border-b-0 lg:border-r border-slate-200">
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 flex items-center">
                                 <a href="{{ route(request()->query('origin') ?? 'admin.dashboard') }}"><x-icons.arrow-left class="me-2" /></a>

@@ -43,6 +43,8 @@ class BudgetController extends Controller
     {
         $budget = $company->budget()->create($request->validated());
 
+        $company->update(['status' => IndicationStatusEnum::ORCADO]);
+
         return redirect()->route('admin.indications.budget.edit', compact('company'));
     }
 

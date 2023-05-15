@@ -13,7 +13,10 @@ class AdminDashboard extends Controller
      */
     public function __invoke(Request $request)
     {
-        $indications = Company::with('service')->where('status', IndicationStatusEnum::PENDENTE)->get();
+        $indications = Company::with('service')->whereNotIn('status', [
+            IndicationStatusEnum::FECHADO,
+            IndicationStatusEnum::RECUSADO,
+        ])->get();
 
         return view('admin.dashboard', compact('indications'));
     }

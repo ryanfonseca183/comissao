@@ -145,7 +145,7 @@
   "Indications": "Indicações",
   "Create New": "Criar Novo",
   "Doc. Number": "Documento",
-  "Corporate Name": "Razão social",
+  "Corporate Name": "Razão Social",
   "Create Indication": "Cadastrar Indicação",
   "Doc. Type": "Tipo de documento",
   "Edit Indication": "Editar Indicação",
@@ -167,7 +167,9 @@
   "Percent": "Porcentagem",
   "Indication": "Indicação",
   "Budget": "Orçamento",
+  "Budgets": "Orçamentos",
   "Edit Budget": "Editar Orçamento",
   "Show": "Visualizar",
-  "Creation Date": "Data de Criação"
+  "Creation Date": "Data de Criação",
+  "Pending Budgets": "Orçamentos Pendentes"
 }

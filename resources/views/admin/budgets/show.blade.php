@@ -14,15 +14,17 @@
             hora a partir da data de criação
         </span>
     </header>
-    @include('admin.budgets.form', [
-        'action' => "#",
-        'budget' => $company->budget
-    ])
+    <div id="budget_form">
+        @include('admin.budgets.form', [
+            'action' => "#",
+            'budget' => $company->budget
+        ])
+    </div>
 @endsection
 
 @push('js')
     <script>
-        $("input, select, textarea", $("form")).prop("disabled", true);
-        $("button", $("form")).remove();
+        $("input, select, textarea", $("#budget_form")).prop("disabled", true);
+        $("button", $("#budget_form")).remove();
     </script>
 @endpush
