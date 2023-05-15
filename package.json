@@ -16,6 +16,6 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "feather-icons": "^4.29.0"
+        "toastr": "^2.1.4"
     }
 }

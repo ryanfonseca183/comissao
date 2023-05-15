@@ -57,8 +57,14 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        $service->delete();
-
-        return redirect()->route('admin.services.index');
+        try {
+            $service->delete();
+            return redirect()->route('admin.services.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('f-error',
+                "Não foi possível deletar o serviço!
+                O registro possui referência interna no sistema."
+            );
+        }
     }
 }

@@ -43,5 +43,14 @@
         <script src="{{asset('plugins/jquery.mask.min.js')}}"></script>
         <script src="{{asset('js/masks.js')}}"></script>
         <script src="{{asset('js/functions.js')}}"></script>
+        <script>
+            $(function(){
+                @foreach(['success', 'error', 'info', 'warning'] as $type)
+                    @if(Session::has('f-'.$type))
+                        Toastr.{{$type}}(`{{ session('f-'.$type) }}`);
+                    @endif
+                @endforeach
+            })
+        </script>
     </body>
 </html>

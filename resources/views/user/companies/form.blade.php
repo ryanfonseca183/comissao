@@ -32,8 +32,8 @@
     </div>
     <div>
         @php $services = App\Models\Service::active()->get(); @endphp
-        <x-input-label for="service" :value="__('Service')" />
-        <x-select id="service" name="service_id" :collection="$services" class="mt-1 block w-full" optionLabel="name" optionValue="id" :optionSelected="$company->service_id"  required/>
+        <x-input-label for="service_id" :value="__('Service')" />
+        <x-select id="service_id" name="service_id" :collection="$services" class="mt-1 block w-full" optionLabel="name" optionValue="id" :optionSelected="$company->service_id"  required/>
         <x-input-error :messages="$errors->get('service')" class="mt-2" />
     </div>
     <div class="flex items-center gap-4">
