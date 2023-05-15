@@ -20,7 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function person(): View
     {
-        return view('auth.register.person');
+        session(['doc_type' => 0]);
+
+        return view('auth.register');
     }
 
     /**
@@ -28,7 +30,9 @@ class RegisteredUserController extends Controller
      */
     public function corporate(): View
     {
-        return view('auth.register.corporate');
+        session(['doc_type' => 1]);
+
+        return view('auth.register');
     }
 
     /**
@@ -38,16 +42,17 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        $doc_type = session()->get('doc_type', 0);
+        $validated = $request->validate([
+            'name' => 'string|max:255',
+            'phone' => 'string|min:14|max:15',
+            'doc_num' => ['string', ($doc_type == 0 ? 'cpf' : 'cnpj'), 'unique:users'],
+            'email' => 'email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        $user = new User($validated);
+        $user->password = Hash::make($request->password);
+        $user->doc_type = $doc_type;
         $user->save();
         event(new Registered($user));
         Auth::guard('user')->login($user);
