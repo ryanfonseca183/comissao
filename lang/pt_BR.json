@@ -171,5 +171,11 @@
   "Edit Budget": "Editar Orçamento",
   "Show": "Visualizar",
   "Creation Date": "Data de Criação",
-  "Pending Budgets": "Orçamentos Pendentes"
+  "Pending Budgets": "Orçamentos Pendentes",
+  "Finish": "Finalizar",
+  "Click here": "Clique aqui",
+  "Do you want to register as a corporate?": "Deseja se cadastrar como pessoa jurídica?",
+  "Do you want to register as a person?": "Deseja se cadastrar como pessoa física?",
+  "Create Account": "Criar conta",
+  "Create Corporate Account": "Criar conta para empresa"
 }
