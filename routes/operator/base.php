@@ -24,8 +24,12 @@ Route::middleware('auth:admin')->group(function(){
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
-    Route::resource('indications.budgets', BudgetController::class)->parameters([
-        'indications' => 'company'
-    ])->except('show', 'index');
+
+    Route::prefix('/indications/{company}/budget')->name('indications.budget.')->controller(BudgetController::class)->group(function(){
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/edit', 'edit')->name('edit');
+        Route::put('/', 'update')->name('update');
+    });
     Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
 });
