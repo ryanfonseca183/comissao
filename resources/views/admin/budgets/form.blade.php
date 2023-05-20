@@ -49,7 +49,7 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <x-input-label for="first_payment_date" :value="__('First Payment Date')" />
-                <x-text-input id="first_payment_date" name="first_payment_date" type="date" min="{{ now()->format('Y-m-d') }}" class="mt-1 block w-full" :value="old('first_payment_date', $budget->first_payment_date)" required/>
+                <x-text-input id="first_payment_date" name="first_payment_date" type="date" min="{{ now()->format('Y-m-d') }}" class="mt-1 block w-full" :value="old('first_payment_date', $budget->first_payment_date?->format('Y-m-d'))" required/>
                 <x-input-error :messages="$errors->get('first_payment_date')" class="mt-2" />
             </div>
             <div>

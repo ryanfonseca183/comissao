@@ -43,8 +43,8 @@ class StoreUpdateBudgetRequest extends FormRequest
             'measuring_area' => ['nullable', new Decimal(13, 2)],
             'employees_number' => 'nullable|integer|min:1',
             'commission' => 'integer|min:1|max:100',
-            'first_payment_date' => 'date_format:Y-m-d|after_or_equal:now',
-            'payment_term' => 'integer|min:1',
+            'first_payment_date' => 'date_format:Y-m-d|after_or_equal:'.now()->format('Y-m-d'),
+            'payment_term' => 'integer|min:1|max:255',
         ];
     }
 

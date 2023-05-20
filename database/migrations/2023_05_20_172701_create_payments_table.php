@@ -17,7 +17,6 @@ return new class extends Migration
             $table->date('payment_date');
             $table->unsignedTinyInteger('installment');
             $table->boolean('paid')->default(0);
-            $table->timestamps();
         });
     }
 

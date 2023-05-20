@@ -6,16 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    protected $guard = [];
+    protected $guarded = [];
 
     protected $casts = [
         'payment_date' => 'date',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id');
-    }
 
     public function indication()
     {

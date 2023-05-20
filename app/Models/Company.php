@@ -22,4 +22,9 @@ class Company extends Model
     {
         return $this->hasOne(Budget::class, 'company_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'indication_id');
+    }
 }
