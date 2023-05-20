@@ -8,6 +8,10 @@ class Budget extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'first_payment_date' => 'date',
+    ];
+
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
