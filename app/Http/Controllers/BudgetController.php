@@ -89,14 +89,4 @@ class BudgetController extends Controller
     {
         return view('admin.budgets.show', compact('company'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function destroy(Company $company)
-    {
-        $company->budget->delete();
-
-        return redirect()->back();
-    }
 }
