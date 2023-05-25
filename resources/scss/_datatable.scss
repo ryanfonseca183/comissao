@@ -35,6 +35,7 @@ table.table__app {
                                     box-shadow: unset !important;
                                     transform: translateY(-50%);
                                     margin-top: 0;
+                                    background: rgb(79 70 229 / 1);
                                 }
                             }
                         }
@@ -67,7 +68,7 @@ table.table__app {
                 outline: none !important;
                 border-radius: 0.25rem;
                 &.current {
-                    background: $primary !important;
+                    background: rgb(79 70 229 / 1);
                     color: #fff !important;
                 }
                 &:hover:not(.current) {

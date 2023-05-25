@@ -8,6 +8,8 @@ class Payment extends Model
 {
     protected $guarded = [];
 
+    public $timestamps = false;
+    
     protected $casts = [
         'payment_date' => 'date',
     ];

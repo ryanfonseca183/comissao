@@ -97,6 +97,10 @@ function debounce(func, wait, immediate) {
       if (callNow) func.apply(context, args);
     }
 }
+const money = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+});
 $(function(){
     Toastr.options = {
         "closeButton": false,
