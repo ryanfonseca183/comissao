@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreIndicationRequest;
 use App\Notifications\IndicationCreated;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
 
 class IndicationController extends Controller
 {
@@ -36,8 +37,13 @@ class IndicationController extends Controller
     {
         $indication = auth()->guard('user')->user()->indications()->create($request->validated());
 
-        Notification::send(Operator::where('status', 1)->get(), new IndicationCreated($indication));
+        session()->flash('f-success', __('messages.store:success', ['Entity' => __('Indication')]));
 
+        try {
+            Notification::send(Operator::where('status', 1)->get(), new IndicationCreated($indication));
+        } catch (\Exception $e) {
+            Log::error('Não foi possível enviar notificação de cadastro de indicação. '. $e->getMessage());
+        }
         return redirect()->route('indications.edit', $indication);
     }
 
@@ -75,13 +81,21 @@ class IndicationController extends Controller
 
         $company->update($request->validated());
 
+        session()->flash('f-success', __('messages.update:success', ['Entity' => __('Indication')]));
+
         return redirect()->route('indications.index');
     }
 
     public function destroy($id)
     {
-        auth()->guard('user')->user()->indications()->where('id', $id)->delete();
+        try {
+            auth()->guard('user')->user()->indications()->where('id', $id)->delete();
 
+            session()->flash('f-success', __('messages.destroy:success', ['Entity' => __('Indication')]));
+
+        } catch (\Exception $e) {
+            session()->flash('f-success', __('messages.destroy:error', ['Entity' => __('Indication')]));
+        }
         return redirect()->route('indications.index');
     }
 }
