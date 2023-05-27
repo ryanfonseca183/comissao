@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUpdateBudgetRequest;
 use App\Enums\IndicationStatusEnum;
 use App\Notifications\BudgetCreated;
+use Illuminate\Support\Facades\Log;
 
 class BudgetController extends Controller
 {
@@ -45,8 +46,13 @@ class BudgetController extends Controller
 
         $company->update(['status' => IndicationStatusEnum::ORCADO]);
 
-        $company->user->notify(new BudgetCreated($company));
+        session()->flash('f-success', __('messages.store:success', ['Entity' => __('Budget')]));
 
+        try {
+            $company->user->notify(new BudgetCreated($company));
+        } catch (\Exception  $e) {
+            Log::error('Não foi possível enviar notificação de cadastro de orçamento. '. $e->getMessage());
+        }
         return redirect()->route('admin.indications.budget.edit', compact('company'));
     }
 
@@ -64,6 +70,8 @@ class BudgetController extends Controller
     public function update(StoreUpdateBudgetRequest $request, Company $company)
     {
         $company->budget->update($request->validated());
+
+        session()->flash('f-success', __('messages.update:success', ['Entity' => __('Budget')]));
        
         return redirect()->back();
     }
