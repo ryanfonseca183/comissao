@@ -8,6 +8,7 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUpdateBudgetRequest;
 use App\Enums\IndicationStatusEnum;
+use App\Notifications\BudgetCreated;
 
 class BudgetController extends Controller
 {
@@ -43,6 +44,8 @@ class BudgetController extends Controller
         $budget = $company->budget()->create($request->validated());
 
         $company->update(['status' => IndicationStatusEnum::ORCADO]);
+
+        $company->user->notify(new BudgetCreated($company));
 
         return redirect()->route('admin.indications.budget.edit', compact('company'));
     }
