@@ -7,7 +7,7 @@
         @method('PUT')
         <h2 class="text-lg font-medium text-gray-900">A empresa aceitou a proposta?</h2>
         <p class="mb-3">Clique em um dos botões abaixo para fechar ou recusar</p>
-        <div class="flex items-center gap-4 ">
+        <div class="flex items-center gap-4 mb-3">
             <x-primary-button
                 name="status"
                 value="{{ App\Enums\IndicationStatusEnum::FECHADO }}">
@@ -19,6 +19,7 @@
                     {{ __('Recusar') }}
             </x-danger-button>
         </div>
+        <span class="leading-none text-xs">Após fechar ou recusar um orçamento, não será mais possível editar as informações.</span>
     </form>
 @endif
 <form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off" id="budget">
@@ -69,7 +70,7 @@
             <x-text-input id="comission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="old('commission', $budget->commission)" required />
             <x-input-error :messages="$errors->get('commission')" class="mt-2" />
         </div>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid sm:grid-cols-2 gap-4">
             <div>
                 <x-input-label for="first_payment_date" :value="__('First Payment Date')" />
                 <x-text-input id="first_payment_date" name="first_payment_date" type="date" min="{{ now()->format('Y-m-d') }}" class="mt-1 block w-full" :value="old('first_payment_date', $budget->first_payment_date?->format('Y-m-d'))" required/>

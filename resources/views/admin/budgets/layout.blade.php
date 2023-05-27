@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white shadow sm:rounded-lg">
                 <div class="lg:grid grid-cols-3 gap-6">
-                    <div class="sm:p-8 sm:pr-0 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <div class="p-4 sm:p-8 sm:pr-0 border-b lg:border-b-0 lg:border-r border-slate-200">
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 flex items-center">
                                 <a href="{{ route(request()->query('origin') ?? 'admin.dashboard') }}"><x-icons.arrow-left class="me-2" /></a>
@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                     <div class="col-span-2">
-                        <div class="sm:p-8 max-w-xl">
+                        <div class="p-4 sm:p-8 max-w-xl">
                             @yield('page-content')
                         </div>
                     </div>

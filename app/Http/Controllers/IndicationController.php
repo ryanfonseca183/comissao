@@ -46,7 +46,7 @@ class IndicationController extends Controller
      */
     public function show($id)
     {
-        $company = Company::find($id);
+        $company = auth()->guard('user')->user()->indications()->findOrFail($id);
 
         return view('user.companies.show', compact('company'));
     }
@@ -56,7 +56,7 @@ class IndicationController extends Controller
      */
     public function edit($id)
     {
-        $company = Company::find($id);
+        $company = auth()->guard('user')->user()->indications()->findOrFail($id);
 
         if($company->statusDiffFrom('PENDENTE')) {
             return redirect()->route('indications.show', $id);
@@ -69,7 +69,7 @@ class IndicationController extends Controller
      */
     public function update(StoreIndicationRequest $request, $id)
     {
-        $company = Company::find($id);
+        $company = auth()->guard('user')->user()->indications()->findOrFail($id);
 
         abort_if($company->statusDiffFrom('PENDENTE'), 403);
 
@@ -80,7 +80,7 @@ class IndicationController extends Controller
 
     public function destroy($id)
     {
-        Company::where('id', $id)->delete();
+        auth()->guard('user')->user()->indications()->where('id', $id)->delete();
 
         return redirect()->route('indications.index');
     }
