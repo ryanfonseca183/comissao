@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(App\Models\Operator::where('isAdmin', 0)->get() as $operator)
+                        @foreach($operators as $operator)
                             <tr>
                                 <td>{{ $operator->name }}</td>
                                 <td>{{ $operator->email }}</td>

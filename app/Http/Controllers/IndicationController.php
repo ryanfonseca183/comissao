@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Operator;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreIndicationRequest;
+use App\Notifications\IndicationCreated;
+use Illuminate\Support\Facades\Notification;
 
 class IndicationController extends Controller
 {
@@ -27,6 +30,8 @@ class IndicationController extends Controller
     public function store(StoreIndicationRequest $request)
     {
         $indication = auth()->guard('user')->user()->indications()->create($request->validated());
+
+        Notification::send(Operator::where('status', 1)->get(), new IndicationCreated($indication));
 
         return redirect()->route('indications.edit', $indication);
     }

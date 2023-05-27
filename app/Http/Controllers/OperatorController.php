@@ -16,7 +16,9 @@ class OperatorController extends Controller
      */
     public function index()
     {
-        return view('admin.operators.index');
+        $operators = Operator::where('isAdmin', 0)->get();
+
+        return view('admin.operators.index', compact('operators'));
     }
 
     /**
