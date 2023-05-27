@@ -31,6 +31,7 @@ Route::middleware('auth:admin')->group(function(){
             Route::post('/', 'store')->name('store');
         });
         Route::middleware('budgetWasCreated')->group(function(){
+            Route::put('/status', 'updateStatus')->name('status.update');
             Route::middleware('budgetCanBeUpdated')->group(function(){
                 Route::get('/edit', 'edit')->name('edit');
                 Route::put('/', 'update')->name('update');

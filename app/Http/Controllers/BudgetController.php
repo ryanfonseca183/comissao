@@ -16,7 +16,9 @@ class BudgetController extends Controller
      */
     public function index(Request $request)
     {
-        $budgets = Budget::all();
+        $budgets = Budget::join('companies', 'companies.id', 'budgets.company_id')
+            ->select('budgets.created_at', 'company_id', 'number', 'value', 'status', 'closed', 'doc_num')
+            ->get();
 
         return view('admin.budgets.index', compact('budgets'));
     }

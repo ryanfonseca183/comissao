@@ -12,8 +12,8 @@
                         <thead>
                             <tr>
                                 <th>{{__('Creation Date')}}</th>
+                                <th>{{__('Doc. Number')}}</th>
                                 <th>{{__('Proposal Number')}}</th>
-                                <th>{{__('Payment Type')}}</th>
                                 <th>{{__('Budget Value')}}</th>
                                 <th>{{__('Status')}}</th>
                                 <th>{{__('Actions')}}</th>
@@ -23,8 +23,8 @@
                             @foreach($budgets as $budget)
                                 <tr>
                                     <td>{{ $budget->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $budget->doc_num }}</td>
                                     <td>{{ $budget->number }}</td>
-                                    <td>{{ App\Enums\PaymentTypeEnum::label($budget->payment_type) }}</td>
                                     <td>R$ {{ number_format($budget->value, 2, ',', '.') }}</td>
                                     <td>
                                         @if(! is_int($budget->closed))
