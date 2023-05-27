@@ -20,5 +20,5 @@ typeof $.fn.dataTable != "undefined" && $.fn.dataTable.Api.register( 'sum()', fu
 } );
 
 $(function(){
-    window.dataTable = $(".table__app").DataTable();
+    window.dataTable = $(".table__app").DataTable(typeof dataTableConfigs != 'undefined' ? dataTableConfigs : {});
 })

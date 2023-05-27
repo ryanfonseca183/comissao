@@ -37,7 +37,7 @@
                             @foreach($indications as $indication)
                                 @php $value = (float) $indication->budget->value * ($indication->budget->commission / 100); @endphp
                                 @foreach($indication->payments as $payment)
-                                    @php $pending = $payment->payment_date->greaterThan(now()); @endphp
+                                    @php $pending = $payment->payment_date->greaterThanOrEqualTo(now()->format('Y-m-d')); @endphp
                                     <tr>
                                         <td>{{ $indication->corporate_name }}</td>
                                         <td>{{ $indication->doc_num }}</td>
@@ -64,11 +64,18 @@
     </div>
     @push('js')
         <script>
-            $(".table__app").on('draw.dt', function(){
-                $('#total').text(money.format(window.dataTable.column(7, {filter:'applied'}).nodes().sum()))
-            })
-            $("#old_values").change(function(){
-                window.location.replace(`{{ route('dashboard') }}?old=${this.checked}`)
+            const dataTableConfigs = {
+                columnDefs: [
+                    {targets: 7, orderable: true}
+                ]
+            }
+            $(function(){
+                $(".table__app").on('draw.dt', function(){
+                    $('#total').text(money.format(window.dataTable.column(7, {filter:'applied'}).nodes().sum()))
+                })
+                $("#old_values").change(function(){
+                    window.location.replace(`{{ route('dashboard') }}?old=${this.checked}`)
+                })
             })
         </script>
     @endpush
