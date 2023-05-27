@@ -8,6 +8,9 @@ use App\Http\Requests\StoreUpdateOperatorRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class OperatorController extends Controller
 {
@@ -34,15 +37,25 @@ class OperatorController extends Controller
      */
     public function store(StoreUpdateOperatorRequest $request)
     {
-        $operator = Operator::create(array_merge(
-            ['password' => Hash::make(Str::random(8))],
-            $request->validated()
-        ));
-        $operator->sendPasswordResetNotification(
-            Password::createToken($operator),
-            $signUp = true
-        );
-        return redirect()->route('admin.operators.edit', $operator);
+        DB::beginTransaction();
+        try {
+            $operator = Operator::create(array_merge(
+                ['password' => Hash::make(Str::random(8))],
+                $request->validated()
+            ));
+            $operator->sendPasswordResetNotification(
+                Password::createToken($operator),
+                $signUp = true
+            );
+            session()->flash('f-success', __('messages.store:success', ['Entity' => __('Operator')]));
+            DB::commit();
+            return redirect()->route('admin.operators.edit', $operator);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Não foi possível criar a conta do operador. ' . $e->getMessage());
+            session()->flash('f-error', __('messages.store:error', ['Entity' => __('Operator')]));
+            return redirect()->route('admin.operators.create');
+        }
     }
 
     /**
@@ -60,6 +73,8 @@ class OperatorController extends Controller
     {
         $operator->update($request->validated());
 
+        session()->flash('f-success', __('messages.update:success', ['Entity' => __('Operator')]));
+
         return redirect()->route('admin.operators.index');
     }
 
@@ -68,8 +83,13 @@ class OperatorController extends Controller
      */
     public function destroy(Operator $operator)
     {
-        $operator->delete();
-
+        try {
+            $operator->delete();
+            session()->flash('f-success', __('messages.destroy:success', ['Entity' => __('Operator')]));
+        } catch (\Exception $e) {
+            Log::error('Não foi possível deletar a conta do operador. ' . $e->getMessage());
+            session()->flash('f-error', __('messages.destroy:error.reference', ['Entity' => __('Operator')]));
+        }
         return redirect()->route('admin.operators.index');
     }
 }

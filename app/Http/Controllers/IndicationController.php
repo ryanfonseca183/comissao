@@ -38,7 +38,6 @@ class IndicationController extends Controller
         $indication = auth()->guard('user')->user()->indications()->create($request->validated());
 
         session()->flash('f-success', __('messages.store:success', ['Entity' => __('Indication')]));
-
         try {
             Notification::send(Operator::where('status', 1)->get(), new IndicationCreated($indication));
         } catch (\Exception $e) {
