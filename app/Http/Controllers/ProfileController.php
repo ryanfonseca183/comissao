@@ -28,6 +28,8 @@ class ProfileController extends Controller
     {
         $request->user()->update($request->validated());
 
+        session()->flash('f-success', 'Informações do perfil atualizadas com sucesso!');
+
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
@@ -41,8 +43,17 @@ class ProfileController extends Controller
         ]);
         $user = $request->user();
         Auth::guard('user')->logout();
-        $user->delete();
-        $request->session()->invalidate();
+        try {
+            $user->delete();
+        } catch (\Exception $e) {
+            $user->update([
+                'name' => 'Usuário deletado',
+                'doc_num' => $user->doc_type == 1 ? 'XX.XXX.XXX/XXXX-XX' : 'XXX.XXX.XXX-XX',
+                'email' => 'user@email',
+                'password' => 'user@password',
+                'phone' => '(XX) XXXXX-XXXX',
+            ]);
+        }
         $request->session()->regenerateToken();
 
         return Redirect::to('/');

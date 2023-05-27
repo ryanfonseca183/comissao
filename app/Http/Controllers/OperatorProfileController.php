@@ -28,6 +28,8 @@ class OperatorProfileController extends Controller
     {
         Auth::guard('admin')->user()->update($request->validated());
 
+        session()->flash('f-success', 'Informações do perfil atualizadas com sucesso!');
+
         return Redirect::route('admin.profile.edit')->with('status', 'profile-updated');
     }
 
@@ -36,13 +38,22 @@ class OperatorProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $user = Auth::guard('admin')->user();
-        abort_if($user->isAdmin, 401);
+        $operator = Auth::guard('admin')->user();
+        abort_if($operator->isAdmin, 401);
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
         Auth::guard('user')->logout();
-        $user->delete();
+        try {
+            $operator->delete();
+        } catch (\Exception $e) {
+            $operator->update([
+                'name' => 'Operador deletado',
+                'email' => 'operator@email',
+                'password' => 'operator@password',
+                'phone' => '(XX) XXXXX-XXXX',
+            ]);
+        }
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

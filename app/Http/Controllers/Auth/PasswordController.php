@@ -24,6 +24,8 @@ class PasswordController extends Controller
         auth()->guard($guard)->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
+        session()->flash('f-success', 'Atualização de senha de acesso realizada com sucesso!');
+
         return back()->with('status', 'password-updated');
     }
 }
