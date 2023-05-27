@@ -1,4 +1,27 @@
-<form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off">
+@if($company->statusEqualTo('ORCADO'))
+    <form
+      method="POST"
+      action="{{ route('admin.indications.budget.status.update', $company) }}"
+      class="rounded-md border border-gray-300 p-4 mt-5">
+        @csrf
+        @method('PUT')
+        <h2 class="text-lg font-medium text-gray-900">A empresa aceitou a proposta?</h2>
+        <p class="mb-3">Clique em um dos botões abaixo para fechar ou recusar</p>
+        <div class="flex items-center gap-4 ">
+            <x-primary-button
+                name="status"
+                value="{{ App\Enums\IndicationStatusEnum::FECHADO }}">
+                    {{ __('Fechar') }}
+            </x-primary-button>
+            <x-danger-button
+                name="status"
+                value="{{ App\Enums\IndicationStatusEnum::RECUSADO }}">
+                    {{ __('Recusar') }}
+            </x-danger-button>
+        </div>
+    </form>
+@endif
+<form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off" id="budget">
     @csrf
     @method($method ?? 'POST')
     <div class="grid grid-cols-2 gap-4">
@@ -59,19 +82,22 @@
             </div>
         </div>
     </fieldset>
-    <div class="flex items-center gap-4">
-        <x-primary-button>{{ __('Save') }}</x-primary-button>
-        @if (session('status') === 'saved')
-            <p
-                x-data="{ show: true }"
-                x-show="show"
-                x-transition
-                x-init="setTimeout(() => show = false, 2000)"
-                class="text-sm text-gray-600"
-            >{{ __('Saved.') }}</p>
-        @endif
-    </div>
+    @if($company->statusNotIn(['FECHADO', 'RECUSADO']))
+        <div class="flex items-center gap-4">
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            @if (session('status') === 'saved')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600"
+                >{{ __('Saved.') }}</p>
+            @endif
+        </div>
+    @endif
 </form>
+
 
 @push('js')
     <script>

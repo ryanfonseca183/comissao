@@ -26,7 +26,6 @@ class BudgetController extends Controller
      */
     public function create(Company $company)
     {
-
         //Verifica se a indicação já foi posta em análise
         if($company->status != IndicationStatusEnum::ANALISE)
             $company->update(['status' => IndicationStatusEnum::ANALISE]);
@@ -40,7 +39,7 @@ class BudgetController extends Controller
     public function store(StoreUpdateBudgetRequest $request, Company $company)
     {
         $budget = $company->budget()->create($request->validated());
-        $this->createPayments($budget);
+
         $company->update(['status' => IndicationStatusEnum::ORCADO]);
 
         return redirect()->route('admin.indications.budget.edit', compact('company'));
@@ -60,14 +59,37 @@ class BudgetController extends Controller
     public function update(StoreUpdateBudgetRequest $request, Company $company)
     {
         $company->budget->update($request->validated());
-        //Se o prazo ou a data do primeiro pagamento for alterada, recria as parcelas de pagamento
-        if($company->budget->wasChanged(['first_payment_date', 'payment_term'])) {
-            $company->payments()->delete();
-            $this->createPayments($company->budget);
-        }
+       
         return redirect()->back();
     }
 
+    public function updateStatus(Request $request, Company $company)
+    {
+        abort_if($company->statusDiffFrom('ORCADO'), 403);
+
+        $request->validate(['status' => 'integer|in:3,4']);
+
+        $company->update(['status' => $request->status]);
+
+        $closed = $request->status == IndicationStatusEnum::FECHADO;
+
+        //Cria os pagamentos de comissão, em caso de orçamento aprovado
+        if ($closed) $this->createPayments($company->budget);
+
+        //Atualiza o status do orçamento
+        $company->budget->update(['closed' => $closed]);
+
+        return redirect()->back();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function show(Company $company)
+    {
+        return view('admin.budgets.show', compact('company'));
+    }
+    
     private function createPayments(Budget $budget)
     {
         $payments = [];
@@ -79,14 +101,5 @@ class BudgetController extends Controller
             ];
         }
         Payment::insert($payments);
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function show(Company $company)
-    {
-        return view('admin.budgets.show', compact('company'));
     }
 }

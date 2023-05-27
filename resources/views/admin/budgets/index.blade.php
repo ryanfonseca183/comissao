@@ -12,10 +12,10 @@
                         <thead>
                             <tr>
                                 <th>{{__('Creation Date')}}</th>
-                                <th>{{__('Finishing Month')}}</th>
                                 <th>{{__('Proposal Number')}}</th>
                                 <th>{{__('Payment Type')}}</th>
                                 <th>{{__('Budget Value')}}</th>
+                                <th>{{__('Status')}}</th>
                                 <th>{{__('Actions')}}</th>
                             </tr>
                         </thead>
@@ -23,10 +23,17 @@
                             @foreach($budgets as $budget)
                                 <tr>
                                     <td>{{ $budget->created_at->format('d/m/Y H:i') }}</td>
-                                    <td>{{ now()->setMonth($budget->finish_month)->monthName }}</td>
                                     <td>{{ $budget->number }}</td>
                                     <td>{{ App\Enums\PaymentTypeEnum::label($budget->payment_type) }}</td>
                                     <td>R$ {{ number_format($budget->value, 2, ',', '.') }}</td>
+                                    <td>
+                                        @if(! is_int($budget->closed))
+                                            Aberto
+                                        @elseif($budget->closed)
+                                            <span class="text-green-600">Fechado</span>
+                                        @else
+                                            <span class="text-red-600">Recusado</span>
+                                        @endif
                                     <td>
                                         <a href="{{ route('admin.indications.budget.edit', [
                                             'company' => $budget->company_id,

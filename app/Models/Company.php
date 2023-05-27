@@ -27,4 +27,28 @@ class Company extends Model
     {
         return $this->hasMany(Payment::class, 'indication_id');
     }
+
+    public function statusEqualTo($name)
+    {
+        return $this->status == constant('App\Enums\IndicationStatusEnum::'.$name);
+    }
+    public function statusIn($names)
+    {
+        foreach ($names as $name) {
+            if($this->statusEqualTo($name)) return true;
+        }
+        return false;
+    }
+    public function statusDiffFrom($name)
+    {
+        return $this->status != constant('App\Enums\IndicationStatusEnum::'.$name);
+    }
+    public function statusNotIn($names)
+    {
+        $bool = true;
+        foreach ($names as $name) {
+            $bool = $bool && $this->statusDiffFrom($name);
+        }
+        return $bool;
+    }
 }
