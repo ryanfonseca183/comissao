@@ -13,7 +13,12 @@ class IndicationController extends Controller
 {
     public function index()
     {
-        return view('user.companies.index');
+        $indications = auth()->guard('user')->user()->indications()
+                        ->select('id', 'corporate_name', 'doc_num', 'service_id', 'status')
+                        ->with('service:id,name')
+                        ->get();
+
+        return view('user.companies.index', compact('indications'));
     }
 
     /**
@@ -37,12 +42,25 @@ class IndicationController extends Controller
     }
 
     /**
+     * Show the resource.
+     */
+    public function show($id)
+    {
+        $company = Company::find($id);
+
+        return view('user.companies.show', compact('company'));
+    }
+
+    /**
      * Show the form for editing a new resource.
      */
     public function edit($id)
     {
         $company = Company::find($id);
 
+        if($company->statusDiffFrom('PENDENTE')) {
+            return redirect()->route('indications.show', $id);
+        }
         return view('user.companies.edit', compact('company'));
     }
 
@@ -51,7 +69,11 @@ class IndicationController extends Controller
      */
     public function update(StoreIndicationRequest $request, $id)
     {
-        Company::where('id', $id)->update($request->validated());
+        $company = Company::find($id);
+
+        abort_if($company->statusDiffFrom('PENDENTE'), 403);
+
+        $company->update($request->validated());
 
         return redirect()->route('indications.index');
     }

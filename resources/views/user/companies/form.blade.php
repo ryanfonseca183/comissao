@@ -1,4 +1,4 @@
-<form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off">
+<form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off" id="indication">
     @csrf
     @method($method ?? 'POST')
     <div>

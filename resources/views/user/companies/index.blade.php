@@ -16,29 +16,27 @@
                             <th>{{__('Corporate Name')}}</th>
                             <th>{{__('Doc. Number')}}</th>
                             <th>{{__('Service')}}</th>
-                            <th class="none">{{__('E-mail')}}</th>
-                            <th class="none">{{__('Phone')}}</th>
                             <th>{{__('Status')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(auth()->guard('user')->user()->indications()->with('service')->get() as $company)
+                        @foreach($indications as $company)
                             <tr>
                                 <td>{{ $company->corporate_name }}</td>
                                 <td>{{ $company->doc_num }}</td>
                                 <td>{{ $company->service->name }}</td>
-                                <td>{{ $company->email }}</td>
-                                <td>{{ $company->phone }}</td>
                                 <td>{{ App\Enums\IndicationStatusEnum::label($company->status) }}</td>
                                 <td>
-                                    @if($company->status == 0)
+                                    @if($company->statusEqualTo('PENDENTE'))
                                         <a href="{{ route('indications.edit', $company) }}" class="me-2">{{__('Edit')}}</a>
                                         <form action="{{ route('indications.destroy', $company) }}" class="inline-block" method="POST">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="text-red-500">{{__('Delete')}}</button>
                                         </form>
+                                    @else
+                                        <a href="{{ route('indications.show', $company) }}" class="me-2">{{__('Show')}}</a>
                                     @endif
                                 </td>
                             </tr>

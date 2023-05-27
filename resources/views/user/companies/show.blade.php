@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-cards.form back="indications.index" title="Edit Indication">
+    <x-cards.form back="indications.index" title="Show Indication">
         <x-slot name="description">
             <span class="text-xs italic">
                 Criado em {{ $company->created_at->format('d/m/Y') }}
@@ -7,9 +7,14 @@
             </span>
         </x-slot>
         @include('user.companies.form', [
-            'action' => route('indications.update', ['indication' => $company->id]),
+            'action' => '#',
             'company' => $company,
-            'method' => 'PUT'
         ])
     </x-cards.form>
+    @push('js')
+        <script>
+            $("input, select, textarea", $("#indication")).prop('disabled', true);
+            $('button', $('#indication')).remove();
+        </script>
+    @endpush
 </x-app-layout>
