@@ -20,7 +20,7 @@
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 flex flex-col">
             @php $guard = request()->routeIs('admin.*') ? 'admin' : 'user'; @endphp
             <x-navigation :$guard>
                 <x-slot name="large">
@@ -42,6 +42,29 @@
             <main>
                 {{ $slot }}
             </main>
+            <footer class="shadow mt-auto bg-white ">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col items-center sm:flex-row pb-5 sm:pb-0 gap-5 sm:gap-0">
+                        <div>
+                            <img src="{{ asset('images/logo.jpg') }}" alt="Organizar Engenharia" class="inline-block sm:border-e me-2">
+                        </div>
+                        <div class="flex-1 border-t sm:border-t-0 pt-4 sm:pt-0 sm:px-4">
+                            <p class="mb-3">
+                                Empresa especializada nas áreas de segurança do trabalho, meio ambiente e incêndio. <br/>
+                                <a href="http://www.organizarengenharia.com.br/">http://www.organizarengenharia.com.br/</a>
+                            </p>
+                            <address>
+                                Rua Dr. Teixeira Soares 75 sala 32 - Centro <br/>
+                                Formiga/MG
+                            </address>
+                        </div>
+                        <ul class="flex gap-3 items-center">
+                            <li><a href="https://www.facebook.com/organizareng" target="_blank"><x-icons.facebook width="30" height="30" /></a></li>
+                            <li><a href="https://www.instagram.com/organizarengenharia/" target="_blank"><x-icons.instagram width="35" height="35"/></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
         </div>
         @stack('js')
         <script src="{{asset('plugins/datatables.min.js')}}"></script>

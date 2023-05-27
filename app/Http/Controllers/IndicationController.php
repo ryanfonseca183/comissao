@@ -43,7 +43,7 @@ class IndicationController extends Controller
         } catch (\Exception $e) {
             Log::error('Não foi possível enviar notificação de cadastro de indicação. '. $e->getMessage());
         }
-        return redirect()->route('indications.edit', $indication);
+        return redirect()->route('indications.index');
     }
 
     /**

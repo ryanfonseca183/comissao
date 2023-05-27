@@ -1,5 +1,6 @@
+@use 'variables' as * ;
 @use 'datatable';
 
 a {
-    color: rgb(14 165 233);
+    color: $primary;
 }

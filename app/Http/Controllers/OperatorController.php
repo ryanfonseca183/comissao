@@ -49,7 +49,7 @@ class OperatorController extends Controller
             );
             session()->flash('f-success', __('messages.store:success', ['Entity' => __('Operator')]));
             DB::commit();
-            return redirect()->route('admin.operators.edit', $operator);
+            return redirect()->route('admin.operators.index');
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Não foi possível criar a conta do operador. ' . $e->getMessage());
