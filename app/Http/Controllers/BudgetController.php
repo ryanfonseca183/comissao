@@ -42,7 +42,10 @@ class BudgetController extends Controller
      */
     public function store(StoreUpdateBudgetRequest $request, Company $company)
     {
-        $budget = $company->budget()->create($request->validated());
+        $budget = $company->budget()->create(array_merge(
+            $request->validated(),
+            ['operator_id' => auth()->guard('admin')->user()->id]
+        ));
 
         $company->update(['status' => IndicationStatusEnum::ORCADO]);
 
