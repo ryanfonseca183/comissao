@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUpdateServiceRequest;
+use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
 {
@@ -29,9 +30,11 @@ class ServiceController extends Controller
      */
     public function store(StoreUpdateServiceRequest $request)
     {
-        $service = Service::create($request->validated());
+        Service::create($request->validated());
 
-        return redirect()->route('admin.services.edit', $service);
+        session()->flash('f-success', __('messages.store:success', ['Entity' => "Serviço"]));
+
+        return redirect()->route('admin.services.index');
     }
 
     /**
@@ -49,6 +52,8 @@ class ServiceController extends Controller
     {
         $service->update($request->validated());
 
+        session()->flash('f-success', __('messages.update:success', ['Entity' => "Serviço"]));
+
         return redirect()->route('admin.services.index');
     }
 
@@ -59,12 +64,11 @@ class ServiceController extends Controller
     {
         try {
             $service->delete();
-            return redirect()->route('admin.services.index');
+            session()->flash('f-success', __('messages.destroy:success', ['Entity' => "Serviço"]));
         } catch (\Exception $e) {
-            return redirect()->back()->with('f-error',
-                "Não foi possível deletar o serviço!
-                O registro possui referência interna no sistema."
-            );
+            Log::error('Não foi possível deletar o serviço. ' . $e->getMessage());
+            session()->flash('f-error', __('messages.destroy:error.reference', ['Entity' => "Serviço"]));
         }
+        return redirect()->route('admin.services.index');
     }
 }
