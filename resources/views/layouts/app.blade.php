@@ -43,15 +43,17 @@
                 {{ $slot }}
             </main>
             <footer class="shadow mt-auto bg-white ">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex flex-col items-center sm:flex-row pb-5 sm:pb-0 gap-5 sm:gap-0">
-                        <div>
-                            <img src="{{ asset('images/logo.jpg') }}" alt="Organizar Engenharia" class="inline-block sm:border-e me-2">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                    <div class="flex flex-col sm:flex-row pb-5 sm:pb-0 gap-5 sm:gap-0">
+                        <div class="pe-2 me-2 flex items-center sm:border-e">
+                            <img src="{{ asset('images/logo.png') }}"
+                                 alt="Organizar Engenharia"
+                                 class="h-20 w-auto inline-block">
                         </div>
                         <div class="flex-1 border-t sm:border-t-0 pt-4 sm:pt-0 sm:px-4">
                             <p class="mb-3">
                                 Empresa especializada nas áreas de segurança do trabalho, meio ambiente e incêndio. <br/>
-                                <a href="http://www.organizarengenharia.com.br/">http://www.organizarengenharia.com.br/</a>
+                                <a href="http://www.grupoorganizar.com.br/" target="_blank">http://www.grupoorganizar.com.br/</a>
                             </p>
                             <address>
                                 Rua Dr. Teixeira Soares 75 sala 32 - Centro <br/>
