@@ -37,7 +37,7 @@ class StoreUpdateBudgetRequest extends FormRequest
     {
         return [
             'finish_month' => 'integer|between:1,12',
-            'number' => 'integer|min:1',
+            'number' => 'string|max:255',
             'payment_type' => 'integer|between:1,3',
             'value' => [new Decimal(13, 2)],
             'measuring_area' => ['nullable', new Decimal(13, 2)],

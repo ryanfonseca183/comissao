@@ -37,7 +37,7 @@
         </div>
         <div>
             <x-input-label for="number" :value="__('Proposal Number')" />
-            <x-text-input id="number" name="number" type="text" class="mt-1 block w-full integer" :value="old('number', $budget->number)" required/>
+            <x-text-input id="number" name="number" type="text" class="mt-1 block w-full" :value="old('number', $budget->number)" required/>
             <x-input-error :messages="$errors->get('number')" class="mt-2" />
         </div>
     </div>
