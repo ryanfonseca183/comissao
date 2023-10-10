@@ -93,10 +93,17 @@
 
 @push('js')
     <script>
+        const labels = {
+            1: 'Valor por Vida ativa',
+            2: 'Valor da Proposta',
+            3: 'Valor por Metro quadrado'
+        }
         $('#payment_type').change(function(){
             toggleControl($("#employees_number_control"), this.value != 1);
             toggleControl($("#measuring_area_control"), this.value != 3);
+            $(`label[for="value"]`).text(labels[this.value])
         }).trigger('change');
+
         function toggleControl(control, bool) {
             control.toggleClass('hidden', bool).find('input').prop('disabled', bool)
         }
