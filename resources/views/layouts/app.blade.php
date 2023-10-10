@@ -52,17 +52,21 @@
                         </div>
                         <div class="flex-1 border-t sm:border-t-0 pt-4 sm:pt-0 sm:px-4">
                             <p class="mb-3">
-                                Empresa especializada nas áreas de segurança do trabalho, meio ambiente e incêndio. <br/>
+                                Empresa especializada nas áreas de segurança do trabalho,
+                                meio ambiente e sistemas de prevenção contra incêndio e pânico.
+                                Confira também nossa loja para ter acesso a EPIs e materiais contra incêndio.
+                                 <br/>
                                 <a href="http://www.grupoorganizar.com.br/" target="_blank">http://www.grupoorganizar.com.br/</a>
                             </p>
                             <address>
-                                Rua Dr. Teixeira Soares 75 sala 32 - Centro <br/>
+                                R. Francisco Soraggi, 15 - Santa Luzia<br/>
                                 Formiga/MG
                             </address>
                         </div>
                         <ul class="flex gap-3 items-center">
                             <li><a href="https://www.facebook.com/organizareng" target="_blank"><x-icons.facebook width="30" height="30" /></a></li>
                             <li><a href="https://www.instagram.com/organizarengenharia/" target="_blank"><x-icons.instagram width="35" height="35"/></a></li>
+                            <li><a href="https://api.whatsapp.com/send?phone=+5537999881070&text=Ol%C3%A1,%20gostaria%20de%20solicitar%20uma%20proposta%20comercial." target="_blank"><x-icons.whatsapp width="30" height="30"/></a></li>
                         </ul>
                     </div>
                 </div>
