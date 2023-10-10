@@ -83,18 +83,22 @@ class BudgetController extends Controller
     {
         abort_if($company->statusDiffFrom('ORCADO'), 403);
 
-        $request->validate(['status' => 'integer|in:3,4']);
-
-        $company->update(['status' => $request->status]);
-
-        $closed = $request->status == IndicationStatusEnum::FECHADO;
-
+        $validated = $request->validate([
+            'contract_number' => 'exclude_with:status|string|max:255',
+        ]);
+        $status = isset($validated['contract_number']) ? 3 : 4;
+        $closed = $status == IndicationStatusEnum::FECHADO;
+        $contract = $closed ? $request->contract_number : null;
+        
+        $company->update(compact('status'));
         //Cria os pagamentos de comissão, em caso de orçamento aprovado
         if ($closed) $this->createPayments($company->budget);
 
         //Atualiza o status do orçamento
-        $company->budget->update(['closed' => $closed]);
-
+        $company->budget->update([
+            'closed' => $closed,
+            'contract_number' => $contract
+        ]);
         return redirect()->back();
     }
 
