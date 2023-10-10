@@ -111,7 +111,7 @@
             </div>
         </div>
     </fieldset>
-    @if($company->statusNotIn(['FECHADO', 'RECUSADO']))
+    @if($company->canBeUpdated)
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
         </div>

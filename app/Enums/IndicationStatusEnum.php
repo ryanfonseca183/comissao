@@ -9,6 +9,7 @@ class IndicationStatusEnum
     const ORCADO = 2;
     const FECHADO = 3;
     const RECUSADO = 4;
+    const RESCINDIDO = 5;
 
     public static function array()
     {
@@ -18,6 +19,7 @@ class IndicationStatusEnum
             self::ORCADO => 'Orçado',
             self::FECHADO => 'Fechado',
             self::RECUSADO => 'Recusado',
+            self::RESCINDIDO => 'Rescindido',
         ];
     }
    

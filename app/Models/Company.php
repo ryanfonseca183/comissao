@@ -51,4 +51,9 @@ class Company extends Model
         }
         return $bool;
     }
+
+    public function getCanBeUpdatedAttribute()
+    {
+        return $this->statusNotIn(['FECHADO', 'RECUSADO', 'RESCINDIDO']);
+    }
 }

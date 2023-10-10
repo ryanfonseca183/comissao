@@ -37,6 +37,7 @@ Route::middleware('auth:admin')->group(function(){
                 Route::put('/', 'update')->name('update');
             });
             Route::get('/show', 'show')->name('show');
+            Route::post('/show/revoke', 'revoke')->name('revoke');
         });
     });
     Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');

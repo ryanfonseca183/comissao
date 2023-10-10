@@ -120,4 +120,16 @@ class BudgetController extends Controller
         }
         Payment::insert($payments);
     }
+
+    public function revoke(Company $company)
+    {
+        //Verifica se o contrato está com status fechado
+        abort_if($company->statusDiffFrom('FECHADO'), 403);
+        //Altera o status do contrato para rescindido
+        $company->update(['status' => IndicationStatusEnum::RESCINDIDO]);
+        //Deleta as parcelas que ainda não venceram
+        $company->payments()->whereDate('payment_date', '>', now())->delete();
+        session()->flash('f-success', 'Contrato rescindido com sucesso!');
+        return redirect()->back();
+    }
 }

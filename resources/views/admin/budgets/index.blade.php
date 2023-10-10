@@ -30,15 +30,7 @@
                                     <td>{{ $budget->company->user->name }}</td>
                                     <td>{{ $budget->number }}</td>
                                     <td>R$ {{ number_format($budget->totalValue, 2, ',', '.') }}</td>
-                                    <td>
-                                        @if(! is_int($budget->closed))
-                                            Aberto
-                                        @elseif($budget->closed)
-                                            <span class="text-green-600">Fechado</span>
-                                        @else
-                                            <span class="text-red-600">Recusado</span>
-                                        @endif
-                                    <td>
+                                    <td>{{ App\Enums\IndicationStatusEnum::label($budget->company->status) }}<td>
                                         <a href="{{ route('admin.indications.budget.edit', [
                                             'company' => $budget->company_id,
                                             'origin' => request()->route()->getName()
