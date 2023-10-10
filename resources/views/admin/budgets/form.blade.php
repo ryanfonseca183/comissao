@@ -12,16 +12,22 @@
                 {{ __('Fechar') }}
             </x-primary-button>
             <x-danger-button
+                type="submit"
                 name="status"
                 value="{{ App\Enums\IndicationStatusEnum::RECUSADO }}">
                     {{ __('Recusar') }}
             </x-danger-button>
         </div>
-        <div class="border border-gray-300 p-4 rounded-md" id="contract_number_form">
+        <div class="border border-gray-300 p-4 rounded-md" id="contract_number_form" @if(! $errors->has('contract_number')) style="display:none;" @endif>
             <div>
                 <x-input-label for="contract_number" :value="__('Contract Number')" class="mb-1" />
                 <div class="relative flex flex-wrap items-stretch">
-                    <x-text-input id="number" name="contract_number" type="text" class="border-e-0 rounded-e-none grow" :value="old('number', $budget->number)" required/>
+                    <x-text-input
+                      :value="old('contract_number', $budget->contract_number)"
+                      class="border-e-0 rounded-e-none grow"
+                      name="contract_number"
+                      id="contract_number"
+                      type="text" />
                     <x-primary-button
                       style="font-size: 0.65rem; padding: 0.5rem 0.75rem"
                       class="rounded-s-none rounded-e-md"
@@ -41,6 +47,12 @@
 <form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off" id="budget">
     @csrf
     @method($method ?? 'POST')
+    @if($company->statusEqualTo('FECHADO'))
+        <div>
+            <x-input-label for="contract_number" :value="__('Contract Number')" />
+            <x-text-input type="text" id="contract_number" class="mt-1 block w-full" value="{{$budget->contract_number}}" />
+        </div>
+    @endif
     <div class="grid grid-cols-2 gap-4">
         <div>
             <x-input-label for="finish_month" :value="__('Finishing Month')" />
