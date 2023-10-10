@@ -217,7 +217,7 @@ return [
         'doc_type' => 'tipo de documento',
         'doc_num' => 'número do documento',
         'corporate_name' => 'razão social',
-        'finish_month' => 'mês de finalização',
+        'finish_month' => 'mês de finalização da proposta',
         'number' => 'número da proposta',
         'payment_type' => 'tipo de pagamento',
         'value' => 'valor da proposta',
