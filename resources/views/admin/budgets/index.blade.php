@@ -29,7 +29,7 @@
                                     <td>{{ $budget->company->corporate_name }}</td>
                                     <td>{{ $budget->company->user->name }}</td>
                                     <td>{{ $budget->number }}</td>
-                                    <td>R$ {{ number_format($budget->value, 2, ',', '.') }}</td>
+                                    <td>R$ {{ number_format($budget->totalValue, 2, ',', '.') }}</td>
                                     <td>
                                         @if(! is_int($budget->closed))
                                             Aberto
