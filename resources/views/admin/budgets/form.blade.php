@@ -47,7 +47,7 @@
 <form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off" id="budget">
     @csrf
     @method($method ?? 'POST')
-    @if($company->statusEqualTo('FECHADO'))
+    @if($company->statusIn(['FECHADO', 'RESCINDIDO']))
         <div>
             <x-input-label for="contract_number" :value="__('Contract Number')" />
             <x-text-input type="text" id="contract_number" class="mt-1 block w-full" value="{{$budget->contract_number}}" />

@@ -85,18 +85,16 @@ class BudgetController extends Controller
             'contract_number' => 'exclude_with:status|string|max:255',
         ]);
         $status = isset($validated['contract_number']) ? 3 : 4;
-        $closed = $status == IndicationStatusEnum::FECHADO;
-        $contract = $closed ? $request->contract_number : null;
-        
+        if($status == IndicationStatusEnum::FECHADO) {
+            //Cria as parcelas de pagamento de comissão
+            $this->createPayments($company->budget);
+            //Atualiza o número do contrato
+            $company->budget->update([
+                'contract_number' => $request->contract_number
+            ]);
+        }
         $company->update(compact('status'));
-        //Cria os pagamentos de comissão, em caso de orçamento aprovado
-        if ($closed) $this->createPayments($company->budget);
-
         //Atualiza o status do orçamento
-        $company->budget->update([
-            'closed' => $closed,
-            'contract_number' => $contract
-        ]);
         return redirect()->back();
     }
 
