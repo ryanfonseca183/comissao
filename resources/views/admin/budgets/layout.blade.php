@@ -6,7 +6,9 @@
                     <div class="p-4 sm:p-8 sm:pr-0 border-b lg:border-b-0 lg:border-r border-slate-200">
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 flex items-center">
-                                <a href="{{ route(request()->query('origin') ?? 'admin.dashboard') }}"><x-icons.arrow-left class="me-2" /></a>
+                                <a href="{{ route(request()->query('origin') ?? 'admin.dashboard') }}">
+                                    <x-icons.arrow-left class="me-2" />
+                                </a>
                                 {{ __('Indication') }}
                             </h2>
                         </header>
