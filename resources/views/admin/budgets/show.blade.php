@@ -22,14 +22,16 @@
     @if($company->statusEqualTo('FECHADO'))
         <div x-data="{openModal: false}" class="mt-5">
             <x-modals.delete>
-                Tem certeza que deseja reincidir esse contrato? Todas as parcelas de comissão pendentes serão deletadas.
+                Tem certeza que deseja rescindir esse contrato?
+                Todas as parcelas de comissão pendentes serão deletadas.
+                A operação não é reversível.
                 <x-slot name="actions">
                     <form method="POST" action="{{ route('admin.indications.budget.revoke', $company) }}">
                         @csrf
                         <button
                           class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                           type="submit">
-                            Reincidir
+                            Rescindir
                         </button>
                     </form>
                     <button
@@ -43,7 +45,7 @@
             <x-danger-button
               type="button"
               @click="openModal = true;">
-                {{ __('Reincidir Contrato') }}
+                {{ __('Rescindir Contrato') }}
             </x-danger-button>
         </div>
     @endif
