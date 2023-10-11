@@ -53,6 +53,9 @@
 
 @push('js')
     <script>
-        $("input, select, textarea", $("#budget")).prop("disabled", true);
+        $("input:not([type='hidden']), select, textarea", $("#budget")).prop("disabled", true);
+        @if($company->statusEqualTo('FECHADO'))
+            $("#measuring_area, #employees_number").prop("disabled", false);
+        @endif
     </script>
 @endpush

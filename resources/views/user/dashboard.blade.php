@@ -35,7 +35,6 @@
                         </thead>
                         <tbody>
                             @foreach($indications as $indication)
-                                @php $value = (float) $indication->budget->value * ($indication->budget->commission / 100); @endphp
                                 @foreach($indication->payments as $payment)
                                     @php $pending = $payment->payment_date->greaterThanOrEqualTo(now()->format('Y-m-d')); @endphp
                                     <tr>
@@ -52,7 +51,7 @@
                                             @endif
                                         </td>
                                         <td @if(! $pending) class="text-red-600" @endif>{{ $payment->payment_date->format('d/m/Y') }}</td>
-                                        <td @if($pending) data-order="{{$value}}" @endif>R$ {{ number_format($value, 2, ',', '.') }}</td>
+                                        <td @if($pending) data-order="{{$payment->value}}" @endif>R$ {{ number_format($payment->value, 2, ',', '.') }}</td>
                                     </tr>
                                 @endforeach
                             @endforeach

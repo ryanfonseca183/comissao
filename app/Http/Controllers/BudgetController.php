@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUpdateBudgetRequest;
+use App\Http\Requests\UpdateBudgetQuantity;
 use App\Enums\IndicationStatusEnum;
 use App\Notifications\BudgetCreated;
 use Illuminate\Support\Facades\Log;
@@ -109,13 +110,18 @@ class BudgetController extends Controller
     private function createPayments(Budget $budget)
     {
         $payments = [];
+        //Calcula o valor das parcelas
+        $value = $budget->totalValue * ($budget->commission / 100);
+        //Cria as parcelas
         for($i = 1; $i <= $budget->payment_term; $i++) {
             $payments[] = [
                 'indication_id' => $budget->company_id,
                 'payment_date' => $budget->first_payment_date->addMonth($i - 1)->format('Y-m-d'),
                 'installment' => $i,
+                'value' => $value,
             ];
         }
+        //Persiste as parcelas no banco de dados
         Payment::insert($payments);
     }
 
@@ -128,6 +134,19 @@ class BudgetController extends Controller
         //Deleta as parcelas que ainda não venceram
         $company->payments()->whereDate('payment_date', '>', now())->delete();
         session()->flash('f-success', 'Contrato rescindido com sucesso!');
+        return redirect()->back();
+    }
+
+    public function changeQuantity(UpdateBudgetQuantity $request, Company $company)
+    {
+        //Atualiza a quantidade de vidas ou área medida
+        $company->budget->update($request->validated());
+        //Calcula o valor das parcelas
+        $value = $company->budget->totalValue * ($company->budget->commission / 100);
+        //Atualiza o valor das parcelas que ainda não foram pagas
+        $company->payments()->whereDate('payment_date', '>', now())->update(compact('value'));
+        //Registra a mensagem de sucesso
+        session()->flash('f-success', __('messages.update:success', ['Entity' => __('Budget')]));
         return redirect()->back();
     }
 }

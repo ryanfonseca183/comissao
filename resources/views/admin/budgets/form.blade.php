@@ -33,16 +33,51 @@
             <x-input-error :messages="$errors->get('value')" class="mt-2" />
         </div>
     </div>
-    <div id="measuring_area_control">
-        <x-input-label for="measuring_area" :value="__('Measuring Area')" />
-        <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="old('measuring_area', $budget->measuring_area)" required/>
-        <x-input-error :messages="$errors->get('measuring_area')" class="mt-2" />
-    </div>
-    <div id="employees_number_control">
-        <x-input-label for="employees_number" :value="__('Employees Number')" />
-        <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $budget->employees_number)" required/>
-        <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
-    </div>
+    @if($company->statusEqualTo('FECHADO'))
+        <form method="POST" action="{{ route('admin.indications.budget.quantity.change', $company) }}">
+            @csrf
+            @php
+                $name = $budget->payment_type == App\Enums\PaymentTypeEnum::VIDA
+                    ? 'employees_number'
+                    : 'measuring_area';
+                $label = $name == 'measuring_area'
+                    ? __('Measuring Area')
+                    : __('Employees Number');
+                $type = $name == 'measuring_area'
+                    ? 'decimal'
+                    : 'integer'
+            @endphp
+            <x-input-label :for="$name" :value="$label" class="mb-1"/>
+            <div class="relative flex flex-wrap items-stretch">
+                <x-text-input
+                  :value="old($name, $budget->{$name})"
+                  :class="('border-e-0 rounded-e-none grow ' . $type)"
+                  :name="$name"
+                  :id="$name"
+                  type="text"
+                  required />
+                <x-primary-button
+                  style="font-size: 0.65rem; padding: 0.5rem 0.75rem"
+                  class="rounded-s-none rounded-e-md"
+                  type="submit">
+                    <x-icons.check-circle width="24" height="24" class="w-3 h-3 me-2"/>
+                    Atualizar
+                </x-primary-button>
+            </div>
+            <x-input-error :messages="$errors->get($name)" class="mt-2" />
+        </form>
+    @else
+        <div id="measuring_area_control">
+            <x-input-label for="measuring_area" :value="__('Measuring Area')" />
+            <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="old('measuring_area', $budget->measuring_area)" required/>
+            <x-input-error :messages="$errors->get('measuring_area')" class="mt-2" />
+        </div>
+        <div id="employees_number_control">
+            <x-input-label for="employees_number" :value="__('Employees Number')" />
+            <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $budget->employees_number)" required/>
+            <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
+        </div>
+    @endif
     <fieldset class="rounded-md border border-gray-300 p-4">
         <legend>Comissão</legend>
         <div class="mb-6">
