@@ -16,6 +16,7 @@ class AdminDashboard extends Controller
         $indications = Company::with('service')->whereNotIn('status', [
             IndicationStatusEnum::FECHADO,
             IndicationStatusEnum::RECUSADO,
+            IndicationStatusEnum::RESCINDIDO,
         ])->get();
 
         return view('admin.dashboard', compact('indications'));

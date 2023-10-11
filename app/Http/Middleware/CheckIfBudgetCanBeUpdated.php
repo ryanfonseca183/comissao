@@ -18,7 +18,10 @@ class CheckIfBudgetCanBeUpdated
         $company = $request->company;
         //Verifica se o orçamento ainda está dentro do prazo editável
         if(! $company->canBeUpdated)
-            return redirect()->route('admin.indications.budget.show', compact('company'));
+            return redirect()->route('admin.indications.budget.show', [
+                'company' => $company,
+                'origin' => $request->origin ?? 'admin.dashboard'
+            ]);
 
         return $next($request);
     }

@@ -9,6 +9,13 @@ use App\Rules\Decimal;
 
 class UpdateBudgetQuantity extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'measuring_area' => $this->measuring_area ? str_replace(',', '.', $this->measuring_area): null,
+        ]);
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
