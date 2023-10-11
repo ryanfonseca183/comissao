@@ -10,9 +10,13 @@
             às {{$company->budget->created_at->format('H:i')}}
         </span>
     </header>
-    @include('admin.budgets.form', [
-        'action' => route('admin.indications.budget.update', $company),
-        'budget' => $company->budget,
-        'method' => 'PUT',
-    ])
+    @include('admin.budgets.close', ['budget' => $company->budget])
+    <form
+      action="{{ route('admin.indications.budget.update', $company) }}"
+      autocomplete="off"
+      method="post">
+        @include('admin.budgets.form', ['budget' => $company->budget])
+        @method('PUT')
+        @csrf
+    </form>
 @endsection

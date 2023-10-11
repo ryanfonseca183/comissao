@@ -6,8 +6,11 @@
             {{ __('Create Budget') }}
         </h2>
     </header>
-    @include('admin.budgets.form', [
-        'action' => route('admin.indications.budget.store', $company),
-        'budget' => new App\Models\Budget
-    ])
+    <form
+      action="{{route('admin.indications.budget.store', $company)}}"
+      autocomplete="off"
+      method="post">
+        @include('admin.budgets.form', ['budget' => new App\Models\Budget])
+        @csrf
+    </form>
 @endsection
