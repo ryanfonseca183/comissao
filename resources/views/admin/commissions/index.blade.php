@@ -41,7 +41,8 @@
                                 <th>{{__('Installment')}}</th>
                                 <th>{{__('Value')}}</th>
                                 <th>{{__('Expiration Date')}}</th>
-                                <th>{{__('Pago')}}</th>
+                                <th>{{__('Status')}}</th>
+                                <th>{{__('Actions')}}</th>
                             </tr>
                         </thead>
                     </table>
@@ -62,9 +63,6 @@
                         d.day = $("#day").val();
                     }
                 },
-                columnDefs: [
-                    {targets: 3, orderable: true}
-                ],
                 order: [[ 4, 'asc' ]],
                 columns: [
                     { data: 'corporate_name', name: 'companies.corporate_name' },
@@ -73,6 +71,7 @@
                     { data: 'value', name: 'value' },
                     { data: 'payment_date', name: 'payment_date' },
                     { data: 'paid', name: 'paid' },
+                    { data: 'actions' },
                 ],
             }
             $(function(){

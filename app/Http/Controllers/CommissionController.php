@@ -39,10 +39,11 @@ class CommissionController extends Controller
         return Datatables::of($payments)
             ->filterColumn('paid', function($query, $keyword) {
                 $needle = strtolower($keyword);
-                $isFilteringByStatus = in_array($needle, ['sim', 'não', 'nao']);
-
-                $query->when($isFilteringByStatus, function($query) use ($needle) {
-                    return $query->where('paid', $needle == 'sim' ? 1 : 0);
+                $pending = strpos('pendente', $needle) !== false;
+                $paid = strpos('pago', $needle) !== false;
+                
+                $query->when($pending || $paid, function($query) use ($paid) {
+                    return $query->where('paid', $paid ? 1 : 0);
                 });
             })
             ->filterColumn('installment', function($query, $keyword){
@@ -73,10 +74,18 @@ class CommissionController extends Controller
             })
             ->editColumn('paid', function(Payment $payment){
                 return $payment->paid == 1
-                    ? '<span style="color:green">Sim</span>'
-                    : '<span style="color:red">Não</span>';
+                    ? '<span style="color:green">Pago</span>'
+                    : '<span style="color:red">Pendente</span>';
             })
-            ->rawColumns(['paid'])
+            ->addColumn('actions', function(Payment $payment){
+                $actions = view('components.buttons.payment')->render();
+                $actions .= view('components.buttons.show', [
+                    'route' => route('admin.indications.budget.show', $payment->indication_id)
+                ])->render();
+
+                return $actions;
+            })
+            ->rawColumns(['paid', 'actions'])
             ->make();
     }
 
