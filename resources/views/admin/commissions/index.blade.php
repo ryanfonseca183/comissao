@@ -13,6 +13,26 @@
                             {{ __('Commissions') }}
                         </h2>
                     </header>
+                    <div class="grid grid-cols-6 gap-4 mb-5">
+                        <div>
+                            <x-input-label for="day" :value="__('Day')" />
+                            <x-text-input id="day" type="text" class="mt-1 block hundred w-full filter" />
+                        </div>
+                        <div>
+                            <x-input-label for="month" :value="__('Month')" />
+                            <x-select id="month" type="text" class="mt-1 block w-full filter" >
+                                @for($i = 1; $i <= 12; $i++)
+                                    <option value="{{strlen($i) == 1 ? "0" . $i : $i}}" @if($i == now()->month) selected @endif>
+                                        {{ now()->setMonth($i)->locale('pt-br')->monthName }}
+                                    </option>
+                                @endfor
+                            </x-select>
+                        </div>
+                        <div>
+                            <x-input-label for="year" :value="__('Year')" />
+                            <x-text-input id="year" type="text" class="mt-1 block thousand w-full filter" value="{{now()->year}}" />
+                        </div>
+                    </div>
                     <table class="table__app">
                         <thead>
                             <tr>
@@ -34,7 +54,14 @@
             const dataTableConfigs = {
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route("admin.payments.datatable") }}',
+                ajax: {
+                    url: '{{ route("admin.payments.datatable") }}',
+                    data: function(d) {
+                        d.year = $("#year").val();
+                        d.month = $("#month").val();
+                        d.day = $("#day").val();
+                    }
+                },
                 columnDefs: [
                     {targets: 3, orderable: true}
                 ],
@@ -54,6 +81,9 @@
                 })
                 $("#old_values").change(function(){
                     window.location.replace(`{{ route('dashboard') }}?old=${this.checked}`)
+                })
+                $(".filter").on('change', function(){
+                    window.dataTable.ajax.reload();
                 })
             })
         </script>
