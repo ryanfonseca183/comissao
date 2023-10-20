@@ -182,7 +182,9 @@
     "Create Account": "Criar conta",
     "Create Corporate Account": "Criar conta para empresa",
     "Installment": "Parcela",
+    "Installments": "Parcelas",
     "Date": "Data",
     "Commissions": "Comissões",
-    "Show Indication": "Visualizar Indicação"
+    "Show Indication": "Visualizar Indicação",
+    "Last Installment Date": "Data da última parcela"
 }

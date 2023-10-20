@@ -5,6 +5,7 @@ use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AdminDashboard;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\CommissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,10 @@ Route::middleware('auth:admin')->group(function(){
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
+    Route::get('/payments/datatable', [CommissionController::class, 'datatable'])->name('payments.datatable');
+    Route::resource('/commissions', CommissionController::class)->parameters([
+        'commissions' => 'company'
+    ])->only('index', 'edit', 'update');
 
     Route::prefix('/indications/{company}/budget')->name('indications.budget.')->controller(BudgetController::class)->group(function(){
         Route::middleware('budgetWasNotCreated')->group(function(){

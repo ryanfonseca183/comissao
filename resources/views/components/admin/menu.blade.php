@@ -16,6 +16,11 @@
         'route' => 'admin.budgets.index',
         'visible' => true,
     ],
+    'commissions' => [
+        'label' => 'Comissões',
+        'route' => 'admin.commissions.index',
+        'visible' => true,
+    ],
 ] as $resource => $menu)
     @if(! $menu['visible']) @continue @endif
     <x-dynamic-component :component="$name" :href="route($menu['route'])" :active='request()->routeIs("admin.$resource.*")'>

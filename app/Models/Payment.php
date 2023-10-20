@@ -16,6 +16,6 @@ class Payment extends Model
 
     public function indication()
     {
-        return $this->belongsTo(Company::class, 'id');
+        return $this->belongsTo(Company::class, 'indication_id');
     }
 }
