@@ -18,4 +18,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Company::class, 'indication_id');
     }
+
+    public function getExpiredAttribute()
+    {
+        return $this->payment_date->lessThan(now());
+    }
 }

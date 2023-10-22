@@ -12,6 +12,7 @@
         <script src="{{asset('plugins/jquery.min.js')}}"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/scss/app.scss', 'resources/js/app.js'])
+        @stack('css')
     </head>
     <body class="font-sans antialiased">
         <div class="loader grid place-items-center fixed top-0 left-0 h-screen w-screen bg-white z-50">

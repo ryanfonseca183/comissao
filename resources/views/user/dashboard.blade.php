@@ -24,36 +24,27 @@
                         <thead>
                             <tr>
                                 <th>{{__('Corporate Name')}}</th>
-                                <th class="none">{{__('Document')}}</th>
-                                <th class="none">{{__('E-mail')}}</th>
-                                <th class="none">{{__('Phone')}}</th>
                                 <th>{{__('Service')}}</th>
-                                <th>{{__('Installment')}}</th>
-                                <th>{{__('Date')}}</th>
-                                <th>{{__('Value')}}</th>
+                                <th>{{__('Installments')}}</th>
+                                <th>{{__('Last Installment Date')}}</th>
+                                <th>{{__('Comission')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($indications as $indication)
-                                @foreach($indication->payments as $payment)
-                                    @php $pending = $payment->payment_date->greaterThanOrEqualTo(now()->format('Y-m-d')); @endphp
-                                    <tr>
-                                        <td>{{ $indication->corporate_name }}</td>
-                                        <td>{{ $indication->doc_num }}</td>
-                                        <td>{{ $indication->email }}</td>
-                                        <td>{{ $indication->phone }}</td>
-                                        <td>{{ $indication->service->name }}</td>
-                                        <td>
-                                            @if($indication->budget->payment_term > 1)
-                                                {{ $payment->installment }}/{{$indication->budget->payment_term}}
-                                            @else
-                                                única
-                                            @endif
-                                        </td>
-                                        <td @if(! $pending) class="text-red-600" @endif>{{ $payment->payment_date->format('d/m/Y') }}</td>
-                                        <td @if($pending) data-order="{{$payment->value}}" @endif>R$ {{ number_format($payment->value, 2, ',', '.') }}</td>
-                                    </tr>
-                                @endforeach
+                                <tr>
+                                    <td>{{ $indication->corporate_name }}</td>
+                                    <td>{{ $indication->service->name }}</td>
+                                    <td>
+                                        @if($indication->budget->payment_term > 1)
+                                            {{$indication->budget->payment_term}}
+                                        @else
+                                            única
+                                        @endif
+                                    </td>
+                                    <td></td>
+                                    <td>{{ $indication->comission }}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -65,12 +56,12 @@
         <script>
             const dataTableConfigs = {
                 columnDefs: [
-                    {targets: 7, orderable: true}
+                    {targets: 4, orderable: true}
                 ]
             }
             $(function(){
                 $(".table__app").on('draw.dt', function(){
-                    $('#total').text(money.format(window.dataTable.column(7, {filter:'applied'}).nodes().sum()))
+                    $('#total').text(money.format(window.dataTable.column(4, {filter:'applied'}).nodes().sum()))
                 })
                 $("#old_values").change(function(){
                     window.location.replace(`{{ route('dashboard') }}?old=${this.checked}`)

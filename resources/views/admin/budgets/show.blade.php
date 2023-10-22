@@ -7,7 +7,9 @@
             @if(! $company->canBeUpdated)
                 <x-badge
                     :label="App\Enums\IndicationStatusEnum::label($company->status)"
-                    :context="($company->statusEqualTo('FECHADO') ? 'bg-green-100 text-green-800 ms-2' : 'bg-red-100 text-red-800 ms-2')" />
+                    :context="($company->statusEqualTo('FECHADO')
+                        ? 'bg-green-100 text-green-800 ms-2'
+                        : 'bg-red-100 text-red-800 ms-2')" />
             @endif
         </h2>
         <span class="text-xs italic">
@@ -20,8 +22,8 @@
         'budget' => $company->budget
     ])
     @if($company->statusEqualTo('FECHADO'))
-        <div x-data="{openModal: false}" class="mt-5">
-            <x-modals.delete>
+        <div x-data="{openModal: false}" class="my-5">
+            <x-modals.base icon="icons.alert" away="openModal = false" x-show="openModal">
                 Tem certeza que deseja rescindir esse contrato?
                 Todas as parcelas de comissão pendentes serão deletadas.
                 A operação não é reversível.
@@ -41,7 +43,7 @@
                         Cancelar
                     </button>
                 </x-slot>
-            </x-modals.delete>
+            </x-modals.base>
             <x-danger-button
               type="button"
               @click="openModal = true;">
@@ -49,6 +51,8 @@
             </x-danger-button>
         </div>
     @endif
+    <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Commissions') }}</h2>
+    @include('admin.budgets.payments', compact('company'))
 @endsection
 
 @push('js')

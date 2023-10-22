@@ -90,18 +90,10 @@ class CommissionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Company $company)
-    {
-        return view('admin.commissions.edit', compact('company'));
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Company $company)
     {
-        //
+        dd($company, $request->file('file'));
     }
 }
