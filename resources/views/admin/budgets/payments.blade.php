@@ -66,6 +66,7 @@
     <form method="POST" action="{{route('admin.commissions.update', $company)}}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        <input type="hidden" name="origin" value="budgets">
         <x-modals.base title="Realizar pagamento" x-show="selected" away="selected = null">
             <p class="mb-4">
                 Possui o comprovante de pagamento? Utilize o campo abaixo para

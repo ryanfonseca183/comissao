@@ -4,7 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="py-12">
+    <div class="py-12" x-data="{selected: null, action: null}">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dataTable_container">
                 <div class="p-6 text-gray-900">
@@ -49,7 +49,24 @@
                 </div>
             </div>
         </div>
+        <form method="POST" x-bind:action="action" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <x-modals.base title="Realizar pagamento" x-show="selected" away="selected = null">
+                <p class="mb-4">
+                    Possui o comprovante de pagamento? Utilize o campo abaixo para
+                    selecionar o arquivo ou clique em continuar para finalizar a operação.
+                </p>
+                <input type="hidden" name="installment" x-bind:value="selected">
+                <x-file-input name="file" accept="image/png, image/gif, image/jpeg, application/pdf"/>
+                <x-slot name="actions">
+                    <x-primary-button  class="ml-3">Continuar</x-secondary-button>
+                    <x-secondary-button @click="selected = null">Cancelar</x-secondary-button>
+                </x-slot>
+            </x-modals.base>
+        </form>
     </div>
+    
     @push('js')
         <script>
             const dataTableConfigs = {

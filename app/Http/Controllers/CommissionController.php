@@ -78,7 +78,7 @@ class CommissionController extends Controller
                     : '<span style="color:red">Pendente</span>';
             })
             ->addColumn('actions', function(Payment $payment){
-                $actions = view('components.buttons.payment')->render();
+                $actions = view('components.buttons.payment', compact('payment'))->render();
                 $actions .= view('components.buttons.show', [
                     'route' => route('admin.indications.budget.show', $payment->indication_id)
                 ])->render();
@@ -101,6 +101,9 @@ class CommissionController extends Controller
             'paid' => 1
         ]);
         session()->flash('f-success', 'Pagamento registrado com sucesso!');
-        return redirect()->route('admin.indications.budget.show', $company);
+        if($request->origin == 'budgets') {
+            return redirect()->route('admin.indications.budget.show', $company);
+        }
+        return redirect()->route('admin.commissions.index');
     }
 }
