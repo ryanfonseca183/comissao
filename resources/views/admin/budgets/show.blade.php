@@ -45,6 +45,7 @@
                 </x-slot>
             </x-modals.base>
             <x-danger-button
+              class="mb-6"
               type="button"
               @click="openModal = true;">
                 {{ __('Rescindir Contrato') }}

@@ -15,13 +15,13 @@ class UserDashboard extends Controller
         $indications = auth()->guard('user')->user()->indications()
         ->when($pending, function ($query){
              return $query->whereHas('payments', function ($query){
-                        $query->whereDate('payment_date', '>=', now());
+                        $query->whereDate('expiration_date', '>=', now());
                     });
         }, function ($query) {
             return $query->whereHas('payments');
         })->with(['budget', 'payments' => function ($query) use ($pending) {
             return $query->when($pending, function ($query) {
-                $query->whereDate('payment_date', '>=', now());
+                $query->whereDate('expiration_date', '>=', now());
             });
         }])->get();
 

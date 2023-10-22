@@ -23,13 +23,13 @@ class CommissionController extends Controller
     {
         $payments = Payment::query()
             ->when($request->day, function($query, $day){
-                return $query->whereDay('payment_date', strlen($day) == 1 ? "0" . $day : $day);
+                return $query->whereDay('expiration_date', strlen($day) == 1 ? "0" . $day : $day);
             })
             ->when($request->month, function($query, $month){
-                return $query->whereMonth('payment_date', $month);
+                return $query->whereMonth('expiration_date', $month);
             })
             ->when($request->year, function($query, $year){
-                return $query->whereYear('payment_date', 'like', "%{$year}%");
+                return $query->whereYear('expiration_date', 'like', "%{$year}%");
             })
             ->join('companies', 'companies.id', '=', 'payments.indication_id')
             ->join('budgets', 'budgets.company_id', '=', 'companies.id')
@@ -60,7 +60,7 @@ class CommissionController extends Controller
                 $value = str_replace(',', '.', $value);
                 $query->where('payments.value', 'like', "%{$value}%");
             })
-            ->filterColumn('payment_date', function(){
+            ->filterColumn('expiration_date', function(){
                 return false;
             })
             ->editColumn('installment', function(Payment $payment){
@@ -69,8 +69,8 @@ class CommissionController extends Controller
             ->editColumn('value', function(Payment $payment){
                 return "R$ " . number_format($payment->value, 2, ',', '.');
             })
-            ->editColumn('payment_date', function(Payment $payment){
-                return $payment->payment_date->format('d/m/Y');
+            ->editColumn('expiration_date', function(Payment $payment){
+                return $payment->expiration_date->format('d/m/Y');
             })
             ->editColumn('paid', function(Payment $payment){
                 return $payment->paid == 1
@@ -97,6 +97,7 @@ class CommissionController extends Controller
         $installment = $company->payments()->findOrFail($request->installment);
         $installment->update([
             'receipt' => $request->file('file')->store('receipts'),
+            'payment_date' => now()->format('Y-m-d H:i:s'),
             'paid' => 1
         ]);
         session()->flash('f-success', 'Pagamento registrado com sucesso!');

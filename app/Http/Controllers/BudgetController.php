@@ -116,7 +116,7 @@ class BudgetController extends Controller
         for($i = 1; $i <= $budget->payment_term; $i++) {
             $payments[] = [
                 'indication_id' => $budget->company_id,
-                'payment_date' => $budget->first_payment_date->addMonth($i - 1)->format('Y-m-d'),
+                'expiration_date' => $budget->first_payment_date->addMonth($i - 1)->format('Y-m-d'),
                 'installment' => $i,
                 'value' => $value,
             ];
@@ -132,7 +132,7 @@ class BudgetController extends Controller
         //Altera o status do contrato para rescindido
         $company->update(['status' => IndicationStatusEnum::RESCINDIDO]);
         //Deleta as parcelas que ainda não venceram
-        $company->payments()->whereDate('payment_date', '>', now())->delete();
+        $company->payments()->whereDate('expiration_date', '>', now())->delete();
         session()->flash('f-success', 'Contrato rescindido com sucesso!');
         return redirect()->back();
     }
@@ -144,7 +144,7 @@ class BudgetController extends Controller
         //Calcula o valor das parcelas
         $value = $company->budget->totalValue * ($company->budget->commission / 100);
         //Atualiza o valor das parcelas que ainda não foram pagas
-        $company->payments()->whereDate('payment_date', '>', now())->update(compact('value'));
+        $company->payments()->whereDate('expiration_date', '>', now())->update(compact('value'));
         //Registra a mensagem de sucesso
         session()->flash('f-success', __('messages.update:success', ['Entity' => __('Budget')]));
         return redirect()->back();

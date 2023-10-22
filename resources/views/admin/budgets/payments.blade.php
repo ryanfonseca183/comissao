@@ -42,9 +42,15 @@
                             </span>
                         @endif
                     </div>
-                    <small @if($payment->expired && ! $payment->paid) class="text-red-600" @endif>
-                        Data de expiração: {{$payment->payment_date->format('d/m/Y') }}
-                    </small>
+                    @if(! $payment->paid)
+                        <small @if($payment->expired) class="text-red-600" @endif>
+                            Data de expiração: {{$payment->expiration_date->format('d/m/Y') }}
+                        </small>
+                    @else
+                        <small>
+                            Data de pagamento: {{$payment->payment_date->format('d/m/Y H:i') }}
+                        </small>
+                    @endif
                 </div>
                 @if($payment->paid)
                     <a href="{{asset('storage/'.$payment->receipt)}}" download>Baixar comprovante</a>

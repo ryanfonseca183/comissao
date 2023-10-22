@@ -69,7 +69,7 @@
                     { data: 'name', name: 'services.name' },
                     { data: 'installment', name: 'installment' },
                     { data: 'value', name: 'value' },
-                    { data: 'payment_date', name: 'payment_date' },
+                    { data: 'expiration_date', name: 'expiration_date' },
                     { data: 'paid', name: 'paid' },
                     { data: 'actions' },
                 ],

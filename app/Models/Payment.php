@@ -11,7 +11,8 @@ class Payment extends Model
     public $timestamps = false;
     
     protected $casts = [
-        'payment_date' => 'date',
+        'expiration_date' => 'date',
+        'payment_date' => 'datetime',
     ];
 
     public function indication()
@@ -21,6 +22,6 @@ class Payment extends Model
 
     public function getExpiredAttribute()
     {
-        return $this->payment_date->lessThan(now());
+        return $this->expiration_date->lessThan(now());
     }
 }
