@@ -78,11 +78,14 @@ class CommissionController extends Controller
                     : '<span style="color:red">Pendente</span>';
             })
             ->addColumn('actions', function(Payment $payment){
-                $actions = view('components.buttons.payment', compact('payment'))->render();
+                $actions = "<div class='flex items-center'>";
                 $actions .= view('components.buttons.show', [
                     'route' => route('admin.indications.budget.show', $payment->indication_id)
                 ])->render();
-
+                if(! $payment->paid) {
+                    $actions .= view('components.buttons.payment', compact('payment'))->render();
+                }
+                $actions .= "</div>";
                 return $actions;
             })
             ->rawColumns(['paid', 'actions'])
