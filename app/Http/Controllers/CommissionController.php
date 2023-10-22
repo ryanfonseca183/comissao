@@ -94,6 +94,12 @@ class CommissionController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        dd($company, $request->file('file'));
+        $installment = $company->payments()->findOrFail($request->installment);
+        $installment->update([
+            'receipt' => $request->file('file')->store('receipts'),
+            'paid' => 1
+        ]);
+        session()->flash('f-success', 'Pagamento registrado com sucesso!');
+        return redirect()->route('admin.indications.budget.show', $company);
     }
 }

@@ -22,7 +22,7 @@
         'budget' => $company->budget
     ])
     @if($company->statusEqualTo('FECHADO'))
-        <div x-data="{openModal: false}" class="my-5">
+        <div x-data="{openModal: false}">
             <x-modals.base icon="icons.alert" away="openModal = false" x-show="openModal">
                 Tem certeza que deseja rescindir esse contrato?
                 Todas as parcelas de comissão pendentes serão deletadas.

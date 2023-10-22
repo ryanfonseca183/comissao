@@ -47,7 +47,7 @@
                     </small>
                 </div>
                 @if($payment->paid)
-                    <a href="#" download>Baixar comprovante</a>
+                    <a href="{{asset('storage/'.$payment->receipt)}}" download>Baixar comprovante</a>
                 @else
                     <x-primary-button class="payment-btn" @click="selected = {{$payment->id}}">
                         <x-icons.check />
@@ -65,13 +65,12 @@
                 Possui o comprovante de pagamento? Utilize o campo abaixo para
                 selecionar o arquivo ou clique em continuar para finalizar a operação.
             </p>
-        
-                <input type="hidden" name="installment" x-bind:value="selected">
-                <x-file-input name="file"/>
-                <x-slot name="actions">
-                    <x-primary-button  class="ml-3">Continuar</x-secondary-button>
-                    <x-secondary-button @click="selected = null">Cancelar</x-secondary-button>
-                </x-slot>
+            <input type="hidden" name="installment" x-bind:value="selected">
+            <x-file-input name="file" accept="image/png, image/gif, image/jpeg, application/pdf"/>
+            <x-slot name="actions">
+                <x-primary-button  class="ml-3">Continuar</x-secondary-button>
+                <x-secondary-button @click="selected = null">Cancelar</x-secondary-button>
+            </x-slot>
         </x-modals.base>
     </form>
 </div>

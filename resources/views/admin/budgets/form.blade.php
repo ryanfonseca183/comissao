@@ -1,4 +1,4 @@
-<div id="budget" class="mt-6 space-y-6">
+<div id="budget" class="my-6 space-y-6">
     @if($company->statusIn(['FECHADO', 'RESCINDIDO']))
         <div>
             <x-input-label for="contract_number" :value="__('Contract Number')" />
