@@ -190,5 +190,6 @@
     "Expiration Date": "Data de vencimento",
     "Year": "Ano",
     "Month": "Mês",
-    "Day": "Dia"
+    "Day": "Dia",
+    "Contract End Date": "Data de Fim do Contrato"
 }

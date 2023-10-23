@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\PaymentTypeEnum;
+use App\Enums\IndicationStatusEnum;
 
 class Budget extends Model
 {
@@ -28,5 +29,20 @@ class Budget extends Model
             return $this->value * $this->measuring_area;
         }
         return $this->value;
+    }
+
+    public function getExpirationDateAttribute()
+    {
+        if($this->company->status == IndicationStatusEnum::RESCINDIDO) {
+            return $this->updated_at;
+        }
+        return $this->first_payment_date->addMonths($this->payment_term);
+    }
+
+    public function getExpiredOrCloseToExpireAttribute()
+    {
+        $expiration = $this->expiration_date;
+        return $expiration->lessThan(now()) && $expiration->diffInMonths(now()) <= 1 
+            || now()->greaterThan($expiration);
     }
 }

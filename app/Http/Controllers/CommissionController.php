@@ -98,6 +98,7 @@ class CommissionController extends Controller
     public function update(Request $request, Company $company)
     {
         $installment = $company->payments()->findOrFail($request->installment);
+        abort_if($installment->paid, 403);
         $installment->update([
             'receipt' => $request->file('file')->store('receipts'),
             'payment_date' => now()->format('Y-m-d H:i:s'),

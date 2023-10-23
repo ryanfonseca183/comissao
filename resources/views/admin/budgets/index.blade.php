@@ -11,7 +11,7 @@
                     <table class="table__app">
                         <thead>
                             <tr>
-                                <th>{{__('Creation Date')}}</th>
+                                <th>{{__('Contract End Date')}}</th>
                                 <th>{{__('Doc. Number')}}</th>
                                 <th>{{__('Corporate Name')}}</th>
                                 <th>{{__('Partner')}}</th>
@@ -24,7 +24,9 @@
                         <tbody>
                             @foreach($budgets as $budget)
                                 <tr>
-                                    <td>{{ $budget->created_at->format('d/m/Y H:i') }}</td>
+                                    <td @if($budget->expiredOrCloseToExpire) class="text-red-400" @endif>
+                                        {{ $budget->expiration_date->format('d/m/Y') }}
+                                    </td>
                                     <td>{{ $budget->company->doc_num }}</td>
                                     <td>{{ $budget->company->corporate_name }}</td>
                                     <td>{{ $budget->company->user->name }}</td>
