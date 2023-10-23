@@ -144,7 +144,10 @@ class BudgetController extends Controller
         //Calcula o valor das parcelas
         $value = $company->budget->totalValue * ($company->budget->commission / 100);
         //Atualiza o valor das parcelas que ainda não foram pagas
-        $company->payments()->whereDate('expiration_date', '>', now())->update(compact('value'));
+        $company->payments()
+            ->whereDate('expiration_date', '>', now())
+            ->where('paid', 0)
+            ->update(compact('value'));
         //Registra a mensagem de sucesso
         session()->flash('f-success', __('messages.update:success', ['Entity' => __('Budget')]));
         return redirect()->back();
