@@ -132,7 +132,10 @@ class BudgetController extends Controller
         //Altera o status do contrato para rescindido
         $company->update(['status' => IndicationStatusEnum::RESCINDIDO]);
         //Deleta as parcelas que ainda não venceram
-        $company->payments()->whereDate('expiration_date', '>', now())->delete();
+        $company->payments()
+            ->whereDate('expiration_date', '>', now())
+            ->where('paid', 0)
+            ->delete();
         session()->flash('f-success', 'Contrato rescindido com sucesso!');
         return redirect()->back();
     }
