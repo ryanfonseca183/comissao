@@ -52,7 +52,7 @@
                         </small>
                     @endif
                 </div>
-                @if($payment->paid)
+                @if($payment->paid && $payment->receipt)
                     <a href="{{asset('storage/'.$payment->receipt)}}" download>Baixar comprovante</a>
                 @else
                     <x-primary-button class="payment-btn" @click="selected = {{$payment->id}}">

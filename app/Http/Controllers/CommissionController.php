@@ -99,8 +99,11 @@ class CommissionController extends Controller
     {
         $installment = $company->payments()->findOrFail($request->installment);
         abort_if($installment->paid, 403);
+        $receipt = $request->has('file')
+            ? $request->file('file')->store('receipts')
+            : null;
         $installment->update([
-            'receipt' => $request->file('file')->store('receipts'),
+            'receipt' => $receipt,
             'payment_date' => now()->format('Y-m-d H:i:s'),
             'paid' => 1
         ]);
