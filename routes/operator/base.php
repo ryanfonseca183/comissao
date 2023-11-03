@@ -25,14 +25,15 @@ Route::middleware('auth:admin')->group(function(){
     Route::patch('/profile', [OperatorProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
-    Route::get('/indications/datatable', [IndicationController::class, 'datatable'])->name('indications.datatable');
-    Route::resource('/indications', IndicationController::class)->except('show');
+    
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
     Route::get('/payments/datatable', [CommissionController::class, 'datatable'])->name('payments.datatable');
     Route::resource('/commissions', CommissionController::class)->parameters([
         'commissions' => 'company'
     ])->only('index', 'edit', 'update');
 
+    Route::get('/indications/datatable', [IndicationController::class, 'datatable'])->name('indications.datatable');
+    Route::resource('/indications', IndicationController::class)->parameters(['indications' => 'company'])->except('show');
     Route::prefix('/indications/{company}/budget')->name('indications.budget.')->controller(BudgetController::class)->group(function(){
         Route::middleware('budgetWasNotCreated')->group(function(){
             Route::get('/create', 'create')->name('create');

@@ -41,6 +41,7 @@
                     { data: 'doc_num', name: 'doc_num' },
                     { data: 'name', name: 'services.name' },
                     { data: 'status', name: 'status' },
+                    { data: 'actions' },
                 ],
             }
         </script>

@@ -7,7 +7,7 @@
             </span>
         </x-slot>
         @include('user.companies.form', [
-            'action' => route('indications.update', ['indication' => $company->id]),
+            'action' => route(($context ?? '').'indications.update', $company->id),
             'company' => $company,
             'method' => 'PUT'
         ])

@@ -1,11 +1,6 @@
 @props(['name' => 'nav-link'])
 
 @foreach([
-    'indications' => [
-        'label' => 'Indicações',
-        'route' => 'admin.indications.index',
-        'visible' => true,
-    ],
     'operators' => [
         'label' => 'Operadores',
         'route' => 'admin.operators.index',
@@ -15,6 +10,11 @@
         'label' => 'Serviços',
         'route' => 'admin.services.index',
         'visible' => auth()->guard('admin')->user()->isAdmin,
+    ],
+    'indications' => [
+        'label' => 'Indicações',
+        'route' => 'admin.indications.index',
+        'visible' => true,
     ],
     'budgets' => [
         'label' => 'Orçamentos',
