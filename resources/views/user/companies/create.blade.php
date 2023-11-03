@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-cards.form back="indications.index" title="Create Indication">
+    <x-cards.form :back="(($context ?? '').'indications.index')" title="Create Indication">
         @include('user.companies.form', [
             'action' => route(($context ?? '').'indications.store'),
             'company' => new App\Models\Company

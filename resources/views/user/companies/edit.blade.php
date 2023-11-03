@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-cards.form back="indications.index" title="Edit Indication">
+    <x-cards.form :back="(($context ?? '').'indications.index')" title="Edit Indication">
         <x-slot name="description">
             <span class="text-xs italic">
                 Criado em {{ $company->created_at->format('d/m/Y') }}
