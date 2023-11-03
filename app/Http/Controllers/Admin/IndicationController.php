@@ -55,6 +55,11 @@ class IndicationController extends Controller
                 $actions .= view('components.buttons.show', [
                     'route' => route('admin.indications.budget.create', $company->id)
                 ])->render();
+                if($company->statusEqualTo('PENDENTE')) {
+                    $actions .= view('components.buttons.delete', [
+                        'route' => route('admin.indications.destroy', $company->id)
+                    ])->render(); 
+                }
                 $actions .= "</div>";
                 return $actions;
             })
@@ -87,6 +92,19 @@ class IndicationController extends Controller
 
         session()->flash('f-success', __('messages.update:success', ['Entity' => __('Indication')]));
         
+        return redirect()->route('admin.indications.index');
+    }
+
+    public function destroy(Company $company)
+    {
+        try {
+            $company->delete();
+
+            session()->flash('f-success', __('messages.destroy:success', ['Entity' => __('Indication')]));
+
+        } catch (\Exception $e) {
+            session()->flash('f-success', __('messages.destroy:error', ['Entity' => __('Indication')]));
+        }
         return redirect()->route('admin.indications.index');
     }
 }
