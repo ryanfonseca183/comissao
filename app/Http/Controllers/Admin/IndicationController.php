@@ -21,9 +21,22 @@ class IndicationController extends Controller
     {
         $indications = Company::query()
             ->join('services', 'services.id', '=', 'companies.service_id')
-            ->select('companies.id', 'corporate_name', 'doc_num', 'companies.status', 'services.name');
+            ->leftJoin('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.id', 'corporate_name', 'companies.doc_num', 'companies.status', 'users.name as username', 'services.name as service');
         
         return Datatables::of($indications)
+            ->filterColumn('status', function($query, $keyword){
+                $status = collect(IndicationStatusEnum::array())->map(function($status, $index) use($keyword){
+                    return strpos(strtolower($status), strtolower($keyword)) !== FALSE
+                        ? $index
+                        : null;
+                })
+                ->filter();
+                $query->whereIn('companies.status', $status);
+            })
+            ->editColumn('username', function(Company $company){
+                return $company->username ?: "Cadastro Interno";
+            })
             ->editColumn('status', function(Company $company){
                 return IndicationStatusEnum::label($company->status);
             })

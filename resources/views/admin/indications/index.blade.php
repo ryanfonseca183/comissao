@@ -15,6 +15,7 @@
                     <table class="table__app">
                         <thead>
                             <tr>
+                                <th>{{__('Partner')}}</th>
                                 <th>{{__('Corporate Name')}}</th>
                                 <th>{{__('Doc. Number')}}</th>
                                 <th>{{__('Service')}}</th>
@@ -37,9 +38,10 @@
                     url: '{{ route("admin.indications.datatable") }}',
                 },
                 columns: [
+                    { data: 'username', name: 'users.name' },
                     { data: 'corporate_name', name: 'corporate_name' },
                     { data: 'doc_num', name: 'doc_num' },
-                    { data: 'name', name: 'services.name' },
+                    { data: 'service', name: 'services.name' },
                     { data: 'status', name: 'status' },
                     { data: 'actions' },
                 ],
