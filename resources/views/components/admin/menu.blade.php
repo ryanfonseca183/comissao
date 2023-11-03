@@ -1,6 +1,11 @@
 @props(['name' => 'nav-link'])
 
 @foreach([
+    'indications' => [
+        'label' => 'Indicações',
+        'route' => 'admin.indications.index',
+        'visible' => true,
+    ],
     'operators' => [
         'label' => 'Operadores',
         'route' => 'admin.operators.index',
