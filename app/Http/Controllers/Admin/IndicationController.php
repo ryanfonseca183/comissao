@@ -50,14 +50,16 @@ class IndicationController extends Controller
             ->addColumn('actions', function(Company $company) {
                 $actions = "<div class='flex items-center'>";
                 $actions .= view('components.buttons.edit', [
-                    'route' => route('admin.indications.edit', $company->id)
+                    'route' => route('admin.indications.edit', $company->id),
+                    'icon' => true,
                 ])->render();
                 $actions .= view('components.buttons.show', [
                     'route' => route('admin.indications.budget.create', $company->id)
                 ])->render();
                 if($company->statusEqualTo('PENDENTE')) {
                     $actions .= view('components.buttons.delete', [
-                        'route' => route('admin.indications.destroy', $company->id)
+                        'route' => route('admin.indications.destroy', $company->id),
+                        'icon' => true,
                     ])->render(); 
                 }
                 $actions .= "</div>";
