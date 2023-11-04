@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminDashboard;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\Admin\IndicationController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,8 @@ Route::middleware('auth:admin')->group(function(){
     Route::patch('/profile', [OperatorProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
+    Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
+    Route::resource('/users', UserController::class);
     
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
     Route::get('/payments/datatable', [CommissionController::class, 'datatable'])->name('payments.datatable');
