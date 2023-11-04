@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
     {
         session(['doc_type' => 0]);
 
-        return view('auth.register');
+        return view('auth.register.page');
     }
 
     /**
@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
     {
         session(['doc_type' => 1]);
 
-        return view('auth.register');
+        return view('auth.register.page');
     }
 
     /**
