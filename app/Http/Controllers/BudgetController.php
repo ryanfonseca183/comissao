@@ -35,6 +35,21 @@ class BudgetController extends Controller
             ->select('budgets.expiration_date', 'budgets.value', 'budgets.employees_number', 'budgets.measuring_area', 'budgets.number', 'budgets.company_id', 'companies.corporate_name', 'companies.doc_num', 'companies.status', 'users.name as username');
         
         return Datatables::of($budgets)
+            ->filterColumn('companies.status', function($query, $keyword){
+                $status = collect(IndicationStatusEnum::array())->map(function($status, $index) use($keyword){
+                    return strpos(strtolower($status), strtolower($keyword)) !== FALSE
+                        ? $index
+                        : null;
+                })
+                ->filter();
+                $query->whereIn('companies.status', $status);
+            })
+            ->filterColumn('expiration_date', function($query, $keyword){
+                return false;
+            })
+            ->filterColumn('value', function($query, $keyword){
+                return false;
+            })
             ->editColumn('expiration_date', function(Budget $budget){
                 if($budget->expiredOrCloseToExpire) {
                     return "<span class='text-red-400'>{$budget->expiration_date->format('d/m/Y')}</span>";

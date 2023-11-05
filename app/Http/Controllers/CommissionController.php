@@ -23,13 +23,13 @@ class CommissionController extends Controller
     {
         $payments = Payment::query()
             ->when($request->day, function($query, $day){
-                return $query->whereDay('expiration_date', strlen($day) == 1 ? "0" . $day : $day);
+                return $query->whereDay('payments.expiration_date', strlen($day) == 1 ? "0" . $day : $day);
             })
             ->when($request->month, function($query, $month){
-                return $query->whereMonth('expiration_date', $month);
+                return $query->whereMonth('payments.expiration_date', $month);
             })
             ->when($request->year, function($query, $year){
-                return $query->whereYear('expiration_date', 'like', "%{$year}%");
+                return $query->whereYear('payments.expiration_date', 'like', "%{$year}%");
             })
             ->join('companies', 'companies.id', '=', 'payments.indication_id')
             ->join('budgets', 'budgets.company_id', '=', 'companies.id')

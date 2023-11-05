@@ -46,7 +46,7 @@
                 order: [[ 4, 'asc' ]],
                 columns: [
                     { data: 'expiration_date', name: 'expiration_date' },
-                    { data: 'doc_num', name: 'doc_num' },
+                    { data: 'doc_num', name: 'companies.doc_num' },
                     { data: 'corporate_name', name: 'companies.corporate_name' },
                     { data: 'username', name: 'users.name' },
                     { data: 'number', name: 'number' },
