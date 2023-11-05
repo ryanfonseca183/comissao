@@ -20,6 +20,9 @@ class IndicationController extends Controller
     public function datatable(Request $request)
     {
         $indications = Company::query()
+            ->when(isset($request->status), function($query) use($request){
+                return $query->where('companies.status', $request->status);
+            })
             ->join('services', 'services.id', '=', 'companies.service_id')
             ->leftJoin('users', 'companies.user_id', '=', 'users.id')
             ->select('companies.id', 'corporate_name', 'companies.doc_num', 'companies.status', 'users.name as username', 'services.name as service');
