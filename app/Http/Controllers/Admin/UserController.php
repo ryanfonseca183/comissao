@@ -30,6 +30,9 @@ class UserController extends Controller
         
         return Datatables::of($users)
             ->addColumn('actions', function(User $user) {
+                //Verifica se o usuário foi deletado
+                if($user->deleted_at) return;
+                //Carrega os botões de edição e exclusão
                 $actions = "<div class='flex items-center'>";
                 $actions .= view('components.buttons.edit', [
                     'route' => route('admin.users.edit', $user->id),
@@ -93,6 +96,8 @@ class UserController extends Controller
      */
     public function update(StoreUpdateUserRequest $request, User $user)
     {
+        abort_if($user->deleted_at, 403);
+
         $user->update($request->validated());
 
         session()->flash('f-success', __('messages.update:success', ['Entity' => __('Partner')]));
@@ -103,8 +108,24 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        abort_if($user->deleted_at, 403);
+
+        try {
+            $user->delete();
+        } catch (\Exception $e) {
+            $user->update([
+                'name' => 'Usuário deletado',
+                'doc_num' => $user->doc_type == 1 ? 'XX.XXX.XXX/XXXX-XX' : 'XXX.XXX.XXX-XX',
+                'email' => 'user@email',
+                'password' => 'user@password',
+                'phone' => '(XX) XXXXX-XXXX',
+                'deleted_at' => now()
+            ]);
+        }
+        session()->flash('f-success', __('messages.destroy:success', ['Entity' => __('Partner')]));
+
+        return redirect()->route('admin.users.index');
     }
 }
