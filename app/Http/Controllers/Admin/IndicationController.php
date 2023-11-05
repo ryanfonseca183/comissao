@@ -34,16 +34,6 @@ class IndicationController extends Controller
                 ->filter();
                 $query->whereIn('companies.status', $status);
             })
-            ->filterColumn('users.name', function($query, $keyword){
-                $searchingByNullName = strpos("cadastro interno", strtolower($keyword)) !== FALSE;
-                $query->where('users.name', 'like', "%{$keyword}%")
-                      ->when($searchingByNullName, function($query) {
-                            return $query->orWhereNull('user_id');
-                      });
-            })
-            ->editColumn('username', function(Company $company){
-                return $company->username ?: "Cadastro Interno";
-            })
             ->editColumn('status', function(Company $company){
                 return IndicationStatusEnum::label($company->status);
             })

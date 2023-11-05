@@ -15,7 +15,7 @@
                         <ul class="mt-4">
                             <li class="w-full border-b border-slate-200 border-opacity-100 py-2 dark:border-opacity-50">
                                 <strong>{{__('Partner')}}</strong> <br/>
-                                {{$company->user?->name ?: "Cadastro Interno"}}
+                                {{$company->user->name }}
                             </li>
                             <li class="w-full border-b border-slate-200 border-opacity-100 py-2 dark:border-opacity-50">
                                 <strong>{{__('Corporate Name')}}</strong> <br/>
