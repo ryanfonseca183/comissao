@@ -1,6 +1,16 @@
 <form method="post" action="{{ $action }}" class="mt-6 space-y-6" autocomplete="off" id="indication">
     @csrf
     @method($method ?? 'POST')
+    @if(request()->routeIs('admin.*'))
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/pt-BR.js"></script>
+        <div>
+            <x-input-label for="partner" :value="__('Partner')" />
+            <x-select id="partner" name="user_id" required/>
+            <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
+        </div>
+    @endif
     <div>
         <x-input-label for="corporate_name" :value="__('Corporate Name')" />
         <x-text-input id="corporate_name" name="corporate_name" type="text" class="mt-1 block w-full" :value="old('corporate_name', $company->corporate_name)" required/>
@@ -43,6 +53,25 @@
 
 <script>
     $(function(){
+        $('#partner').select2({
+            placeholder: 'Selecione um parceiro',
+            minimumInputLength: 3,
+            language: "pt-BR",
+            width: "100%",
+            ajax: {
+                url: "{{route('admin.users.autocomplete')}}",
+                dataType: 'json',
+                delay: 500,
+                processResults: function (data) {
+                        return {
+                        results: Object.values(data)
+                    }
+                },
+                data: function (params) {
+                    return {search: params.term}
+                }
+            } 
+        });
         let val = $("#doc_type").val();
         $("#doc_type").change(function(){
             if(val != this.value)

@@ -30,8 +30,6 @@ class UserController extends Controller
         
         return Datatables::of($users)
             ->addColumn('actions', function(User $user) {
-                //Verifica se o usuário foi deletado
-                if($user->deleted_at) return;
                 //Carrega os botões de edição e exclusão
                 $actions = "<div class='flex items-center'>";
                 $actions .= view('components.buttons.edit', [
@@ -47,6 +45,19 @@ class UserController extends Controller
             })
             ->rawColumns(['actions'])
             ->make();
+    }
+
+    public function autocomplete(Request $request)
+    {
+        $users = User::query()
+            ->when($request->search, function($query, $search) {
+                $query->where("name", "like", "%". $search . "%");
+            })
+            ->pluck('name', 'id')->map(function($name, $id) {
+                return ['id' => $id, 'text' => $name];
+            });
+
+        return response()->json($users);
     }
 
     /**

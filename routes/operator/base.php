@@ -26,6 +26,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::patch('/profile', [OperatorProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
+    Route::get('/users/autocomplete', [UserController::class, 'autocomplete'])->name('users.autocomplete');
     Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
     Route::resource('/users', UserController::class)->except('show');
     

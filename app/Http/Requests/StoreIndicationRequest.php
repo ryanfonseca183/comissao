@@ -22,6 +22,7 @@ class StoreIndicationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|exists:users,id,deleted_at,NULL',
             'corporate_name' => 'string|max:255',
             'phone' => 'string|min:14|max:15',
             'email' => 'email|max:255',

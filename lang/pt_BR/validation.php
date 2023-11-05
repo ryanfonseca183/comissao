@@ -226,6 +226,7 @@ return [
         'commission' => 'comissão',
         'first_payment_date' => 'data do primeiro pagamento',
         'payment_term' => 'prazo de pagamento',
+        'user_id' => 'parceiro',
     ],
 
 ];
