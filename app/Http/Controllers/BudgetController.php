@@ -19,11 +19,43 @@ class BudgetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $budgets = Budget::with('company', 'company.user')->get();
+        return view('admin.budgets.index');
+    }
 
-        return view('admin.budgets.index', compact('budgets'));
+    public function datatable(Request $request)
+    {
+        $budgets = Budget::query()
+            ->when(isset($request->status), function($query) use($request){
+                return $query->where('companies.status', $request->status);
+            })
+            ->join('companies', 'companies.id', '=', 'budgets.company_id')
+            ->join('users', 'users.id', '=', 'companies.user_id')
+            ->select('budgets.expiration_date', 'budgets.value', 'budgets.employees_number', 'budgets.measuring_area', 'budgets.number', 'budgets.company_id', 'companies.corporate_name', 'companies.doc_num', 'companies.status', 'users.name as username');
+        
+        return Datatables::of($budgets)
+            ->editColumn('expiration_date', function(Budget $budget){
+                if($budget->expiredOrCloseToExpire) {
+                    return "<span class='text-red-400'>{$budget->expiration_date->format('d/m/Y')}</span>";
+                }
+                return $budget->expiration_date->format('d/m/Y');
+            })
+            ->editColumn('value', function(Budget $budget){
+                return "R$ " . number_format($budget->totalValue, '2', ',', '.');
+            })
+            ->editColumn('status', function(Budget $budget){
+                return IndicationStatusEnum::label($budget->status);
+            })
+            ->addColumn('actions', function(Budget $budget) {
+                return view('components.buttons.show', [
+                        'route' => route('admin.indications.budget.edit', [
+                            'company' => $budget->company_id,
+                            'origin' => 'admin.budgets.index'
+                        ])])->render();
+            })
+            ->rawColumns(['expiration_date', 'actions'])
+            ->make();
     }
 
     /**

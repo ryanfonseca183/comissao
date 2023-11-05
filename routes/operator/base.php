@@ -54,4 +54,5 @@ Route::middleware('auth:admin')->group(function(){
         });
     });
     Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
+    Route::get('/budgets/datatable', [BudgetController::class, 'datatable'])->name('budgets.datatable');
 });
