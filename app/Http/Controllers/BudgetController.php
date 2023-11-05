@@ -11,6 +11,8 @@ use App\Http\Requests\UpdateBudgetQuantity;
 use App\Enums\IndicationStatusEnum;
 use App\Notifications\BudgetCreated;
 use Illuminate\Support\Facades\Log;
+use DataTables;
+use Carbon\Carbon;
 
 class BudgetController extends Controller
 {
@@ -41,11 +43,15 @@ class BudgetController extends Controller
      */
     public function store(StoreUpdateBudgetRequest $request, Company $company)
     {
-        $budget = $company->budget()->create(array_merge(
-            $request->validated(),
-            ['operator_id' => auth()->guard('admin')->user()->id]
-        ));
+        $expiration_date = Carbon::createFromFormat('Y-m-d', $request->first_payment_date)
+            ->addMonths($request->payment_term);
 
+        $budget = $company->budget()->create(array_merge(
+            $request->validated(), [
+                'operator_id' => auth()->guard('admin')->user()->id,
+                'expiration_date' => $expiration_date
+            ]
+        ));
         $company->update(['status' => IndicationStatusEnum::ORCADO]);
 
         session()->flash('f-success', __('messages.store:success', ['Entity' => __('Budget')]));
@@ -130,7 +136,10 @@ class BudgetController extends Controller
         //Verifica se o contrato está com status fechado
         abort_if($company->statusDiffFrom('FECHADO'), 403);
         //Altera o status do contrato para rescindido
-        $company->update(['status' => IndicationStatusEnum::RESCINDIDO]);
+        $company->update([
+            'status' => IndicationStatusEnum::RESCINDIDO,
+        ]);
+        $company->budget->update(['expiration_date' => now()]);
         //Deleta as parcelas que ainda não venceram
         $company->payments()
             ->whereDate('expiration_date', '>', now())

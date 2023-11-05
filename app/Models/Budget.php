@@ -12,6 +12,7 @@ class Budget extends Model
 
     protected $casts = [
         'first_payment_date' => 'date',
+        'expiration_date' => 'datetime'
     ];
 
     public function company()
@@ -29,14 +30,6 @@ class Budget extends Model
             return $this->value * $this->measuring_area;
         }
         return $this->value;
-    }
-
-    public function getExpirationDateAttribute()
-    {
-        if($this->company->status == IndicationStatusEnum::RESCINDIDO) {
-            return $this->updated_at;
-        }
-        return $this->first_payment_date->addMonths($this->payment_term);
     }
 
     public function getExpiredOrCloseToExpireAttribute()
