@@ -27,7 +27,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::delete('/profile', [OperatorProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/operators', OperatorController::class)->except('show')->middleware('can:edit-config');
     Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
-    Route::resource('/users', UserController::class);
+    Route::resource('/users', UserController::class)->except('show');
     
     Route::resource('/services', ServiceController::class)->except('show')->middleware('can:edit-config');
     Route::get('/payments/datatable', [CommissionController::class, 'datatable'])->name('payments.datatable');
