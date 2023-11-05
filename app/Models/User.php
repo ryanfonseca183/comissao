@@ -7,11 +7,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPassword;
 use App\Notifications\SetPassword;
+use App\Models\Scopes\ActiveUserScope;
 
 class User extends Authenticatable
 {
     use Notifiable;
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new ActiveUserScope);
+    }
     /**
      * The attributes that are mass assignable.
      *
