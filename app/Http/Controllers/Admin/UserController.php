@@ -4,6 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+use App\Http\Requests\StoreUpdateUserRequest;
 use App\Models\User;
 use DataTables;
 
@@ -44,15 +51,33 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateUserRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user = User::create(array_merge(
+                ['password' => Hash::make(Str::random(8))],
+                $request->validated()
+            ));
+            $user->sendPasswordResetNotification(
+                Password::createToken($user),
+                $signUp = true
+            );
+            session()->flash('f-success', __('messages.store:success', ['Entity' => __('Partner')]));
+            DB::commit();
+            return redirect()->route('admin.users.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Não foi possível criar a conta do parceiro. ' . $e->getMessage());
+            session()->flash('f-error', __('messages.store:error', ['Entity' => __('Partner')]));
+            return redirect()->route('admin.users.create');
+        }
     }
 
     /**

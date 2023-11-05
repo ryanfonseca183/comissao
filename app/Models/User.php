@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPassword;
+use App\Notifications\SetPassword;
 
 class User extends Authenticatable
 {
@@ -43,14 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token, $signUp = false)
     {
-        $uri = route('password.reset', [
-            'guard' => 'admin',
-            'email' => $this->email,
-            'token' => $token,
-        ]);
-        $this->notify(new ResetPassword($uri));
+        $guard = 'user';
+        $email = $this->email;
+        $uri = route('password.reset', compact('guard', 'token', 'signUp', 'email'));
+
+        $signUp ? $this->notify(new setPassword($uri))
+                : $this->notify(new ResetPassword($uri));
     }
 
     public function indications()
