@@ -24,12 +24,10 @@
                                 <td>{{ $service->name }}</td>
                                 <td>{{ __($service->status ? 'Active' : 'Inactive') }}</td>
                                 <td>
-                                    <a href="{{route('admin.services.edit', $service)}}" class="me-2">{{__('Edit')}}</a>
-                                    <form action="{{ route('admin.services.destroy', $service) }}" class="inline-block" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="text-red-500">{{__('Delete')}}</button>
-                                    </form>
+                                    <div class="flex items-center">
+                                        <x-buttons.edit :route="route('admin.services.edit', $service)" :icon="true" />
+                                        <x-buttons.delete :route="route('admin.services.destroy', $service)" :icon="true"/>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

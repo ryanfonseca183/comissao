@@ -28,12 +28,10 @@
                                 <td>{{ $operator->phone }}</td>
                                 <td>{{ __($operator->status ? 'Active' : 'Inactive') }}</td>
                                 <td>
-                                    <a href="{{route('admin.operators.edit', $operator)}}" class="me-2">{{__('Edit')}}</a>
-                                    <form action="{{ route('admin.operators.destroy', $operator) }}" class="inline-block" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="text-red-500">{{__('Delete')}}</button>
-                                    </form>
+                                    <div class="flex items-center">
+                                        <x-buttons.edit :route="route('admin.operators.edit', $operator)" :icon="true"/>
+                                        <x-buttons.delete :route="route('admin.operators.destroy', $operator)" :icon="true" />
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
