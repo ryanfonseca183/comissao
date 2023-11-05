@@ -2,9 +2,9 @@
     @csrf
     @method($method ?? 'POST')
     @if(request()->routeIs('admin.*'))
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/pt-BR.js"></script>
+        <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
+        <script src="{{asset('plugins/select2/select2.min.js')}}"></script>
+        <script src="{{asset('plugins/select2/select2-pt-BR.js')}}"></script>
         <div>
             <x-input-label for="partner" :value="__('Partner')" />
             <x-select id="partner" name="user_id" required/>
