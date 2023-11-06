@@ -32,10 +32,16 @@
                             <x-input-label for="year" :value="__('Year')" />
                             <x-text-input id="year" type="text" class="mt-1 block thousand w-full filter" value="{{now()->year}}" />
                         </div>
+                        <div class="self-end">
+                            <div class="mb-1">
+                                <x-switch label="Pendente" checked id="pending" class="filter" />
+                            </div>
+                        </div>
                     </div>
                     <table class="table__app">
                         <thead>
                             <tr>
+                                <th>{{__('Partner')}}</th>
                                 <th>{{__('Corporate Name')}}</th>
                                 <th>{{__('Service')}}</th>
                                 <th>{{__('Installment')}}</th>
@@ -78,10 +84,11 @@
                         d.year = $("#year").val();
                         d.month = $("#month").val();
                         d.day = $("#day").val();
+                        d.pending = $("#pending").is(':checked') ? 1 : 0
                     }
                 },
-                order: [[ 4, 'asc' ]],
                 columns: [
+                    { data: 'username', name: 'users.name' },
                     { data: 'corporate_name', name: 'companies.corporate_name' },
                     { data: 'name', name: 'services.name' },
                     { data: 'installment', name: 'installment' },

@@ -22,6 +22,7 @@ class CommissionController extends Controller
     public function datatable(Request $request)
     {
         $payments = Payment::query()
+            ->where('paid', ! $request->pending)
             ->when($request->day, function($query, $day){
                 return $query->whereDay('payments.expiration_date', strlen($day) == 1 ? "0" . $day : $day);
             })
@@ -32,9 +33,10 @@ class CommissionController extends Controller
                 return $query->whereYear('payments.expiration_date', 'like', "%{$year}%");
             })
             ->join('companies', 'companies.id', '=', 'payments.indication_id')
+            ->join('users', 'users.id', '=', 'companies.user_id')
             ->join('budgets', 'budgets.company_id', '=', 'companies.id')
             ->join('services', 'services.id', '=', 'companies.service_id')
-            ->select('payments.*', 'budgets.payment_term', 'services.name', 'companies.corporate_name');
+            ->select('payments.*', 'budgets.payment_term', 'users.name as username', 'services.name', 'companies.corporate_name');
         
         return Datatables::of($payments)
             ->filterColumn('paid', function($query, $keyword) {
