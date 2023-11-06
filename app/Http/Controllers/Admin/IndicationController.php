@@ -35,7 +35,9 @@ class IndicationController extends Controller
                         : null;
                 })
                 ->filter();
-                $query->whereIn('companies.status', $status);
+                $query->when($status, function($query, $status) {
+                    $query->whereIn('companies.status', $status);
+                });
             })
             ->editColumn('status', function(Company $company){
                 return IndicationStatusEnum::label($company->status);
@@ -47,9 +49,12 @@ class IndicationController extends Controller
                     'icon' => true,
                 ])->render();
                 $actions .= view('components.buttons.show', [
-                    'route' => route('admin.indications.budget.create', $company->id)
+                    'route' => route('admin.indications.budget.create', [
+                        'company' => $company->id,
+                        'origin' => 'admin.indications.index'
+                    ])
                 ])->render();
-                if($company->statusEqualTo('PENDENTE')) {
+                if($company->statusIn(['PENDENTE', 'ANALISE'])) {
                     $actions .= view('components.buttons.delete', [
                         'route' => route('admin.indications.destroy', $company->id),
                         'icon' => true,
@@ -92,6 +97,8 @@ class IndicationController extends Controller
 
     public function destroy(Company $company)
     {
+        abort_if($company->statusNotIn(['PENDENTE', 'ANALISE']), 403);
+
         try {
             $company->delete();
 

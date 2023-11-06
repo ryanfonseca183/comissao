@@ -17,9 +17,12 @@ class CheckIfBudgetWasCreated
     {
         $company = $request->company;
         //Verifica se um orçamento já foi realizado
-        if(! $company->budget)
-            return redirect()->route('admin.indications.budget.create', compact('company'));
-            
+        if(! $company->budget) {
+            return redirect()->route('admin.indications.budget.create', [
+                'company' => $company,
+                'origin' => 'admin.indications.index'
+            ]);
+        }
         return $next($request);
     }
 }
