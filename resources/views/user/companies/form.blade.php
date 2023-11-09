@@ -53,25 +53,27 @@
 
 <script>
     $(function(){
-        $('#partner').select2({
-            placeholder: 'Selecione um parceiro',
-            minimumInputLength: 3,
-            language: "pt-BR",
-            width: "100%",
-            ajax: {
-                url: "{{route('admin.users.autocomplete')}}",
-                dataType: 'json',
-                delay: 500,
-                processResults: function (data) {
-                        return {
-                        results: Object.values(data)
+        @if(request()->routeIs('admin.*'))
+            $('#partner').select2({
+                placeholder: 'Selecione um parceiro',
+                minimumInputLength: 3,
+                language: "pt-BR",
+                width: "100%",
+                ajax: {
+                    url: "{{route('admin.users.autocomplete')}}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function (data) {
+                            return {
+                            results: Object.values(data)
+                        }
+                    },
+                    data: function (params) {
+                        return {search: params.term}
                     }
-                },
-                data: function (params) {
-                    return {search: params.term}
-                }
-            } 
-        });
+                } 
+            });
+        @endif
         let val = $("#doc_type").val();
         $("#doc_type").change(function(){
             if(val != this.value)
