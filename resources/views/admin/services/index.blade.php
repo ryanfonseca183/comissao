@@ -26,7 +26,9 @@
                                 <td>
                                     <div class="flex items-center">
                                         <x-buttons.edit :route="route('admin.services.edit', $service)" :icon="true" />
-                                        <x-buttons.delete :route="route('admin.services.destroy', $service)" :icon="true"/>
+                                        @if(strpos(config('app.services_with_extra_info'), $service->id) === FALSE)
+                                            <x-buttons.delete :route="route('admin.services.destroy', $service)" :icon="true"/>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
