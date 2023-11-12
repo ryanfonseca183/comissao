@@ -24,7 +24,7 @@ class IndicationController extends Controller
                 return $query->where('companies.status', $request->status);
             })
             ->join('services', 'services.id', '=', 'companies.service_id')
-            ->leftJoin('users', 'companies.user_id', '=', 'users.id')
+            ->join('users', 'companies.user_id', '=', 'users.id')
             ->select('companies.id', 'corporate_name', 'companies.doc_num', 'companies.status', 'users.name as username', 'services.name as service');
         
         return Datatables::of($indications)

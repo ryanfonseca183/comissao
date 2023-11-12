@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-    'services_with_life_quantity' => env('SERVICES_WITH_LIFE_QUANTITY'),
-    'services_with_total_area' => env('SERVICES_WITH_TOTAL_AREA'),
-    'services_with_extra_info' => env('SERVICES_WITH_LIFE_QUANTITY') . "," . env('SERVICES_WITH_TOTAL_AREA'),
+    'services_with_employees_number' => env('SERVICES_WITH_EMPLOYEES_NUMBER'),
+    'services_with_measuring_area' => env('SERVICES_WITH_MEASURING_AREA'),
+    'services_with_extra_info' => env('SERVICES_WITH_EMPLOYEES_NUMBER') . "," . env('SERVICES_WITH_MEASURING_AREA'),
 
     /*
     |--------------------------------------------------------------------------

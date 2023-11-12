@@ -4,9 +4,17 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\Decimal;
 
 class StoreIndicationRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'measuring_area' => str_replace(',', '.', $this->measuring_area),
+        ]);
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,6 +30,7 @@ class StoreIndicationRequest extends FormRequest
      */
     public function rules(): array
     {
+        $service = $this->service_id;
         return [
             'user_id' => [
                 Rule::excludeIf(! $this->routeIs('admin.*')),
@@ -33,7 +42,16 @@ class StoreIndicationRequest extends FormRequest
             'email' => 'email|max:255',
             'doc_type' => 'integer|min:1|max:2',
             'doc_num' => ($this->doc_type == 1 ? 'cpf' : 'cnpj'),
-            'service_id' => 'integer|exists:services,id,status,1'
+            'service_id' => 'integer|exists:services,id,status,1',
+            'employees_number' => [
+                Rule::excludeIf(strpos(config('app.services_with_employees_number'), $service) === FALSE),
+                'integer',
+                'min:1'
+            ],
+            'measuring_area' => [
+                Rule::excludeIf(strpos(config('app.services_with_measuring_area'), $service) === FALSE),
+                new Decimal(13, 2)
+            ]
         ];
     }
 }

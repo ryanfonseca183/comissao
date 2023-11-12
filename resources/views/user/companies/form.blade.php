@@ -46,6 +46,16 @@
         <x-select id="service_id" name="service_id" :collection="$services" class="mt-1 block w-full" optionLabel="name" optionValue="id" :optionSelected="$company->service_id"  required/>
         <x-input-error :messages="$errors->get('service')" class="mt-2" />
     </div>
+    <div id="measuring_area_control">
+        <x-input-label for="measuring_area" :value="__('Measuring Area')" />
+        <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="old('measuring_area', $company->measuring_area)" required/>
+        <x-input-error :messages="$errors->get('measuring_area')" class="mt-2" />
+    </div>
+    <div id="employees_number_control">
+        <x-input-label for="employees_number" :value="__('Employees Number')" />
+        <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $company->employees_number)" required/>
+        <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
+    </div>
     <div class="flex items-center gap-4">
         <x-primary-button>{{ __('Save') }}</x-primary-button>
     </div>
@@ -75,6 +85,19 @@
             });
         @endif
         let val = $("#doc_type").val();
+        $("#service_id").change(function(){
+            const service = this.value
+            toggleControl($("#measuring_area_control"), 
+                service && "{{config('app.services_with_measuring_area')}}".includes(service)
+            )
+            toggleControl($("#employees_number_control"), 
+                service && "{{config('app.services_with_employees_number')}}".includes(service)
+            )
+        }).trigger('change');
+
+        function toggleControl(control, bool) {
+            control.toggleClass('hidden', !bool).find('input').prop('disabled', !bool)
+        }
         $("#doc_type").change(function(){
             if(val != this.value)
                 $("#doc_num").val('');
