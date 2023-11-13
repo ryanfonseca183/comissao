@@ -22,9 +22,18 @@
         </div>
     </div>
     <div class="grid grid-cols-2 gap-4">
+        @php
+            $paymentType = old('payment_type');
+            if($company->measuring_area) {
+                $paymentType = App\Enums\PaymentTypeEnum::METRO;
+            }
+            if($company->employees_number) {
+                $paymentType = App\Enums\PaymentTypeEnum::VIDA;
+            }
+        @endphp
         <div>
             <x-input-label for="payment_type" :value="__('Payment Type')" />
-            <x-select id="payment_type" name="payment_type" class="mt-1 block w-full" :collection="App\Enums\PaymentTypeEnum::array()" :optionSelected="old('payment_type', $budget->payment_type)" required />
+            <x-select id="payment_type" name="payment_type" class="mt-1 block w-full" :collection="App\Enums\PaymentTypeEnum::array()" :optionSelected="$budget->payment_type ?: $paymentType" required />
             <x-input-error :messages="$errors->get('payment_type')" class="mt-2" />
         </div>
         <div>
@@ -69,12 +78,12 @@
     @else
         <div id="measuring_area_control">
             <x-input-label for="measuring_area" :value="__('Measuring Area')" />
-            <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="old('measuring_area', $budget->measuring_area)" required/>
+            <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="$budget->measuring_area ?: $company->measuring_area" required/>
             <x-input-error :messages="$errors->get('measuring_area')" class="mt-2" />
         </div>
         <div id="employees_number_control">
             <x-input-label for="employees_number" :value="__('Employees Number')" />
-            <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $budget->employees_number)" required/>
+            <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="$budget->employees_number ?: $company->employees_number" required/>
             <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
         </div>
     @endif
