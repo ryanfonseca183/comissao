@@ -22,6 +22,13 @@ class IndicationStatusEnum
             self::RESCINDIDO => 'Rescindido',
         ];
     }
+
+    public static function except($status)
+    {
+        return array_filter(self::array(), function($value) use($status) {
+            return ! in_array($value, $status);
+        }, ARRAY_FILTER_USE_KEY);
+    }
    
     public static function label($valor)
     {

@@ -11,7 +11,11 @@
                     <div class="grid grid-cols-6 gap-4 mb-5">
                         <div>
                             <x-input-label for="status" :value="__('Status')" />
-                            <x-select id="status" class="mt-1 block w-full filter" :collection="App\Enums\IndicationStatusEnum::array()" :optionSelected="0" placeholder="Todos" />
+                            <x-select id="status" class="mt-1 block w-full filter" 
+                              :collection="App\Enums\IndicationStatusEnum::except([0, 1])"
+                              :optionSelected="0"
+                              placeholder="Todos"
+                            />
                         </div>
                     </div>
                     <table class="table__app">
