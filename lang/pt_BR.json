@@ -197,5 +197,7 @@
     "Day": "Dia",
     "Contract End Date": "Data de Fim do Contrato",
     "Name / Corporate Name": "Nome / Razão Social",
-    "Note": "Observações"
+    "Note": "Observações",
+    "Pending": "Pendente",
+    "Installment Number": "Número de Parcelas"
 }

@@ -10,10 +10,7 @@
                 <div class="p-6 text-gray-900">
                     <header class="mb-4">
                         <h2 class="text-lg font-medium text-gray-900 flex items-center justify-between">
-                            <div class="inline-flex items-center">
-                                <span class="me-4">{{ __('Commissions') }}</span>
-                                <x-switch label="Mostrar valores passados" id="old_values" :checked="request()->query('old', false) == 'true'"/>
-                            </div>
+                            {{ __('Commissions') }}
                             <div>
                                 <small>Total à receber: </small>
                                 <strong id="total"></strong>
@@ -27,23 +24,26 @@
                                 <th>{{__('Service')}}</th>
                                 <th>{{__('Installments')}}</th>
                                 <th>{{__('Last Installment Date')}}</th>
-                                <th>{{__('Comission')}}</th>
+                                <th>{{__('Total')}}</th>
+                                <th>{{__('Pending')}}</th>
+                                <th>{{__('Actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($indications as $indication)
                                 <tr>
-                                    <td>{{ $indication->corporate_name }}</td>
-                                    <td>{{ $indication->service->name }}</td>
-                                    <td>
-                                        @if($indication->budget->payment_term > 1)
-                                            {{$indication->budget->payment_term}}
-                                        @else
-                                            única
-                                        @endif
-                                    </td>
+                                    <td>{{$indication->corporate_name}}</td>
+                                    <td>{{$indication->service->name}}</td>
+                                    <td>{{$indication->payments->count()}}</td>
+                                    <td>{{$indication->payments->max('expiration_date')->format('d/m/Y')}} </td>
+                                    @php 
+                                        $total = $indication->payments->sum('value');
+                                        $paid = $indication->payments->where('paid', 1)->sum('value');
+                                        $pending = $total - $paid;
+                                    @endphp
+                                    <td data-order="{{$total}}">R$ {{ number_format($total, 2, ',', '.') }}</td>
+                                    <td data-order="{{$pending}}">R$ {{ number_format($pending, 2, ',', '.') }}</td>
                                     <td></td>
-                                    <td>{{ $indication->comission }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -55,16 +55,11 @@
     @push('js')
         <script>
             const dataTableConfigs = {
-                columnDefs: [
-                    {targets: 4, orderable: true}
-                ]
+                order: [[5, 'desc']]
             }
             $(function(){
                 $(".table__app").on('draw.dt', function(){
-                    $('#total').text(money.format(window.dataTable.column(4, {filter:'applied'}).nodes().sum()))
-                })
-                $("#old_values").change(function(){
-                    window.location.replace(`{{ route('dashboard') }}?old=${this.checked}`)
+                    $('#total').text(money.format(window.dataTable.column(5).nodes().sum()))
                 })
             })
         </script>

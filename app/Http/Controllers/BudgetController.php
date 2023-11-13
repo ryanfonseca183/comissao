@@ -186,12 +186,16 @@ class BudgetController extends Controller
         $company->update([
             'status' => IndicationStatusEnum::RESCINDIDO,
         ]);
-        $company->budget->update(['expiration_date' => now()]);
         //Deleta as parcelas que ainda não venceram
         $company->payments()
             ->whereDate('expiration_date', '>', now())
             ->where('paid', 0)
             ->delete();
+        //Atualiza as informações do orçamento
+        $company->budget->update([
+            'expiration_date' => now(),
+            'payment_term' => $company->payments()->count()
+        ]);
         session()->flash('f-success', 'Contrato rescindido com sucesso!');
         return redirect()->back();
     }

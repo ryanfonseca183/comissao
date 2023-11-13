@@ -101,7 +101,7 @@
                 <x-input-error :messages="$errors->get('first_payment_date')" class="mt-2" />
             </div>
             <div>
-                <x-input-label for="payment_term" :value="__('Payment Time')" />
+                <x-input-label for="payment_term" :value="__('Installment Number')" />
                 <x-text-input id="payment_term" name="payment_term" type="number" min="1" class="mt-1 block w-full" :value="old('payment_term', $budget->payment_term)" required />
                 <x-input-error :messages="$errors->get('payment_term')" class="mt-2" />
             </div>
