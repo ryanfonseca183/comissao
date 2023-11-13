@@ -44,7 +44,7 @@
                                 @else
                                     <span class="collapsable-text">
                                         <span class="break-words"></span>
-                                        <a href="#" class="collapsable-link" data-content="{{$company->note}}"></a>
+                                        <a href="javascript:;" class="collapsable-link" data-content="{{$company->note}}"></a>
                                     </span>
                                 @endif
                             </li>

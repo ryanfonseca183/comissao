@@ -91,7 +91,7 @@
         <legend>Comissão</legend>
         <div class="mb-6">
             <x-input-label for="commission" :value="__('Percent')" />
-            <x-text-input id="comission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="old('commission', $budget->commission)" required />
+            <x-text-input id="commission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="old('commission', $budget->commission)" required />
             <x-input-error :messages="$errors->get('commission')" class="mt-2" />
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
