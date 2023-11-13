@@ -51,7 +51,8 @@ class StoreIndicationRequest extends FormRequest
             'measuring_area' => [
                 Rule::excludeIf(strpos(config('app.services_with_measuring_area'), $service) === FALSE),
                 new Decimal(13, 2)
-            ]
+            ],
+            'note' => 'nullable|string|max:1000'
         ];
     }
 }

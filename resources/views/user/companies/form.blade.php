@@ -56,6 +56,11 @@
         <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $company->employees_number)" required/>
         <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
     </div>
+    <div>
+        <x-input-label for="note" :value="(__('Note') . ' (Máx. 1000)')" />
+        <x-textarea id="note" name="note" class="mt-1 block w-full" rows="5" maxlength="1000">{{old('note', $company->note)}}</x-textarea>
+        <x-input-error :messages="$errors->get('note')" class="mt-2" />
+    </div>
     <div class="flex items-center gap-4">
         <x-primary-button>{{ __('Save') }}</x-primary-button>
     </div>
@@ -83,6 +88,10 @@
                     }
                 } 
             });
+            @if($company->id)
+                var newOption = new Option("{{$company->user?->name}}", "{{$company->user->id}}", true, true);
+                $('#partner').append(newOption).trigger('change');
+            @endif
         @endif
         let val = $("#doc_type").val();
         $("#service_id").change(function(){
