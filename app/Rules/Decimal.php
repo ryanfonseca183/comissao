@@ -29,7 +29,7 @@ class Decimal implements Rule
     public function passes($attribute, $value)
     {
         if(! is_numeric($value)) return false;
-
+        if(ctype_digit($value)) return true;
         $matches = [];
         preg_match('/^\d*.(\d*)$/', $value, $matches);
         $decimals = strlen(end($matches));
