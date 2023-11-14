@@ -14,11 +14,7 @@ class UserDashboard extends Controller
 
         $indications = auth()->guard('user')->user()->indications()
             ->whereHas('payments')
-            ->with(['service:id,name', 'payments' => function ($query) use ($pending) {
-                return $query->when($pending, function ($query) {
-                    $query->whereDate('expiration_date', '>=', now());
-                });
-            }])->get();
+            ->with(['service:id,name', 'payments'])->get();
 
         return view('user.dashboard', compact('indications'));
     }
