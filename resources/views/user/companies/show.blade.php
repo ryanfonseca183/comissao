@@ -13,7 +13,9 @@
     </x-cards.form>
     @push('js')
         <script>
-            $("input, select, textarea", $("#indication")).prop('disabled', true);
+            $("input, select, textarea", $("#indication"))
+                .prop('disabled', true)
+                .prop('readonly', true);
             $('button', $('#indication')).remove();
         </script>
     @endpush

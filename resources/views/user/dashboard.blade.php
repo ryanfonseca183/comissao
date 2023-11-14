@@ -43,7 +43,9 @@
                                     @endphp
                                     <td data-order="{{$total}}">R$ {{ number_format($total, 2, ',', '.') }}</td>
                                     <td data-order="{{$pending}}">R$ {{ number_format($pending, 2, ',', '.') }}</td>
-                                    <td></td>
+                                    <td>
+                                        <x-buttons.show :route="route('indications.payments', $indication)" />
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

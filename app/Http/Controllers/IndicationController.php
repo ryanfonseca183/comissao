@@ -85,6 +85,13 @@ class IndicationController extends Controller
         return redirect()->route('indications.index');
     }
 
+    public function payments($id)
+    {
+        $company = auth()->guard('user')->user()->indications()->findOrFail($id);
+
+        return view('user.companies.payments', compact('company'));
+    }
+
     public function destroy($id)
     {
         try {
