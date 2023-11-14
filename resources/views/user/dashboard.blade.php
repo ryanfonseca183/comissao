@@ -12,7 +12,7 @@
                         <h2 class="text-lg font-medium text-gray-900 flex items-center justify-between">
                             {{ __('Commissions') }}
                             <div>
-                                <small>Total à receber: </small>
+                                <small>Total a receber: </small>
                                 <strong id="total"></strong>
                             </div>
                         </h2>
