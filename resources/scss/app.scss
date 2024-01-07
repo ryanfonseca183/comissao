@@ -5,7 +5,7 @@
 a {
     color: $primary;
 }
-input:disabled, select:disabled {
+input:disabled, select:disabled, textarea:disabled {
     opacity: 1;
     background: rgb(229 229 229);
 }
