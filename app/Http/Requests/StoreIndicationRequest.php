@@ -11,7 +11,7 @@ class StoreIndicationRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'measuring_area' => str_replace(',', '.', $this->measuring_area),
+            'measuring_area' => str_replace(',', '.', ($this->measuring_area ?: 0)),
         ]);
     }
 
@@ -31,6 +31,7 @@ class StoreIndicationRequest extends FormRequest
     public function rules(): array
     {
         $service = $this->service_id;
+
         return [
             'user_id' => [
                 Rule::excludeIf(! $this->routeIs('admin.*')),
@@ -52,7 +53,7 @@ class StoreIndicationRequest extends FormRequest
                 Rule::excludeIf(strpos(config('app.services_with_measuring_area'), $service) === FALSE),
                 new Decimal(13, 2),
                 'numeric',
-                'min:1'
+                'min:1',
             ],
             'note' => 'nullable|string|max:1000'
         ];

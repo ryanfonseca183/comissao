@@ -30,7 +30,7 @@
 
 <div x-data="{selected: null}">
     <ul>
-        @foreach($company->payments()->orderBy('installment')->get() as $payment)
+        @foreach($payments as $payment)
             <li class="flex items-center @if(! $loop->last) border-b @endif border-gray-300 py-2">
                 <span class="w-10 text-center text-slate-300 text-4xl">{{$payment->installment}}</span>
                 <div class="ml-2 flex-1">

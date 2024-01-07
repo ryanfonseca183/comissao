@@ -11,7 +11,7 @@ use App\Enums\IndicationStatusEnum;
 use App\Notifications\BudgetCreated;
 use Illuminate\Support\Facades\Log;
 use DataTables;
-use Carbon\Carbon;
+use App\Enums\PaymentTypeEnum;
 
 class BudgetController extends Controller
 {
@@ -111,7 +111,9 @@ class BudgetController extends Controller
      */
     public function edit(Company $company)
     {
-        return view('admin.budgets.edit', compact('company'));
+        $payments = $company->payments()->orderBy('installment')->get();
+
+        return view('admin.budgets.edit', compact('company', 'payments'));
     }
 
     /**
@@ -119,11 +121,17 @@ class BudgetController extends Controller
      */
     public function update(StoreUpdateBudgetRequest $request, Company $company)
     {
-        $paymentTerm = $company->budget->payment_term;
+        $validated = $request->validated();
 
-        $company->budget->update($request->validated());
+        $paymentTerm = ($company->budget->payment_term ?: 0);
+         
+        $paymentByNum = $validated['payment_type'] == PaymentTypeEnum::VIDA;
 
-        if($company->statusEqualTo('FECHADO')) {
+        $hasComission = ! $paymentByNum || (int) $validated['employees_number'] > 0;
+
+        $company->budget->update($validated);
+
+        if($company->statusEqualTo('FECHADO') && $hasComission) {
             //Calcula o valor das parcelas
             $value = $company->budget->totalValue * ($company->budget->commission / 100);
             //Atualiza o valor das parcelas que ainda não foram pagas
@@ -131,12 +139,33 @@ class BudgetController extends Controller
                 ->whereDate('expiration_date', '>', now())
                 ->where('paid', 0)
                 ->update(compact('value'));
-            //Verifica se o número de parcelas aumentou
+            //Se o número de parcelas aumentou, então cria novas parcelas
             if($company->budget->payment_term > $paymentTerm) {
                 $this->createPayments($company->budget, $paymentTerm + 1);
+            } else {
+                //Se o número de parcelas diminuiu, então deleta as ultimas parcelas pendentes
+                $company->payments()
+                    ->whereIn('id',
+                        $company->payments()
+                            ->whereDate('expiration_date', '>=', now())
+                            ->where('paid', 0)
+                            ->orderBy('expiration_date', 'desc')
+                            ->take($paymentTerm - $company->budget->payment_term)
+                            ->pluck('id')
+                    )
+                    ->delete();
             }
+        } else if(! $hasComission) {
+            $company->budget->update([
+                'commission' => null,
+                'payment_term' => null,
+                'first_payment_date' => null
+            ]);
+            $company->payments()
+                ->whereDate('expiration_date', '>=', now())
+                ->where('paid', 0)
+                ->delete();
         }
-
         session()->flash('f-success', __('messages.update:success', ['Entity' => __('Budget')]));
        
         return redirect()->back();
@@ -168,7 +197,9 @@ class BudgetController extends Controller
      */
     public function show(Company $company)
     {
-        return view('admin.budgets.show', compact('company'));
+        $payments = $company->payments()->orderBy('installment')->get();
+
+        return view('admin.budgets.show', compact('company', 'payments'));
     }
     
     private function createPayments(Budget $budget, int $start = 1)

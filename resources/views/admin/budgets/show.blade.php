@@ -15,8 +15,10 @@
         'action' => "#",
         'budget' => $company->budget
     ])
-    <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Commissions') }}</h2>
-    @include('admin.budgets.payments', compact('company'))
+    @if($payments->count() > 0)
+        <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Commissions') }}</h2>
+        @include('admin.budgets.payments', compact('company', 'payments'))
+    @endif
 @endsection
 
 
