@@ -89,13 +89,9 @@ class BudgetController extends Controller
      */
     public function store(StoreUpdateBudgetRequest $request, Company $company)
     {
-        $expiration_date = Carbon::createFromFormat('Y-m-d', $request->first_payment_date)
-            ->addMonths($request->payment_term);
-
         $budget = $company->budget()->create(array_merge(
             $request->validated(), [
                 'operator_id' => auth()->guard('admin')->user()->id,
-                'expiration_date' => $expiration_date
             ]
         ));
         $company->update(['status' => IndicationStatusEnum::ORCADO]);

@@ -23,6 +23,11 @@
             <x-input-error :messages="$errors->get('number')" class="mt-2" />
         </div>
     </div>
+    <div>
+        <x-input-label for="expiration_date" :value="__('Expiration Date')" />
+        <x-text-input id="expiration_date" name="expiration_date" type="date" class="mt-1 block w-full" :min="now()->format('Y-m-d')" :value="old('expiration_date', $budget->expiration_date?->format('Y-m-d'))" required/>
+        <x-input-error :messages="$errors->get('expiration_date')" class="mt-2" />
+    </div>
     <div class="grid grid-cols-2 gap-4">
         @php
             $paymentType = old('payment_type');

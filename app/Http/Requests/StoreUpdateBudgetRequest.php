@@ -49,6 +49,7 @@ class StoreUpdateBudgetRequest extends FormRequest
             ],
             'finish_month' => 'integer|between:1,12',
             'number' => 'string|max:255',
+            'expiration_date' => 'date_format:Y-m-d|after_or_equal:now',
             'payment_type' => 'integer|between:1,3',
             'value' => [new Decimal(13, 2)],
             'measuring_area' => [
