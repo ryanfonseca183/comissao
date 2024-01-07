@@ -84,9 +84,8 @@
                                 </div>
                             @endif
                             <p>
-                                Quando o orçamento for aprovado, os valores de comissão
-                                irão aparecer aqui, junto com a data e
-                                comprovante de pagamento.
+                                Quando o orçamento for aprovado, os valores de comissão irão aparecer aqui junto
+                                com a data e o comprovante de pagamento.
                             </p>
                         @endif
                     </section>

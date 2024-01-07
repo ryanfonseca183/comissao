@@ -82,7 +82,7 @@ class CommissionController extends Controller
             ->addColumn('actions', function(Payment $payment){
                 $actions = "<div class='flex items-center'>";
                 $actions .= view('components.buttons.show', [
-                    'route' => route('admin.indications.budget.show', $payment->indication_id)
+                    'route' => route('admin.indications.budget.edit', $payment->indication_id)
                 ])->render();
                 if(! $payment->paid) {
                     $actions .= view('components.buttons.payment', compact('payment'))->render();
