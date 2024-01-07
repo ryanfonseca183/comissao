@@ -25,7 +25,7 @@
     </div>
     <div>
         <x-input-label for="expiration_date" :value="__('Expiration Date')" />
-        <x-text-input id="expiration_date" name="expiration_date" type="date" class="mt-1 block w-full" :min="now()->format('Y-m-d')" :value="old('expiration_date', $budget->expiration_date?->format('Y-m-d'))" required/>
+        <x-text-input id="expiration_date" name="expiration_date" type="date" class="mt-1 block w-full" :value="old('expiration_date', $budget->expiration_date?->format('Y-m-d'))" required/>
         <x-input-error :messages="$errors->get('expiration_date')" class="mt-2" />
     </div>
     <div class="grid grid-cols-2 gap-4">
@@ -72,10 +72,13 @@
             <x-text-input id="commission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="old('commission', $budget->commission)" required/>
             <x-input-error :messages="$errors->get('commission')" class="mt-2" />
         </div>
+        @php 
+            $firstPaymentDateIsDisabled = $company->statusEqualTo('FECHADO') && $budget->first_payment_date != null;
+        @endphp
         <div class="grid sm:grid-cols-2 gap-4">
             <div>
                 <x-input-label for="first_payment_date" :value="__('First Payment Date')" />
-                <x-text-input id="first_payment_date" name="first_payment_date" type="date" class="mt-1 block w-full" :readonly="$budget->first_payment_date != null" :disabled="$budget->first_payment_date != null" :value="old('first_payment_date', $budget->first_payment_date?->format('Y-m-d'))" required />
+                <x-text-input id="first_payment_date" name="first_payment_date" type="date" class="mt-1 block w-full" :readonly="$firstPaymentDateIsDisabled" :disabled="$firstPaymentDateIsDisabled" :value="old('first_payment_date', $budget->first_payment_date?->format('Y-m-d'))" required />
                 <x-input-error :messages="$errors->get('first_payment_date')" class="mt-2" />
             </div>
             <div>

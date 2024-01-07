@@ -41,7 +41,7 @@ class StoreUpdateBudgetRequest extends FormRequest
         $paymentByArea = $this->payment_type == PaymentTypeEnum::METRO;
         $fixedValue = $this->payment_type == PaymentTypeEnum::FIXO;
         $hasComission = $paymentByArea || $fixedValue || (int) $this->employees_number > 0;
-        $after = $this->company->budget?->expiration_date->format('Y-m-d') ?: now()->format('Y-m-d');
+
         return [
             'contract_number' => [
                 Rule::excludeIf($this->company->statusDiffFrom('FECHADO')),
@@ -50,9 +50,9 @@ class StoreUpdateBudgetRequest extends FormRequest
             ],
             'finish_month' => 'integer|between:1,12',
             'number' => 'string|max:255',
-            'expiration_date' => 'date_format:Y-m-d|after_or_equal:' . $after,
+            'expiration_date' => 'date_format:Y-m-d',
             'payment_type' => 'integer|between:1,3',
-            'value' => [new Decimal(13, 2)],
+            'value' => ['required', new Decimal(13, 2)],
             'measuring_area' => [
                 'nullable',
                 Rule::requiredIf($paymentByArea),
@@ -72,7 +72,7 @@ class StoreUpdateBudgetRequest extends FormRequest
                 'max:100'
             ],
             'first_payment_date' => [
-                Rule::excludeIf($this->company->budget?->first_payment_date != null),
+                Rule::excludeIf($this->company->statusEqualTo('FECHADO') && $this->company->budget?->first_payment_date != null),
                 'nullable',
                 Rule::requiredIf($hasComission),
                 'date_format:Y-m-d',
