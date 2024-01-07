@@ -5,3 +5,7 @@
 a {
     color: $primary;
 }
+input:disabled, select:disabled {
+    opacity: 1;
+    background: rgb(229 229 229);
+}

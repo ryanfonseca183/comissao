@@ -53,7 +53,7 @@
     </div>
     <div id="employees_number_control">
         <x-input-label for="employees_number" :value="__('Employees Number')" />
-        <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $company->employees_number)" required/>
+        <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="old('employees_number', $company->employees_number)" />
         <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
     </div>
     <div>

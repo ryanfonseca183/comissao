@@ -38,7 +38,4 @@
             <x-input-error :messages="$errors->get('contract_number')" class="mt-2" />
         </div>
     </div>
-    <span class="leading-none text-xs">
-        Após fechar ou recusar um orçamento, não será mais possível editar as informações.
-    </span>
 </form>

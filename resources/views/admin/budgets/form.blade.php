@@ -2,7 +2,7 @@
     @if($company->statusIn(['FECHADO', 'RESCINDIDO']))
         <div>
             <x-input-label for="contract_number" :value="__('Contract Number')" />
-            <x-text-input type="text" id="contract_number" class="mt-1 block w-full" value="{{$budget->contract_number}}" />
+            <x-text-input type="text" id="contract_number" name="contract_number" class="mt-1 block w-full" value="{{$budget->contract_number}}" />
         </div>
     @endif
     <div class="grid grid-cols-2 gap-4">
@@ -26,10 +26,10 @@
     <div class="grid grid-cols-2 gap-4">
         @php
             $paymentType = old('payment_type');
-            if($company->measuring_area) {
+            if(strpos(config('app.services_with_measuring_area'), $company->service_id) !== FALSE) {
                 $paymentType = App\Enums\PaymentTypeEnum::METRO;
             }
-            if($company->employees_number) {
+            if(strpos(config('app.services_with_employees_number'), $company->service_id) !== FALSE) {
                 $paymentType = App\Enums\PaymentTypeEnum::VIDA;
             }
         @endphp
@@ -44,67 +44,32 @@
             <x-input-error :messages="$errors->get('value')" class="mt-2" />
         </div>
     </div>
-    @if($company->statusEqualTo('FECHADO'))
-        <form method="POST" action="{{ route('admin.indications.budget.quantity.change', $company) }}">
-            @csrf
-            @php
-                $name = $budget->payment_type == App\Enums\PaymentTypeEnum::VIDA
-                    ? 'employees_number'
-                    : 'measuring_area';
-                $label = $name == 'measuring_area'
-                    ? __('Measuring Area')
-                    : __('Employees Number');
-                $type = $name == 'measuring_area'
-                    ? 'decimal'
-                    : 'integer'
-            @endphp
-            <x-input-label :for="$name" :value="$label" class="mb-1"/>
-            <div class="relative flex flex-wrap items-stretch">
-                <x-text-input
-                  :value="old($name, $budget->{$name})"
-                  :class="('border-e-0 rounded-e-none grow ' . $type)"
-                  :name="$name"
-                  :id="$name"
-                  type="text"
-                  required />
-                <x-primary-button
-                  style="font-size: 0.65rem; padding: 0.5rem 0.75rem"
-                  class="rounded-s-none rounded-e-md"
-                  type="submit">
-                    <x-icons.check-circle width="24" height="24" class="w-3 h-3 me-2"/>
-                    Atualizar
-                </x-primary-button>
-            </div>
-            <x-input-error :messages="$errors->get($name)" class="mt-2" />
-        </form>
-    @else
-        <div id="measuring_area_control">
-            <x-input-label for="measuring_area" :value="__('Measuring Area')" />
-            <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="$budget->measuring_area ?: $company->measuring_area" required/>
-            <x-input-error :messages="$errors->get('measuring_area')" class="mt-2" />
-        </div>
-        <div id="employees_number_control">
-            <x-input-label for="employees_number" :value="__('Employees Number')" />
-            <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="$budget->employees_number ?: $company->employees_number" required/>
-            <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
-        </div>
-    @endif
-    <fieldset class="rounded-md border border-gray-300 p-4">
+    <div id="measuring_area_control">
+        <x-input-label for="measuring_area" :value="__('Measuring Area')" />
+        <x-text-input id="measuring_area" name="measuring_area" type="text" class="mt-1 block w-full decimal" :value="$budget->measuring_area ?: $company->measuring_area" required/>
+        <x-input-error :messages="$errors->get('measuring_area')" class="mt-2" />
+    </div>
+    <div id="employees_number_control">
+        <x-input-label for="employees_number" :value="__('Employees Number')" />
+        <x-text-input id="employees_number" name="employees_number" type="text" class="mt-1 block w-full integer" :value="$budget->employees_number ?: $company->employees_number" />
+        <x-input-error :messages="$errors->get('employees_number')" class="mt-2" />
+    </div>
+    <fieldset class="rounded-md border border-gray-300 p-4" id="comission-fieldset">
         <legend>Comissão</legend>
         <div class="mb-6">
             <x-input-label for="commission" :value="__('Percent')" />
-            <x-text-input id="commission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="old('commission', $budget->commission)" required />
+            <x-text-input id="commission" name="commission" type="number" max="100" min="1" class="mt-1 block w-full" :value="old('commission', $budget->commission)" />
             <x-input-error :messages="$errors->get('commission')" class="mt-2" />
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
             <div>
                 <x-input-label for="first_payment_date" :value="__('First Payment Date')" />
-                <x-text-input id="first_payment_date" name="first_payment_date" type="date" class="mt-1 block w-full" :value="old('first_payment_date', $budget->first_payment_date?->format('Y-m-d'))" required/>
+                <x-text-input id="first_payment_date" name="first_payment_date" type="date" class="mt-1 block w-full" :disabled="$company->statusEqualTo('FECHADO')" :value="old('first_payment_date', $budget->first_payment_date?->format('Y-m-d'))" />
                 <x-input-error :messages="$errors->get('first_payment_date')" class="mt-2" />
             </div>
             <div>
                 <x-input-label for="payment_term" :value="__('Installment Number')" />
-                <x-text-input id="payment_term" name="payment_term" type="number" min="1" class="mt-1 block w-full" :value="old('payment_term', $budget->payment_term)" required />
+                <x-text-input id="payment_term" name="payment_term" type="number" class="mt-1 block w-full" :min="$budget->payment_term ?: 1" :value="old('payment_term', $budget->payment_term)" />
                 <x-input-error :messages="$errors->get('payment_term')" class="mt-2" />
             </div>
         </div>
@@ -126,7 +91,6 @@
         $("#close_button").on('click', function(){
             $("#contract_number_form").slideToggle('fast');
         })
-
         $('#payment_type').change(function(){
             toggleControl($("#employees_number_control"), this.value != 1);
             toggleControl($("#measuring_area_control"), this.value != 3);

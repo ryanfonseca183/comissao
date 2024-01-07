@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Decimal;
+use Illuminate\Validation\Rule;
+use App\Enums\PaymentTypeEnum;
+
 
 class StoreUpdateBudgetRequest extends FormRequest
 {
@@ -25,7 +28,7 @@ class StoreUpdateBudgetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return ! $this->company->budget || $this->company->budget->created_at->diffInHours(now()) < 1;
+        return true;
     }
 
     /**
@@ -35,16 +38,50 @@ class StoreUpdateBudgetRequest extends FormRequest
      */
     public function rules(): array
     {
+        $paymentByArea = $this->payment_type == PaymentTypeEnum::METRO;
+        $hasComission = $paymentByArea || (int) $this->employees_number > 0;
+
         return [
+            'contract_number' => [
+                Rule::excludeIf($this->company->statusDiffFrom('FECHADO')),
+                'string',
+                'max:255',
+            ],
             'finish_month' => 'integer|between:1,12',
             'number' => 'string|max:255',
             'payment_type' => 'integer|between:1,3',
             'value' => [new Decimal(13, 2)],
-            'measuring_area' => ['nullable', new Decimal(13, 2)],
-            'employees_number' => 'nullable|integer|min:1',
-            'commission' => 'integer|min:1|max:100',
-            'first_payment_date' => 'date_format:Y-m-d',
-            'payment_term' => 'integer|min:1|max:255',
+            'measuring_area' => [
+                'nullable',
+                Rule::requiredIf($paymentByArea),
+                new Decimal(13, 2),
+                'numeric',
+                'min:1',
+            ],
+            'employees_number' => [
+                'nullable',
+                'integer',
+            ],
+            'commission' => [
+                'nullable',
+                Rule::requiredIf($hasComission),
+                'integer',
+                'min:1',
+                'max:100'
+            ],
+            'first_payment_date' => [
+                Rule::excludeIf($this->company->statusEqualTo('FECHADO')),
+                'nullable',
+                Rule::requiredIf($hasComission),
+                'date_format:Y-m-d',
+            ],
+            'payment_term' => [
+                'nullable',
+                Rule::requiredIf($hasComission),
+                'integer',
+                'min:' . $this->company->budget?->payment_term ?: 1,
+                'max:255',
+            ]
         ];
     }
 }

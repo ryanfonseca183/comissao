@@ -45,12 +45,14 @@ class StoreIndicationRequest extends FormRequest
             'service_id' => 'integer|exists:services,id,status,1',
             'employees_number' => [
                 Rule::excludeIf(strpos(config('app.services_with_employees_number'), $service) === FALSE),
+                'nullable',
                 'integer',
-                'min:1'
             ],
             'measuring_area' => [
                 Rule::excludeIf(strpos(config('app.services_with_measuring_area'), $service) === FALSE),
-                new Decimal(13, 2)
+                new Decimal(13, 2),
+                'numeric',
+                'min:1'
             ],
             'note' => 'nullable|string|max:1000'
         ];
